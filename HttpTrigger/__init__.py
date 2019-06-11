@@ -4,6 +4,7 @@ import azure.functions as func
 import json
 import sys, os.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname( __file__ ))))
+#Dot before file name use for relative path in Azure function app, need to be removed for local development
 from .handle_event import *
 from .send_events_and_errors import *
 from .send_logs import *
@@ -11,7 +12,12 @@ from .send_logs import *
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
   logging.info('Azure cloud bot function processed a request.')
-  source_message = req.get_json()
+  try:
+    source_message = req.get_json()
+  except Exception as e:
+    logging.info('Bad request.')
+    return func.HttpResponse(f'Azure cloud bot had an error', status_code=400)
+    
   start_time = time.time()
   logging.info(f'{__file__} - source message : {source_message}')
   output_message = {}    
@@ -31,9 +37,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
           sendEvent(output_message)
       else:
         logging.info(f'''{__file__} - Output didn't sent : {output_message}''')
-      if os.getenv('SEND_LOGS', False):    
+      is_send_logs = os.getenv('SEND_LOGS', False)  
+      logging.info(f'{__file__} - SEND_LOGS set to {str(is_send_logs)}')  
+      if is_send_logs:    
         send_logs(output_message, start_time, source_message.get('account').get('vendor'))
   if output_message:
     return func.HttpResponse(f'{output_message}')
   else:
-    return func.HttpResponse("Azure cloud bot had an error", status_code=400)
+    return func.HttpResponse(f'Azure cloud bot had an error - {output_message}', status_code=400)

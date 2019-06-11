@@ -26,10 +26,6 @@ def get_data_from_message(message):
         data['entity_id'] = entity.get('id')
         data['entity_name'] = entity.get('name')
         data['region'] = entity.get('region')
-    # Some events come through with 'null' as the region. If so, default to us-east-1
-    if not data.get('region'):
-        data['region'] = 'us-east-1'
-    else:
         data['region'] = data['region'].replace('_', '-')
     return data
 
@@ -68,8 +64,8 @@ def handle_event(message, message_output):
             tag, bot, *params = tag_pattern
             try:
                 bot_module = importlib.import_module(''.join(['bots.', bot]), package=None)
-            except:
-                bot_data['Bot'] = f'{bot} is not a known bot. skipping'
+            except ImportError as e:
+                bot_data['Bot'] = f'{bot} is not a known bot. skipping - {e}'
                 continue
 
             try:  ## Run the bot
