@@ -4,4 +4,4 @@
 
 # Flow Diagram
 
-! [Flow Diagram](docs/pictures/Azure-CloudBots-Flow-Diagram.png)
+![Flow Diagram](docs/pictures/Azure-CloudBots-Flow-Diagram.png)
