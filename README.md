@@ -3,7 +3,7 @@
 
 ## What are Dome9 CloudBots?
 
-Cloud-Bots is an autoremediation solution for Azure, built on top of the
+Cloud-Bots is an auto remediation solution for Azure, built on top of the
 CloudGuard Dome9 Continuous Compliance capabilities.
 
 They can also be used standalone, without Dome9, to remedy issues in AWS
@@ -75,23 +75,24 @@ Currently we ate supporting only manual installation, automatic deploy will be a
     ```
     E) On Azure portal navigate to the Function App and go to *Configuration*<br />
     F) Set environment variables - Click *New application settings* and repeat it for each item bellow<br />
-        - Name: SECRET<br />
-          Value: enter the value from step 2.E<br />
+    
+       Name: SECRET
+       Value: enter the value from step 2.E
           
-        - Name: TENANT<br />
-          Value: enter the value from step 2.C<br />
+       Name: TENANT
+       Value: enter the value from step 2.C
                 
-        - Name: CLIEND_ID<br />
-          Value: enter the value from step 2.C<br />
+       Name: CLIEND_ID
+       Value: enter the value from step 2.C
 
-        - Name: SEND_GRID_API_CLIENT<br />
-          Value: enter the value from step 2.F<br />
+       Name: SEND_GRID_API_CLIENT
+       Value: enter the value from step 2.F
           
-        - Name: OUTPUT_EMAIL<br />
-          Value: enter email address<br />          
+       Name: OUTPUT_EMAIL
+       Value: enter email address          
           
-        - Name: SEND_LOGS<br />
-          Value: True/False<br />
+       Name: SEND_LOGS
+       Value: True/False
      G) Click *Save*           
           
 # Setup your Dome9 account
@@ -112,7 +113,7 @@ rulesets to use bots as a remediation step.
     `AUTO: <bot-name> <params>` where *bot-name* is the name of the bot,
     and *params* is a list of arguments for the bot (if any).
     
-    For example, `AUTO: ec2_stop_instance` will run the bot to stop an
+    For example, `AUTO: ec2_virtual_machine_stop` will run the bot to stop an
     EC2 instance.
 
 ## Configure the Continuous Compliance policy
