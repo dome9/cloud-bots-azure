@@ -25,7 +25,7 @@ does, and an example of a rule that could be used to trigger it.
 Follow these steps to configure your Azure account to use Dome9 CloudBots.
 
 1. Install Dependencies<br />
-    a.  [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest), and then login to your Azure account<br />
+    1.  [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest), and then login to your Azure account<br />
     1.  [Docker](https://www.docker.com)<br />
     1.  [Azure Functions Core Tools](https://github.com/Azure/azure-functions-core-tools)<br />
     1.  [Python 3.6.X](https://www.python.org/)<br />
@@ -71,7 +71,7 @@ Follow these steps to configure your Azure account to use Dome9 CloudBots.
     1. Navigate to the locally cloned CloudBots directory and run the following command:<br />
     ```     func init --docker    ```
     1. Select *Python*.<br />
-    1. Deploy the code to the remote Function App (this could take a while). Run the following command, replacing $\{functionAppName}  with the Function App name that was given in the previous step (5.3):
+    1. Deploy the code to the remote Function App (this could take a while). Run the following command, replacing $\{functionAppName}  with the Function App name that was given in the previous step (5 (v)):
 	
     ```     func azure functionapp publish ${functionAppName\} --build-native-deps  	```
 	
@@ -79,16 +79,16 @@ Follow these steps to configure your Azure account to use Dome9 CloudBots.
     1. Set the following environment variables.  Click *New application settings* and repeat for each item:<br />
     
        Name: SECRET
-       Value: enter the value from step 2.5
+       Value: enter the value from step 2 (v)
           
        Name: TENANT
-       Value: enter the value from step 2.3
+       Value: enter the value from step 2 (iii)
                 
        Name: CLIEND_ID
-       Value: enter the value from step 2.3
+       Value: enter the value from step 2 (iii)
 
        Name: SEND_GRID_API_CLIENT
-       Value: enter the value from step 3.6
+       Value: enter the value from step 3 (vi)
 	   
        Name: OUTPUT_EMAIL
        Value: enter email address          
