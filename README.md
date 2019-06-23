@@ -24,57 +24,57 @@ does, and an example of a rule that could be used to trigger it.
 
 Follow these steps to configure your Azure account to use Dome9 CloudBots.
 
-1. Install Dependencies<br />
-    1.  [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest), and then login to your Azure account<br />
-    1.  [Docker](https://www.docker.com)<br />
-    1.  [Azure Functions Core Tools](https://github.com/Azure/azure-functions-core-tools)<br />
-    1.  [Python 3.6.X](https://www.python.org/)<br />
+1. Install Dependencies
+    1.  [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest), and then login to your Azure account
+    1.  [Docker](https://www.docker.com)
+    1.  [Azure Functions Core Tools](https://github.com/Azure/azure-functions-core-tools)
+    1.  [Python 3.6.X](https://www.python.org/)
     
-1. Create Azure App Registration:<br />
-    1. In the Azure portal, navigate to App registrations, and the click *New registration*<br />.
-    1. Enter a name for the app (for example, *dome9CloudBots*), then click *Register*<br />.
-    1. Save the *Application (client) ID* and *Directory (tenant) ID*<br />.
-    1. Navigate to *Certificates & secrets*, from the left side menu, and click *New client secret*  and click *Add*<br />
-    1. Enter the secrets, saved in the previous step, in *Client secrets*. <br />
+1. Create Azure App Registration:
+    1. In the Azure portal, navigate to App registrations, and the click *New registration*.
+    1. Enter a name for the app (for example, *dome9CloudBots*), then click *Register*.
+    1. Save the *Application (client) ID* and *Directory (tenant) ID*.
+    1. Navigate to *Certificates & secrets*, from the left side menu, and click *New client secret*  and click *Add*
+    1. Enter the secrets, saved in the previous step, in *Client secrets*. 
 
-1. Create SendGrid, to be used to send remediation outputs by email (Optional)<br />
-    1. In the Azure console, navigate to *SendGrid Accounts*.<br />
-    1. Click *Add*, and complete the signup form.<br />
-    1. Select the new SendGrid account, and then click *Manage*.<br />
-    1. Select *Settings -> API Keys*, and then click *Create API Key.*<br />
-    1. Enter a name (for example, *dome9CloudBots*), select *Full Access*, then click *Create & View*.<br />
-    1. Save the key value (will be needed in a later step).<br />
+1. Create SendGrid, to be used to send remediation outputs by email (Optional)
+    1. In the Azure console, navigate to *SendGrid Accounts*.
+    1. Click *Add*, and complete the signup form.
+    1. Select the new SendGrid account, and then click *Manage*.
+    1. Select *Settings -> API Keys*, and then click *Create API Key.*
+    1. Enter a name (for example, *dome9CloudBots*), select *Full Access*, then click *Create & View*.
+    1. Save the key value (will be needed in a later step).
 
-1. Assign Roles<br />
-    1. Navigate to Subscriptions.<br />
-    1. Select the subscription that will use the CloudBots.<br />
-    1. Select *Access control (IAM)* from the menu on the left.<br />
-    1. Click *Add* -> *Add role assignment*<br />
-    1. Complete the form, using following:<br />
-        - Role: Contributor<br />
-        - Select: select the App Registration from step 2, above.<br />
-    1. Click *Save*.<br />
-    1. Repeat these steps for each additional Subscription.<br />
+1. Assign Roles
+    1. Navigate to Subscriptions.
+    1. Select the subscription that will use the CloudBots.
+    1. Select *Access control (IAM)* from the menu on the left.
+    1. Click *Add* -> *Add role assignment*
+    1. Complete the form, using following:
+        - Role: Contributor
+        - Select: select the App Registration from step 2, above.
+    1. Click *Save*.
+    1. Repeat these steps for each additional Subscription.
 
-1. Create an Azure Function App<br />
-    1. Navigate to *Function App*.<br />
-    1. Click *Add*.<br />
-    1. Complete the form with the following(all other values - leave the default): <br />
-        - App name: dome9CloudBots<br />
-        - Resource Group: use the name from step 2, above.<br />
-        - OS: Linux<br />
-        - Runtime Stack: Python<br />
-    1. Click *Create*.<br />
+1. Create an Azure Function App
+    1. Navigate to *Function App*.
+    1. Click *Add*.
+    1. Complete the form with the following(all other values - leave the default): 
+        - App name: dome9CloudBots
+        - Resource Group: use the name from step 2, above.
+        - OS: Linux
+        - Runtime Stack: Python
+    1. Click *Create*.
     
-1. Deployment<br />
-    1. Clone the CloudBots Azure code from [GitHub](https://github.com/Dome9/cloud-bots-azure)<br />
-    1. Navigate to the locally cloned CloudBots directory and run the following command:<br />
+1. Deployment
+    1. Clone the CloudBots Azure code from [GitHub](https://github.com/Dome9/cloud-bots-azure)
+    1. Navigate to the locally cloned CloudBots directory and run the following command:
     ```     func init --docker    ```
-    1. Select *Python*.<br />
+    1. Select *Python*.
     1. Deploy the code to the remote Function App (this could take a while). Run the following command, replacing $\{functionAppName}  with the Function App name that was given in the previous step (5 (v)):
     ```     func azure functionapp publish ${functionAppName} --build-native-deps  	```	
-    1. In the Azure portal, navigate to the Function App and then to *Configuration*.<br />
-    1. Set the following environment variables.  Click *New application settings* and repeat for each item:<br />
+    1. In the Azure portal, navigate to the Function App and then to *Configuration*.
+    1. Set the following environment variables.  Click *New application settings* and repeat for each item:
     
        Name: SECRET
        Value: enter the value from step 2 (v)
