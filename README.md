@@ -72,9 +72,7 @@ Follow these steps to configure your Azure account to use Dome9 CloudBots.
     ```     func init --docker    ```
     1. Select *Python*.<br />
     1. Deploy the code to the remote Function App (this could take a while). Run the following command, replacing $\{functionAppName}  with the Function App name that was given in the previous step (5 (v)):
-	
-    ```     func azure functionapp publish ${functionAppName\} --build-native-deps  	```
-	
+    ```     func azure functionapp publish ${functionAppName} --build-native-deps  	```	
     1. In the Azure portal, navigate to the Function App and then to *Configuration*.<br />
     1. Set the following environment variables.  Click *New application settings* and repeat for each item:<br />
     
