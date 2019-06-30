@@ -15,7 +15,7 @@ accounts. Details are included how to configure and trigger them.
 
 ## The Bots
 
-Refer to [this](HttpTrigger/bots/bots.md) file for a list of the bots, what each one
+Refer to [this](dome9CloudBots/bots/bots.md) file for a list of the bots, what each one
 does, and an example of a rule that could be used to trigger it.
 
 # Onboarding
