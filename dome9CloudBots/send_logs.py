@@ -13,7 +13,6 @@ def send_logs(message, start_time, vendor):
     account_id = message.get('Account id')
     logging.info(f'{__file__} - vendor: {vendor}')
     logging.info(f'{__file__} - message: {message}')
-    del message['ReportTime']
     for bot in message.get('Rules violations found'):
         del bot['ID']
         del bot['Name']
