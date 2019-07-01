@@ -70,8 +70,10 @@ def handle_event(message, message_output):
 
             try:  ## Run the bot
                 bot_msg = bot_module.run_action(credentials ,message['rule'], message['entity'], params)
+                bot_data['Execution status'] = "passed"
             except Exception as e:
                 bot_msg = f'Error while executing function {bot}. Error: {e}'
+                bot_data['Execution status'] = "failed"
             bot_data['Bot message'] = bot_msg     
             message_output['Rules violations found'].append(bot_data.copy())              
     return True
