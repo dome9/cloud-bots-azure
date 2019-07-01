@@ -23,7 +23,6 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
   output_message = {}    
   if source_message:
       logging.info(f'source message : {source_message}')
-      output_message['ReportTime'] = source_message.get('reportTime', 'N.A')
       output_message['Account id'] = source_message['account'].get('id', 'N.A')
       output_message['Finding key'] = source_message.get('findingKey', 'N.A')
       try:
