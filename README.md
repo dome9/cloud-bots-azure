@@ -1,4 +1,12 @@
-# Azure CloudBots
+<p align="center">
+    <a href="https://cloudbots.dome9.com">
+      <img width="150" src="cloudbotslogo.svg">
+    </a>
+</p>
+
+<div align="center">
+    <h1><a target="_blank" href="https://cloudbots.dome9.com">CloudBots</a> is an automatic remediation solution for public cloud platforms (<a href="https://github.com/Dome9/cloud-bots" targe="_blank">AWS</a> and Azure)</h1>
+</div>
 
 
 ## What are Dome9 CloudBots?
