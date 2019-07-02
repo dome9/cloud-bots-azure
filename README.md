@@ -14,6 +14,7 @@
   - [Onboarding](#onboarding)
       - [Setup your Azure account for
         CloudBots](#setup-your-azure-account-for-cloudbots)
+      - [Multiple Accounts](#multiple-accounts)
   - [Setup your Dome9 account](#setup-your-dome9-account)
       - [Configure the rules](#configure-the-rules)
       - [Configure the Continuous Compliance
@@ -42,7 +43,7 @@ does, and an example of a rule that could be used to trigger it.
 
 ## Setup your Azure account for CloudBots
 
-Follow these steps to configure your Azure account to use Dome9 CloudBots.
+Follow these steps to configure your Azure accounts to use Dome9 CloudBots.
 
 1. Install Dependencies
     1.  [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest), and then login to your Azure account
@@ -66,6 +67,7 @@ Follow these steps to configure your Azure account to use Dome9 CloudBots.
     1. Save the key value (will be needed in a later step).
 
 1. Assign Roles
+	
     1. Navigate to Subscriptions.
     1. Select the subscription that will use the CloudBots.
     1. Select *Access control (IAM)* from the menu on the left.
@@ -115,6 +117,11 @@ Follow these steps to configure your Azure account to use Dome9 CloudBots.
        Value: True to enable logging to Dome9, False to disable logging
      1. Click *Save*.       
           
+## Multiple Accounts
+
+If you are onboarding several Azure accounts, repeat step 4 (Assign Roles), above, for each account.
+
+		  
 # Setup your Dome9 account
 
 On Dome9 you must add remediation tags to rules in a compliance ruleset.
