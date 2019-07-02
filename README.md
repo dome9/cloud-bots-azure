@@ -8,7 +8,19 @@
     <h1><a target="_blank" href="https://cloudbots.dome9.com">CloudBots</a> is an automatic remediation solution for public cloud platforms (<a href="https://github.com/Dome9/cloud-bots" targe="_blank">AWS</a> and Azure)</h1>
 </div>
 
-
+- [What are Dome9 CloudBots?](#what-are-dome9-cloudbots)
+  - [Flow Diagram](#flow-diagram)
+      - [The Bots](#the-bots)
+  - [Onboarding](#onboarding)
+      - [Setup your Azure account for
+        CloudBots](#setup-your-azure-account-for-cloudbots)
+  - [Setup your Dome9 account](#setup-your-dome9-account)
+      - [Configure the rules](#configure-the-rules)
+      - [Configure the Continuous Compliance
+        policy](#configure-the-continuous-compliance-policy)
+  - [Log Collection for
+    Troubleshooting](#log-collection-for-troubleshooting)
+	
 ## What are Dome9 CloudBots?
 
 Cloud-Bots is an auto remediation solution for Azure, built on top of the
@@ -100,7 +112,7 @@ Follow these steps to configure your Azure account to use Dome9 CloudBots.
        Value: enter email address          
           
        Name: SEND_LOGS
-       Value: True/False
+       Value: True to enable logging to Dome9, False to disable logging
      1. Click *Save*.       
           
 # Setup your Dome9 account
@@ -147,3 +159,8 @@ send events for previous findings, follow these steps:
     Policy (the one created above), then click **SEND**. Dome9 will send
     event messages to the Azure function webhook.
 
+# Log Collection for Troubleshooting
+
+The cloudbots send log information to Dome9, that is used for troubleshooting. By default, this is enabled for all bots. You can disable this in your Azure account. Select the  function, and set the environment variable SEND_LOGS to False. This will apply to all bots in the account. By default, this is set to True, enabling logs.
+
+Each account is controlled by the variable for the function configured in that account.
