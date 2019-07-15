@@ -104,7 +104,7 @@ Follow these steps to configure your Azure accounts to use Dome9 CloudBots.
        Name: TENANT
        Value: enter the value from step 2 (iii)
                 
-       Name: CLIEND_ID
+       Name: CLIENT_ID
        Value: enter the value from step 2 (iii)
 
        Name: SEND_GRID_API_CLIENT
