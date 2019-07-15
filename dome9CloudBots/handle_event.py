@@ -6,7 +6,7 @@ from azure.common.credentials import ServicePrincipalCredentials
 
 def get_credentials():
     credentials = ServicePrincipalCredentials(
-        client_id = os.getenv('CLIEND_ID'),
+        client_id = os.getenv('CLIENT_ID'),
         secret = os.getenv('SECRET'),
         tenant = os.getenv('TENANT')
     )
