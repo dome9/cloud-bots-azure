@@ -61,7 +61,7 @@ Follow these steps to configure your Azure accounts to use Dome9 CloudBots.
     1. Enter the secrets, saved in the previous step, in *Client secrets*. 
 
 1. Create SendGrid, to be used to send remediation outputs by email (Optional)
-    1. In the Azure console, navigate to *SendGrid Accounts*.
+    1. In the Azure portal, navigate to *SendGrid Accounts*.
     1. Click *Add*, and complete the signup form.
     1. Select the new SendGrid account, and then click *Manage*.
     1. Select *Settings -> API Keys*, and then click *Create API Key.*
