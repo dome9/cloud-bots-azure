@@ -50,6 +50,8 @@ Follow these steps to configure your Azure accounts to use Dome9 CloudBots.
     1.  [Docker](https://www.docker.com)
     1.  [Azure Functions Core Tools](https://github.com/Azure/azure-functions-core-tools)
     1.  [Python 3.6.X](https://www.python.org/)
+    1.  [NodeJS > 8.5](https://nodejs.org/en/download)
+    1.  [Microsoft .NET Framework > 4.5](https://www.microsoft.com/en-us/download/details.aspx?id=30653)
     
 1. Create Azure App Registration:
     1. In the Azure portal, navigate to App registrations, and the click *New registration*.
