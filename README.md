@@ -50,6 +50,8 @@ Follow these steps to configure your Azure accounts to use Dome9 CloudBots.
     1.  [Docker](https://www.docker.com)
     1.  [Azure Functions Core Tools](https://github.com/Azure/azure-functions-core-tools)
     1.  [Python 3.6.X](https://www.python.org/)
+    1.  [NodeJS > 8.5](https://nodejs.org/en/download)
+    1.  [Microsoft .NET core > 2.2](https://dotnet.microsoft.com/download/dotnet-core)
     
 1. Create Azure App Registration:
     1. In the Azure portal, navigate to App registrations, and the click *New registration*.
@@ -59,7 +61,7 @@ Follow these steps to configure your Azure accounts to use Dome9 CloudBots.
     1. Enter the secrets, saved in the previous step, in *Client secrets*. 
 
 1. Create SendGrid, to be used to send remediation outputs by email (Optional)
-    1. In the Azure console, navigate to *SendGrid Accounts*.
+    1. In the Azure portal, navigate to *SendGrid Accounts*.
     1. Click *Add*, and complete the signup form.
     1. Select the new SendGrid account, and then click *Manage*.
     1. Select *Settings -> API Keys*, and then click *Create API Key.*
