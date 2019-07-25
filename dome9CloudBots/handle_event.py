@@ -30,7 +30,7 @@ def get_data_from_message(message):
     if entity:
         data['entity_id'] = entity.get('id')
         data['entity_name'] = entity.get('name')
-        data['region'] = entity.get('region')
+        data['region'] = entity.get('region', '')
         data['region'] = data['region'].replace('_', '-')
     if 'remediationActions' in message:
         data['remediationActions'] = message['remediationActions']
