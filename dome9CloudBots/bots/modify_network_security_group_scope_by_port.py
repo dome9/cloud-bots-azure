@@ -11,7 +11,7 @@ from azure.mgmt.network import NetworkManagementClient
 import logging
 
 ONE_SCOPE = 1
-ONE_PORT = 1
+ONE_PORT  = 1
 
 
 def is_port_range(port):
