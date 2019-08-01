@@ -10,9 +10,17 @@ from msrestazure.azure_exceptions import CloudError
 from azure.mgmt.network import NetworkManagementClient
 import logging
 
+ONE_SCOPE = 1
+ONE_PORT = 1
+
+
+def is_port_range(port):
+    return len(port) > ONE_PORT
+
 
 def modify_scope(rule, direction, scope):
-    if len(scope) == 1:
+    scope_ips_length = len(scope)
+    if scope_ips_length == ONE_SCOPE:
         rule[f'{direction}_address_prefix'] = scope[0]
         rule[f'{direction}_address_prefixes'] = None
     else:
@@ -24,10 +32,13 @@ def is_port_in_range(port_to_find, ports_list):
     for port in ports_list:
         if port == port_to_find:
             return True
+
         else:
-            port = port.split('-')
-            if len(port) > 1 and port_to_find> port[0] and port_to_find< port[1]:
+            ports = port.split('-')
+            port_to, port_from = ports
+            if is_port_range(ports) and port_to_find > port_to and port_to_find < port_from:
                 return True
+
     return False
 
 
@@ -38,8 +49,7 @@ def run_action(credentials, rule, entity, params):
     subscription_id = entity.get('accountNumber')
     resource_group_name = entity.get('resourceGroup', {}).get('name')
     nsg_name = entity.get('name')
-    logging.info(
-        f'{__file__} - subscription_id : {subscription_id} - group_name : {resource_group_name} nsg_name : {nsg_name}')
+    logging.info(f'{__file__} - subscription_id : {subscription_id} - group_name : {resource_group_name} nsg_name : {nsg_name}')
     try:
         network_client = NetworkManagementClient(
             credentials,
@@ -59,10 +69,11 @@ def run_action(credentials, rule, entity, params):
         nsg_dict['security_rules'] = security_rules
         nsg_after_change = nsg.from_dict(nsg_dict)
         network_client.network_security_groups.create_or_update(resource_group_name, nsg_name, nsg_after_change)
-        id = entity.get('id')
-        msg = f'Network Security group name: {nsg_name} with id: {id} was modified, port: {port} direction:{direction} scope:{scope}'
+        entity_id = entity.get('id')
+        msg = f'Network Security group name: {nsg_name} with id: {entity_id} was modified, port: {port} direction:{direction} scope:{scope}'
         logging.info(f'{__file__} - {msg}')
         return f'{msg}'
+
     except CloudError as e:
         msg = f'unexpected error : {e.message}'
         logging.info(f'{__file__} - {msg}')
