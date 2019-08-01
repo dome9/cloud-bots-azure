@@ -34,9 +34,10 @@ def is_port_in_range(port_to_find, ports_list):
             return True
 
         else:
+            # Due to Azure SDK we split cases as port can be : '360' or '360-366'
             ports = port.split('-')
-            port_to, port_from = ports
-            if is_port_range(ports) and port_to_find > port_to and port_to_find < port_from:
+            starting_port, ending_port = ports
+            if is_port_range(ports) and port_to_find > starting_port and port_to_find < ending_port:
                 return True
 
     return False
@@ -46,35 +47,43 @@ def run_action(credentials, rule, entity, params):
     port, direction, scope = params
     scope = scope.split(',')
     logging.info(f'{__file__} - run_action started')
+
     subscription_id = entity.get('accountNumber')
     resource_group_name = entity.get('resourceGroup', {}).get('name')
     nsg_name = entity.get('name')
     logging.info(f'{__file__} - subscription_id : {subscription_id} - group_name : {resource_group_name} nsg_name : {nsg_name}')
+
     try:
         network_client = NetworkManagementClient(
             credentials,
             subscription_id
         )
         nsg = network_client.network_security_groups.get(resource_group_name, nsg_name)
+
         # Change nsg - NetworkSecurityGroup to dict
         nsg_dict = nsg.as_dict()
         security_rules = nsg_dict.get('security_rules')
         for rule in security_rules:
+
             if rule.get('destination_port_range'):
                 if rule.get('destination_port_range') == port:
                     modify_scope(rule, direction, scope)
+
             elif rule.get('destination_port_ranges'):
                 if is_port_in_range(port, rule.get('destination_port_ranges')):
                     modify_scope(rule, direction, scope)
+
         nsg_dict['security_rules'] = security_rules
         nsg_after_change = nsg.from_dict(nsg_dict)
         network_client.network_security_groups.create_or_update(resource_group_name, nsg_name, nsg_after_change)
-        entity_id = entity.get('id')
-        msg = f'Network Security group name: {nsg_name} with id: {entity_id} was modified, port: {port} direction:{direction} scope:{scope}'
+        entity_ID = entity.get('id')
+        msg = f'Network Security group name: {nsg_name} with id: {entity_ID} was modified, port: {port} direction:{direction} scope:{scope}'
         logging.info(f'{__file__} - {msg}')
+
         return f'{msg}'
 
     except CloudError as e:
         msg = f'unexpected error : {e.message}'
         logging.info(f'{__file__} - {msg}')
+
         return f'{msg}'
