@@ -168,6 +168,16 @@ send events for previous findings, follow these steps:
     Policy (the one created above), then click **SEND**. Dome9 will send
     event messages to the Azure function webhook.
 
+# Update the CloudBots code
+
+1. Deployment
+    1. Clone the CloudBots Azure code from [GitHub](https://github.com/Dome9/cloud-bots-azure)
+    1. Navigate to the locally cloned CloudBots directory and run the following command:
+    ```     func init --docker    ```
+    1. Select *Python*.
+    1. Deploy the code to the remote Function App (this could take a while). Run the following command, replacing $\{functionAppName}  with the Function App name that was given in the previous step (5 (v)):
+    ```     func azure functionapp publish ${functionAppName} --build-native-deps  	```
+
 # Log Collection for Troubleshooting
 
 The cloudbots send log information to Dome9, that is used for troubleshooting. By default, this is enabled for all bots. You can disable this in your Azure account. Select the  function, and set the environment variable SEND_LOGS to False. This will apply to all bots in the account. By default, this is set to True, enabling logs.
