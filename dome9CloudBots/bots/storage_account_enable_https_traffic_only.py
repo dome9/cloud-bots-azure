@@ -1,4 +1,4 @@
-# What it does: enable Storage account Secure transfer required field
+# What it does: enable Storage account enable secure transfer
 # Usage: AUTO: storage_account_enable_https_traffic_only
 # Limitations: None
 
