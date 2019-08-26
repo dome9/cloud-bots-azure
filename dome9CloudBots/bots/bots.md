@@ -41,3 +41,11 @@ Usage: AUTO: modify_network_security_group_scope_by_port <port> <direction> <sco
 Sample GSL: NetworkSecurityGroup should have inboundRules contain [ destinationPort=22 and source='0.0.0.0/0' ]
 
 Limitations: None
+
+## storage_account_enable_https_traffic_only
+
+What it does: Enable storage account secure transfer required configuartion
+
+Example: AUTO: storage_account_enable_https_traffic_only
+
+Limitations: None
