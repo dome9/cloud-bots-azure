@@ -49,3 +49,19 @@ What it does: Enable storage account secure transfer required configuartion
 Example: AUTO: storage_account_enable_https_traffic_only
 
 Limitations: None
+
+## delete_network_security_group_single_rule
+
+What it does: Delete network security group rule. Deletion will be preformed by given destination port, destination scope, source port, source scope and access. In case you don't want to use specific destination you need to fill '-' in the specific field.
+
+Access can be : Allow or Deny
+
+Usage: AUTO: delete_network_security_group_single_rule <destination port> <destination scope> <source port> <source scope> <access>
+
+Example 1: AUTO: delete_network_security_group_single_rule 556 10.0.0.0/24 22 0.0.0.0/2 Allow
+
+Example 2: AUTO: delete_network_security_group_single_rule 556 10.0.0.0/24 - - Allow
+
+Example 3: AUTO: delete_network_security_group_single_rule - - 22 0.0.0.0/2 Deny
+
+Limitations: None

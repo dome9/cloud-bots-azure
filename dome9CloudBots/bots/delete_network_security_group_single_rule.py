@@ -13,11 +13,10 @@ from azure.mgmt.network import NetworkManagementClient
 import logging
 
 ONE_PORT = 1
-
+SEPARATOR = '-'
 
 def is_port_range(port):
     return len(port) > ONE_PORT
-
 
 def is_port_in_range(port_to_find, ports_list):
     for port in ports_list:
@@ -26,13 +25,12 @@ def is_port_in_range(port_to_find, ports_list):
 
         else:
             # Due to Azure SDK we split cases as port can be : '360' or '360-366'
-            ports = port.split('-')
+            ports = port.split(SEPARATOR)
             starting_port, ending_port = ports
             if is_port_range(ports) and port_to_find > starting_port and port_to_find < ending_port:
                 return True
 
     return False
-
 
 def is_port_match(rule, direction, port):
     port_to_find = rule.get(f'{direction}_port_range')
@@ -40,47 +38,49 @@ def is_port_match(rule, direction, port):
     if port_to_find:
         if port_to_find == port:
             return True
+
         else:
             ports = port_to_find.split('-')
             if (len(ports) > ONE_PORT):
                 starting_port, ending_port = ports
                 if is_port_range(ports) and port > starting_port and port < ending_port:
                     return True
+
     elif ports_to_find:
         if is_port_in_range(port, ports_to_find):
             return True
-    return False
 
+    return False
 
 def is_scope_match(rule, direction, scope):
     return rule[f'{direction}_address_prefix'] == scope
 
-
 def is_access_match(rule, access):
     return rule['access'] == access
-
 
 def is_rule_should_be_deleted_by_direction(rule, direction, port, scope, access):
     return is_port_match(rule, direction, port) and is_scope_match(rule, direction, scope) and is_access_match(rule,
                                                                                                                access)
 
-
 def is_rule_should_be_deleted(rule, destination_port, destination_scope, source_port, source_scope, access):
+    destination = [destination_port, destination_scope]
+    source = [source_port, source_scope]
     ## Case need to check both destination and source
-    if (destination_port != '-' and destination_scope != '-' and source_port != '-' and source_scope != '-'):
+    if all(item != SEPARATOR for item in destination + source):
         return is_rule_should_be_deleted_by_direction(rule, 'destination', destination_port, destination_scope,
                                                       access) and is_rule_should_be_deleted_by_direction(rule, 'source',
                                                                                                          source_port,
                                                                                                          source_scope,
                                                                                                          access)
     ## Case need to check only destination
-    if (destination_port != '-' and destination_scope != '-' and source_port == '-' and source_scope == '-'):
+    if all(item != SEPARATOR for item in destination) and all(item == SEPARATOR for item in source):
         return is_rule_should_be_deleted_by_direction(rule, 'destination', destination_port, destination_scope, access)
-    ## Case need to check only source
-    if (destination_port == '-' and destination_scope == '-' and source_port != '-' and source_scope != '-'):
-        return is_rule_should_be_deleted_by_direction(rule, 'source', source_port, source_scope, access)
-    return False
 
+    ## Case need to check only source
+    if all(item == SEPARATOR for item in destination) and all(item != SEPARATOR for item in source):
+        return is_rule_should_be_deleted_by_direction(rule, 'source', source_port, source_scope, access)
+
+    return False
 
 def run_action(credentials, rule, entity, params):
     destination_port, destination_scope, source_port, source_scope, access = params
@@ -91,6 +91,7 @@ def run_action(credentials, rule, entity, params):
     nsg_name = entity.get('name')
     logging.info(
         f'{__file__} - subscription_id : {subscription_id} - group_name : {resource_group_name} nsg_name : {nsg_name}')
+
     try:
         network_client = NetworkManagementClient(
             credentials,
