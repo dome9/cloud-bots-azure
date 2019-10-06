@@ -39,11 +39,20 @@ accounts. Details are included how to configure and trigger them.
 Refer to [this](dome9CloudBots/bots/bots.md) file for a list of the bots, what each one
 does, and an example of a rule that could be used to trigger it.
 
-# Onboarding
+# Deploy the CloudBots to your Azure accounts
 
-## Setup your Azure account for CloudBots
+To use the CloudBots in your Azure accounts, you must setup your account and your Dome9 account.
 
-Follow these steps to configure your Azure accounts to use Dome9 CloudBots.
+## Setup your Azure subscriptions for CloudBots
+
+Follow these steps to configure your Azure subscriptions to use Dome9 CloudBots:
+
+- Install packages needed by the Cloudbots
+- Create a new Azure app registration for CloudBots
+- Optionally, create a SendGrid account to forward email notifications
+- Assign IAM roles for the app registration created above
+- Create an Azure function for the CloudBots
+- Deploy the CloudBots in the Azure subscription
 
 1. Install Dependencies
     1.  [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest), and then login to your Azure account
@@ -70,7 +79,7 @@ Follow these steps to configure your Azure accounts to use Dome9 CloudBots.
 
 1. Assign Roles
 	
-    1. Navigate to Subscriptions.
+    1. Navigate to *Subscriptions*.
     1. Select the subscription that will use the CloudBots.
     1. Select *Access control (IAM)* from the menu on the left.
     1. Click *Add* -> *Add role assignment*
@@ -83,7 +92,7 @@ Follow these steps to configure your Azure accounts to use Dome9 CloudBots.
 1. Create an Azure Function App
     1. Navigate to *Function App*.
     1. Click *Add*.
-    1. Complete the form with the following(all other values - leave the default): 
+    1. Complete the form with the following (all other values - leave the default): 
         - App name: dome9CloudBots
         - Resource Group: use the name from step 2, above.
         - OS: Linux
@@ -121,7 +130,7 @@ Follow these steps to configure your Azure accounts to use Dome9 CloudBots.
           
 ## Multiple Accounts
 
-If you are onboarding several Azure accounts, repeat step 4 (Assign Roles), above, for each account.
+If you are deploying CloudBots on  several Azure subscriptions, repeat step 4 (Assign Roles), above, for each subscription.
 
 		  
 # Setup your Dome9 account
@@ -133,19 +142,20 @@ On Dome9 you must add remediation tags to rules in a compliance ruleset.
 Follow these steps in your Dome9 account to tag the compliance rules &
 rulesets to use bots as a remediation step.
 
-1.  In the Dome9 console, navigate to the Rulesets page in the
+1.  In the Dome9 web app, navigate to the Rulesets page in the
     Compliance & Governance menu.
 
-2.  Select the rules for which you want to add a remediation step.
+1.  Select or create a ruleset that will be used for the cloudbots.
+1.  Select the rules for which you want to add a remediation step.
 
-3.  In the Compliance Section add a row with the following string:
+1.  In the Compliance Section add a row with the following string:
     `AUTO: <bot-name> <params>` where *bot-name* is the name of the bot,
     and *params* is a list of arguments for the bot (if any).
     
     For example, `AUTO: ec2_virtual_machine_stop` will run the bot to stop an
     EC2 instance.
 
-## Configure the Continuous Compliance policy
+## Configure a Continuous Compliance policy
 
 Once the rules in the ruleset have been tagged for remediation, set up a
 Continuous Compliance policy to run the ruleset, and send findings the Azure function webhook.
