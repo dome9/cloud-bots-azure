@@ -2,8 +2,9 @@
 # Scope can be list of ip addresses with , between. example: 192.168.99.0/24,10.0.0.0/24,44.66.0.0/24
 # Direction can be : source or destination
 # Bot will remove Any from direction
-# Usage: AUTO: modify_network_security_group_scope_by_port <port> <direction> <scope>
-# Example: AUTO: modify_network_security_group_scope_by_port 556 source 10.0.0.0/24,172.16.0.1/32,168.243.22.0/23
+# Access can be : Allow or Deny
+# Usage: AUTO: modify_network_security_group_scope_by_port <port> <direction> <scope> <access>
+# Example: AUTO: modify_network_security_group_scope_by_port 556 source 10.0.0.0/24,172.16.0.1/32,168.243.22.0/23 Allow
 # Limitations: None
 
 from msrestazure.azure_exceptions import CloudError
@@ -18,7 +19,7 @@ def is_port_range(port):
     return len(port) > ONE_PORT
 
 
-def modify_scope(rule, direction, scope):
+def modify_scope(rule, direction, scope, access):
     scope_ips_length = len(scope)
     if scope_ips_length == ONE_SCOPE:
         rule[f'{direction}_address_prefix'] = scope[0]
@@ -26,6 +27,7 @@ def modify_scope(rule, direction, scope):
     else:
         rule[f'{direction}_address_prefixes'] = scope
         rule[f'{direction}_address_prefix'] = None
+    rule['access'] = access
 
 
 def is_port_in_range(port_to_find, ports_list):
@@ -44,7 +46,7 @@ def is_port_in_range(port_to_find, ports_list):
 
 
 def run_action(credentials, rule, entity, params):
-    port, direction, scope = params
+    port, direction, scope, access = params
     scope = scope.split(',')
     logging.info(f'{__file__} - run_action started')
 
@@ -67,7 +69,7 @@ def run_action(credentials, rule, entity, params):
 
             if rule.get('destination_port_range'):
                 if rule.get('destination_port_range') == port:
-                    modify_scope(rule, direction, scope)
+                    modify_scope(rule, direction, scope, access)
 
             elif rule.get('destination_port_ranges'):
                 if is_port_in_range(port, rule.get('destination_port_ranges')):
