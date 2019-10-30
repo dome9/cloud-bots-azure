@@ -2,23 +2,25 @@
 # Scope can be list of ip addresses with , between. example: 192.168.99.0/24,10.0.0.0/24,44.66.0.0/24
 # Direction can be : source or destination
 # Bot will remove Any from direction
-# Usage: AUTO: modify_network_security_group_scope_by_port <port> <direction> <scope>
-# Example: AUTO: modify_network_security_group_scope_by_port 556 source 10.0.0.0/24,172.16.0.1/32,168.243.22.0/23
+# Access can be : Allow or Deny
+# Usage: AUTO: modify_network_security_group_scope_by_port <port> <direction> <scope> <access>
+# Example: AUTO: modify_network_security_group_scope_by_port 556 source 10.0.0.0/24,172.16.0.1/32,168.243.22.0/23 Allow
 # Limitations: None
 
 from msrestazure.azure_exceptions import CloudError
 from azure.mgmt.network import NetworkManagementClient
 import logging
+from itertools import chain
 
 ONE_SCOPE = 1
-ONE_PORT  = 1
+ONE_PORT = 1
 
 
 def is_port_range(port):
     return len(port) > ONE_PORT
 
 
-def modify_scope(rule, direction, scope):
+def modify_scope(rule, direction, scope, access):
     scope_ips_length = len(scope)
     if scope_ips_length == ONE_SCOPE:
         rule[f'{direction}_address_prefix'] = scope[0]
@@ -26,6 +28,7 @@ def modify_scope(rule, direction, scope):
     else:
         rule[f'{direction}_address_prefixes'] = scope
         rule[f'{direction}_address_prefix'] = None
+    rule['access'] = access or rule['access']
 
 
 def is_port_in_range(port_to_find, ports_list):
@@ -44,14 +47,15 @@ def is_port_in_range(port_to_find, ports_list):
 
 
 def run_action(credentials, rule, entity, params):
-    port, direction, scope = params
+    port, direction, scope, access, *_ = chain(params, [None])
     scope = scope.split(',')
     logging.info(f'{__file__} - run_action started')
 
     subscription_id = entity.get('accountNumber')
     resource_group_name = entity.get('resourceGroup', {}).get('name')
     nsg_name = entity.get('name')
-    logging.info(f'{__file__} - subscription_id : {subscription_id} - group_name : {resource_group_name} nsg_name : {nsg_name}')
+    logging.info(
+        f'{__file__} - subscription_id : {subscription_id} - group_name : {resource_group_name} nsg_name : {nsg_name}')
 
     try:
         network_client = NetworkManagementClient(
@@ -67,11 +71,11 @@ def run_action(credentials, rule, entity, params):
 
             if rule.get('destination_port_range'):
                 if rule.get('destination_port_range') == port:
-                    modify_scope(rule, direction, scope)
+                    modify_scope(rule, direction, scope, access)
 
             elif rule.get('destination_port_ranges'):
                 if is_port_in_range(port, rule.get('destination_port_ranges')):
-                    modify_scope(rule, direction, scope)
+                    modify_scope(rule, direction, scope, access)
 
         nsg_dict['security_rules'] = security_rules
         nsg_after_change = nsg.from_dict(nsg_dict)
