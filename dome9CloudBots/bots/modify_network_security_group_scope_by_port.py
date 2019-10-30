@@ -10,9 +10,10 @@
 from msrestazure.azure_exceptions import CloudError
 from azure.mgmt.network import NetworkManagementClient
 import logging
+from itertools import chain
 
 ONE_SCOPE = 1
-ONE_PORT  = 1
+ONE_PORT = 1
 
 
 def is_port_range(port):
@@ -46,14 +47,15 @@ def is_port_in_range(port_to_find, ports_list):
 
 
 def run_action(credentials, rule, entity, params):
-    port, direction, scope, access = params
+    port, direction, scope, access, *_ = chain(params, [None])
     scope = scope.split(',')
     logging.info(f'{__file__} - run_action started')
 
     subscription_id = entity.get('accountNumber')
     resource_group_name = entity.get('resourceGroup', {}).get('name')
     nsg_name = entity.get('name')
-    logging.info(f'{__file__} - subscription_id : {subscription_id} - group_name : {resource_group_name} nsg_name : {nsg_name}')
+    logging.info(
+        f'{__file__} - subscription_id : {subscription_id} - group_name : {resource_group_name} nsg_name : {nsg_name}')
 
     try:
         network_client = NetworkManagementClient(
@@ -73,7 +75,7 @@ def run_action(credentials, rule, entity, params):
 
             elif rule.get('destination_port_ranges'):
                 if is_port_in_range(port, rule.get('destination_port_ranges')):
-                    modify_scope(rule, direction, scope)
+                    modify_scope(rule, direction, scope, access)
 
         nsg_dict['security_rules'] = security_rules
         nsg_after_change = nsg.from_dict(nsg_dict)
