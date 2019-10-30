@@ -27,7 +27,7 @@ def modify_scope(rule, direction, scope, access):
     else:
         rule[f'{direction}_address_prefixes'] = scope
         rule[f'{direction}_address_prefix'] = None
-    rule['access'] = access
+    rule['access'] = access or rule['access']
 
 
 def is_port_in_range(port_to_find, ports_list):
