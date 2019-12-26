@@ -75,6 +75,7 @@ CloudBots:
 <!-- end list -->
 
 1.  Install Dependencies
+
     **Note:** If you already have Azure CLI and Azure functions make sure to use the latest versions
     1.  [Azure
         CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest),
@@ -226,6 +227,7 @@ findings. To send events for previous findings, follow these steps:
     event messages to the Azure function webhook.
 
 # Update the CloudBots code
+
 **Note:** Make sure to use the latest versions of Azure CLI and Azure functions 
 1.  Deployment
     1.  Clone the CloudBots Azure code from
