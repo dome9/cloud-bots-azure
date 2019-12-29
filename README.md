@@ -75,7 +75,8 @@ CloudBots:
 <!-- end list -->
 
 1.  Install Dependencies
-    
+
+    **Note:** If you already have Azure CLI and Azure functions make sure to use the latest versions
     1.  [Azure
         CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest),
         and then login to your Azure account
@@ -147,8 +148,7 @@ CloudBots:
     4.  Deploy the code to the remote Function App (this could take a
         while). Run the following command, replacing ${functionAppName}
         with the Function App name that was given in the previous step
-        (5 (v)): `func azure functionapp publish ${functionAppName}
-        --build-native-deps`
+        (5 (v)): `func azure functionapp publish ${functionAppName}`
     
     5.  In the Azure portal, navigate to the Function App and then to
         *Configuration*.
@@ -228,6 +228,7 @@ findings. To send events for previous findings, follow these steps:
 
 # Update the CloudBots code
 
+**Note:** Make sure to use the latest versions of Azure CLI and Azure functions 
 1.  Deployment
     1.  Clone the CloudBots Azure code from
         [GitHub](https://github.com/Dome9/cloud-bots-azure)
@@ -237,8 +238,7 @@ findings. To send events for previous findings, follow these steps:
     4.  Deploy the code to the remote Function App (this could take a
         while). Run the following command, replacing ${functionAppName}
         with the Function App name that was given in the previous step
-        (5 (v)): `func azure functionapp publish ${functionAppName}
-        --build-native-deps`
+        (5 (v)): `func azure functionapp publish ${functionAppName}`
 
 # Log Collection for Troubleshooting
 
