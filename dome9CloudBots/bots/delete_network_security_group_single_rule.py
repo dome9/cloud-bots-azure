@@ -53,7 +53,7 @@ def is_port_match(rule, direction, port):
     return False
 
 def is_scope_match(rule, direction, scope):
-    return rule[f'{direction}_address_prefix'] == scope
+    return rule[f'{direction}_address_prefix'] == scope or scope == SEPARATOR
 
 def is_access_match(rule, access):
     return rule['access'] == access
@@ -73,11 +73,11 @@ def is_rule_should_be_deleted(rule, destination_port, destination_scope, source_
                                                                                                          source_scope,
                                                                                                          access)
     ## Case need to check only destination
-    if all(item != SEPARATOR for item in destination) and all(item == SEPARATOR for item in source):
+    if destination[0] != SEPARATOR and all(item == SEPARATOR for item in source):
         return is_rule_should_be_deleted_by_direction(rule, 'destination', destination_port, destination_scope, access)
 
     ## Case need to check only source
-    if all(item == SEPARATOR for item in destination) and all(item != SEPARATOR for item in source):
+    if source[0] != SEPARATOR and all(item != SEPARATOR for item in source):
         return is_rule_should_be_deleted_by_direction(rule, 'source', source_port, source_scope, access)
 
     return False
