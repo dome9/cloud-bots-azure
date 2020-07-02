@@ -1,3 +1,10 @@
+# What it does: Enables Transparent Data Encryption (TDE) on an Azure SQL server
+# transparent data encryption helps protect against the threat of malicious activity by performing real-time encryption and 
+#  decryption of the database, associated backups, and transaction log files at rest without requiring changes to the application.
+# Corresponds with rule D9.AZU.CRY.11
+# Usage: AUTO: sql_enable_data_encryption
+# Limitations: None
+
 from azure.common.credentials import ServicePrincipalCredentials
 import logging
 import os
