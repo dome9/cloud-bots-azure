@@ -1,3 +1,10 @@
+# What it does: Enables forcing TLS 1.2 connections to an Azure PostgreSQL server
+# Enforcing SSL connections between database server and client applications helps protect against "man in the middle" attacks by encrypting the data stream between the server and application.
+# TLS 1.2 is the strongest current encryption available for database connections
+# Corresponds with rule D9.AZU.CRY.17
+# Usage: AUTO: postgres_enforce_ssl_connection_tls_12
+# Limitations: None
+
 from azure.common.credentials import ServicePrincipalCredentials
 import logging
 import os
