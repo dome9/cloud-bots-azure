@@ -1,3 +1,9 @@
+# What it does: Enables forcing TLS connections to an Azure PostgreSQL server
+# Enforcing SSL connections between database server and client applications helps protect against "man in the middle" attacks by encrypting the data stream between the server and application.
+# Corresponds with rule D9.AZU.CRY.17
+# Usage: AUTO: postgres_enforce_ssl_connection
+# Limitations: None
+
 from azure.common.credentials import ServicePrincipalCredentials
 import logging
 import os
