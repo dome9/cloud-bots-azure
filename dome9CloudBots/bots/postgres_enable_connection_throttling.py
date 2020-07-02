@@ -1,3 +1,8 @@
+# What it does: Enables connection throttling on an Azure PostgreSQL server to help prevent DoS attacks
+# Corresponds with rule D9.AZU.LOG.05 
+# Usage: AUTO: postgres_enable_connection_throttling
+# Limitations: None
+
 from azure.common.credentials import ServicePrincipalCredentials
 import logging
 import os
