@@ -1,3 +1,9 @@
+# What it does: Enables log retention on an Azure PostgreSQL server to the maximum value of 7 days
+# Enabling log_retention_days helps PostgreSQL Database to Sets number of days a log file is retained which in turn generates query and error logs
+# Corresponds with rule D9.AZU.LOG.06
+# Usage: AUTO: postgres_enable_log_retention_days_7
+# Limitations: None
+
 from azure.common.credentials import ServicePrincipalCredentials
 import logging
 import os
