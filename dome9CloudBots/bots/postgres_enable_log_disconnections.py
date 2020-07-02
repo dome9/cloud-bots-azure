@@ -1,3 +1,9 @@
+# What it does: Enables disconnection logging on an Azure PostgreSQL server to log end of a session, including duration, which in turn generates query and error logs. 
+# Query and error logs can be used to identify, troubleshoot, and repair configuration errors and sub-optimal performance.
+# Corresponds with rule D9.AZU.LOG.03 
+# Usage: AUTO: postgres_enable_log_disconnections
+# Limitations: None
+
 from azure.common.credentials import ServicePrincipalCredentials
 import logging
 import os
