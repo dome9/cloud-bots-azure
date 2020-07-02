@@ -1,3 +1,9 @@
+# What it does: Enables connection duration logging on an Azure PostgreSQL server to log end of a session 
+# This logs the duration of each completed SQL statement which in turn generates query and error logs.
+# Corresponds with rule D9.AZU.LOG.04
+# Usage: AUTO: postgres_enable_log_duration
+# Limitations: None
+
 from azure.common.credentials import ServicePrincipalCredentials
 import logging
 import os
