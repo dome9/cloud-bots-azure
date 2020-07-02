@@ -1,3 +1,8 @@
+# What it does: Enables connection logging on an Azure PostgreSQL server to help prevent unauthorised access
+# Corresponds with rule D9.AZU.LOG.09
+# Usage: AUTO: postgres_enable_log_connections
+# Limitations: None
+
 from azure.common.credentials import ServicePrincipalCredentials
 import logging
 import os
