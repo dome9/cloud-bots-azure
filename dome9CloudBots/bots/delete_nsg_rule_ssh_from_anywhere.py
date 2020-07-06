@@ -1,5 +1,5 @@
 # What it does: Delete any network security group rules that allows SSH access from anywhere (0.0.0.0/0)
-# Usage: AUTO: delete_ssh_rule_rdp_from_anywhere
+# Usage: AUTO: delete_nsg_rule_ssh_from_anywhere
 # Limitations: None
 
 from msrestazure.azure_exceptions import CloudError
@@ -23,8 +23,8 @@ def run_action(credentials, rule, entity, params):
         print(' in loop after credentials ')
         inbound_rules = entity.get('inboundRules')        
         for r in (inbound_rules):
-            if ((r['source']) == '0.0.0.0/0') and ((r['destination']) == '0.0.0.0/0') and ((r['destinationPort']) == 22) or ((r['destinationPortTo']) == 22)  \
-                and ((r['direction']) == 'INBOUND') and ((r['action']) == 'ALLOW'):
+            if (((r['source']) == '0.0.0.0/0') and ((r['destination']) == '0.0.0.0/0') and ((r['destinationPort']) == 22) or ((r['destinationPortTo']) == 22)  \
+                and ((r['direction']) == 'INBOUND') and ((r['action']) == 'ALLOW')):
                     sgrule = (r['name'])
                     print('Security Group rule name to be deleted is: ' + sgrule)
                     network_client.security_rules.delete(resource_group_name, nsg_name, sgrule)
