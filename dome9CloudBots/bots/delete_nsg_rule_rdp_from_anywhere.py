@@ -23,8 +23,8 @@ def run_action(credentials, rule, entity, params):
         print(' in loop after credentials ')
         inbound_rules = entity.get('inboundRules')        
         for r in (inbound_rules):
-            if ((r['source']) == '0.0.0.0/0') and ((r['destination']) == '0.0.0.0/0') and ((r['destinationPort']) == 3389) or ((r['destinationPortTo']) == 3389)  \
-                and ((r['direction']) == 'INBOUND') and ((r['action']) == 'ALLOW'):
+            if )((r['source']) == '0.0.0.0/0') and ((r['destination']) == '0.0.0.0/0') and ((r['destinationPort']) == 3389) or ((r['destinationPortTo']) == 3389)  \
+                and ((r['direction']) == 'INBOUND') and ((r['action']) == 'ALLOW')):
                     sgrule = (r['name'])
                     print('Security Group rule name to be deleted is: ' + sgrule)
                     network_client.security_rules.delete(resource_group_name, nsg_name, sgrule)
