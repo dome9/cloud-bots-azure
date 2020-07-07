@@ -1,5 +1,85 @@
 # Bots
 
+## postgres_enable_connection_throttling
+
+What it does: Enables connection throttling on an Azure PostgreSQL server to help prevent DoS attacks
+
+Usage: AUTO: postgres_enable_connection_throttling
+
+Sample GSL: PostgreSQL should have logsConfiguration with [ value='ON'] where name='connection_throttling'
+                          
+Limitations: None
+
+## postgres_enable_log_connections
+
+What it does: Enables connection logging on an Azure PostgreSQL server to help prevent unauthorised access
+
+Usage: AUTO: postgres_enable_log_connections
+
+Sample GSL: PostgreSQL where logsConfiguration contain [ name='log_connections' ] should have logsConfiguration with [ value='on' ]
+                          
+Limitations: None
+
+## postgres_enable_log_disconnections
+
+What it does: Enables disconnection logging on an Azure PostgreSQL server to log end of a session, including duration, which in turn generates query and error logs. 
+
+Usage: AUTO: postgres_enable_log_disconnections
+
+Sample GSL: PostgreSQL where logsConfiguration contain [ name='log_disconnections' ] should have logsConfiguration with [ value='ON' ]                        
+
+Limitations: None
+
+## postgres_enable_log_duration
+
+What it does: Enables connection duration logging on an Azure PostgreSQL server to log end of a session 
+
+Usage: AUTO: postgres_enable_log_duration
+
+Sample GSL: PostgreSQL where logsConfiguration contain [ name='log_duration' ] should have logsConfiguration with [ value='ON' ]              
+
+Limitations: None
+
+## postgres_enable_log_retention_days_7
+
+What it does: Enables log retention on an Azure PostgreSQL server to the maximum value of 7 days
+
+Usage: AUTO: postgres_enable_log_retention_days_7
+
+Sample GSL: PostgreSQL should have logsConfiguration contain [ name='log_retention_days'  and value in ('7')]
+                          
+Limitations: None
+
+## postgres_enforce_ssl_connection
+
+What it does: Enables forcing TLS connections to an Azure PostgreSQL server. Enforcing SSL connections between database server and client applications helps protect against "man in the middle" attacks by encrypting the data stream between the server and application.
+
+Usage: AUTO: postgres_enforce_ssl_connection
+
+Sample GSL: PostgreSQL should have sslEnforcement='Enabled'
+                          
+Limitations: None
+
+## postgres_enforce_ssl_connection_tls_12
+
+What it does: Enables forcing TLS 1.2 connections to an Azure PostgreSQL server. Enforcing SSL connections between database server and client applications helps protect against "man in the middle" attacks by encrypting the data stream between the server and application. TLS 1.2 is the strongest current encryption available for database connections.
+
+Usage: AUTO: postgres_enforce_ssl_connection_tls_12
+
+Sample GSL: PostgreSQL should have sslEnforcement='Enabled'
+
+Limitations: None
+
+## sql_enable_data_encryption
+
+What it does: Enables Transparent Data Encryption (TDE) on an Azure SQL server. Transparent data encryption helps protect against the threat of malicious activity by performing real-time encryption and decryption of the database, associated backups, and transaction log files at rest without requiring changes to the application.
+
+Usage: AUTO: sql_enable_data_encryption
+
+Sample GSL: SQLDB should have encryption.status='Enabled'
+                          
+Limitations: None
+
 ## delete_network_security_group
 
 What it does: deletes the Azure Network Security Group in the finding
