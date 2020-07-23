@@ -148,7 +148,7 @@ CloudBots:
     4.  Deploy the code to the remote Function App (this could take a
         while). Run the following command, replacing ${functionAppName}
         with the Function App name that was given in the previous step
-        (5 (v)): `func azure functionapp publish ${functionAppName}`
+        (5 (v)): `func azure functionapp publish ${functionAppName}`. 
         Save *invoke URL* which will appear after the successful execution of this command.
         This URL will be used as http endpoint in Dome9 remediation configuration.
     
@@ -200,7 +200,7 @@ rulesets to use bots as a remediation step.
     and *params* is a list of arguments for the bot (if any).
     Default separator between params is "-".
     For example, `AUTO: ec2_virtual_machine_stop` will run the bot to
-    stop an EC2 instance.
+    stop an EC2 instance. 
     Or, `AUTO: delete_network_security_group_single_rule 22 - - - Allow`
     will run the bot to delete rule from NSG with destination port 22
     and action "Allow".
