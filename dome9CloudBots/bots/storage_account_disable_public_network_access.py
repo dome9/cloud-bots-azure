@@ -1,6 +1,6 @@
 # What it does: Restricts Storage account access to internal subnets only
-# Usage: AUTO: storage_account_disable_public_network_access <vnet resource group> <vnet> <subnet>
-# Usage: Example AUTO: storage_account_disable_public_network_access my-resource-group my-vnet my-subnet
+# Usage: storage_account_disable_public_network_access <vnet resource group> <vnet> <subnet>
+# Usage: Example storage_account_disable_public_network_access my-resource-group my-vnet my-subnet
 # Limitations: VNet must have service endpoints configured for Storage access
 
 import logging
