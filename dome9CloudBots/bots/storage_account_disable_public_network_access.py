@@ -36,7 +36,6 @@ def run_action(credentials, rule, entity, params):
     try:
         storage_client = StorageManagementClient(credentials, subscription_id)
         storage_client.storage_accounts.update(group_name,storage_account_name, StorageAccountUpdateParameters(network_rule_set=NetworkRuleSet(default_action='Deny', virtual_network_rules=[VirtualNetworkRule(virtual_network_resource_id=subnet_path)])))
-        id = entity['id']
         msg = f'Private network access was successfully configured for storage account: {storage_account_name}'
         logging.info(f'{__file__} - {msg}')
         return f'{msg}'
