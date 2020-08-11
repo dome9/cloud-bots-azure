@@ -1,5 +1,15 @@
 # Bots
 
+## storage_account_disable_public_network_access
+
+What it does: Sets an Azure storage account to allow access only from VNet traffic (changes *"Allow access from all networks"* to disabled)
+
+Usage: storage_account_disable_public_network_access <vnet resource group> <vnet> <subnet>
+  
+Example usage: storage_account_disable_public_network_access my-resource-group my-vnet my-subnet
+
+Limitations: Requires an existing service endpoint connection between the chosen VNet and the Storage service. 
+
 ## postgres_enable_connection_throttling
 
 What it does: Enables connection throttling on an Azure PostgreSQL server to help prevent DoS attacks
