@@ -1,5 +1,12 @@
 # Bots
 
+## sql_enable_azure_ad_authentication
+
+What it does: Sets an Azure SQL Server to use Azure AD authentication for Administrators
+Usage: sql_enable_azure_ad_authentication <azure-ad-admin-email> <azure-ad-admin-sid> <azure-ad-tenant-id>
+Usage: Example sql_enable_azure_ad_authentication sqladmin@mytenant.onmicrosoft.com 2be17144-2741-1111-ce5e-614a7bb5a9b5
+Limitations: None
+
 ## storage_account_disable_public_network_access
 
 What it does: Sets an Azure storage account to allow access only from VNet traffic (changes *"Allow access from all networks"* to disabled)
