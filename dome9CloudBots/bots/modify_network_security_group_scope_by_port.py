@@ -1,8 +1,9 @@
 # What it does: Change network security group scope by a given port.
 # Scope can be list of ip addresses with , between. example: 192.168.99.0/24,10.0.0.0/24,44.66.0.0/24
 # Direction can be : source or destination
-# Bot will remove Any from direction
 # Access can be : Allow or Deny
+# Bot will remove Any from direction
+# In case you want to change port that equals to Any, you need to set port's value to *
 # Usage: AUTO: modify_network_security_group_scope_by_port <port> <direction> <scope> <access>
 # Example: AUTO: modify_network_security_group_scope_by_port 556 source 10.0.0.0/24,172.16.0.1/32,168.243.22.0/23 Allow
 # Limitations: None
