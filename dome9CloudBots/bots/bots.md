@@ -1,5 +1,17 @@
 # Bots
 
+## sql_disable_public_access
+
+What it does: Sets "Deny public network access" Azure SQL flag to "Yes" and "Minimal TLS Version" to 1.2.
+
+Usage: sql_disable_public_access
+
+Example: sql_disable_public_access
+
+TLS is automatically set to 1.2, if a lower version is required, change the min_tls_version variable to '1.0' or '1.1' as required
+
+Limitations: None
+
 ## sql_enable_azure_ad_authentication
 
 What it does: Sets an Azure SQL Server to use Azure AD authentication for Administrators
