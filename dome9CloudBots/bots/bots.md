@@ -2,11 +2,13 @@
 
 ## sql_disable_public_access
 
-What it does: Sets "Deny public network access" Azure SQL flag to "Yes" and "Minimal TLS Version" to specified optional value
+What it does: Sets "Deny public network access" Azure SQL flag to "Yes" and optionally, "Minimal TLS Version" to specified value
 
-Usage: sql_disable_public_access min-tls-version - supported values are tls_10, tls_11, tls_12
+Usage: sql_disable_public_access min-tls-version (optional) - supported values are tls_10, tls_11, tls_12
 
 Example: sql_disable_public_access tls_12
+
+Example: sql_disable_public_access
 
 Limitations: None
 
