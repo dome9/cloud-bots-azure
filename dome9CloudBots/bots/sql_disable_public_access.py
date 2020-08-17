@@ -1,6 +1,7 @@
-# What it does: Sets "Deny public network access" Azure SQL flag to "Yes" and "Minimal TLS Version"
-# Usage: sql_disable_public_access <min-tls-version> - supported values are tls_10, tls_11, tls_12
+# What it does: Sets "Deny public network access" Azure SQL flag to "Yes" and optionally, "Minimal TLS Version"
+# Usage: sql_disable_public_access <optional-min-tls-version> - supported values are tls_10, tls_11, tls_12
 # Example: sql_disable_public_access tls_12
+# Example: sql_disable_public_access
 # Limitations: None
 
 import logging
@@ -15,7 +16,6 @@ def raise_credentials_error():
 
 def run_action(credentials, rule, entity, params):
     min_tls_version = params
-
     if 'tls_12' in min_tls_version:
         min_tls = '1.2'
     elif 'tls_11' in min_tls_version:
