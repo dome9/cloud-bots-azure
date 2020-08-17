@@ -19,7 +19,6 @@ def run_action(credentials, rule, entity, params):
     group_name = entity.get('resourceGroup', {}).get('name')
     subscription_id = entity.get('accountNumber')
     server_name = entity.get('name')
-    print(group_name)
     logging.info(
         f'{__file__} - subscription_id : {subscription_id} - group_name : {group_name} - server_name : {server_name} - azure_ad_admin : {azure_ad_admin_name} - azure_user_sid : {azure_ad_user_sid} - tenant : {tenant}')
 
