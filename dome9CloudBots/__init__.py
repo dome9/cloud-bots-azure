@@ -35,7 +35,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         if os.getenv('OUTPUT_EMAIL'):
           sendEvent(output_message)
       else:
-        logging.info(f'''{__file__} - Output didn't sent : {output_message}''')
+        logging.info(f'''{__file__} - Output didn't send : {output_message}''')
       is_send_logs = os.getenv('SEND_LOGS', False)  
       logging.info(f'{__file__} - SEND_LOGS set to {str(is_send_logs)}')  
       if is_send_logs:    

@@ -2,17 +2,18 @@ import re
 import importlib
 import logging
 import os
-from azure.common.credentials import ServicePrincipalCredentials
+#from azure.common.credentials import ServicePrincipalCredentials
+from azure.identity import ClientSecretCredential
 
 MININAL_TAG_LENGTH = 2
 MININAL_ACTION_LENGTH = 1
 
 
 def get_credentials():
-    credentials = ServicePrincipalCredentials(
+    credentials = ClientSecretCredential(
+        tenant_id=os.getenv('TENANT'),
         client_id=os.getenv('CLIENT_ID'),
-        secret=os.getenv('SECRET'),
-        tenant=os.getenv('TENANT')
+        client_secret=os.getenv('SECRET')        
     )
     return credentials
 

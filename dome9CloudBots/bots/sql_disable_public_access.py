@@ -2,7 +2,7 @@
 # Usage: sql_disable_public_access <optional-min-tls-version> - supported values are tls_10, tls_11, tls_12
 # Example: sql_disable_public_access tls_12
 # Example: sql_disable_public_access
-# Limitations: None
+# Limitations: An Azure Private Endpoint MUST be pre-configured to allow traffic, see https://docs.microsoft.com/en-gb/azure/azure-sql/database/connectivity-settings#deny-public-network-access
 
 import logging
 from msrestazure.azure_exceptions import CloudError
