@@ -1,6 +1,6 @@
 # What it does: Creates a resource lock at resource group level
-# Usage: create_cannot_delete_resource_lock_at_resource_group_level <lock-name>
-# Example: create_cannot_delete_resource_lock_at_resource_group_level my-lock
+# Usage: create_delete_resource_lock_at_resource_group_level <lock-name>
+# Example: create_delete_resource_lock_at_resource_group_level my-lock
 # Limitations: None
 
 import logging
@@ -14,8 +14,6 @@ def raise_credentials_error():
 
 def run_action(credentials, rule, entity, params):
     lock_name = params
-    logging.info(f'Code version 081120-1947 - Changed get lookup')
-    logging.info(f'entity object contains : {entity}')
     subscription_id = entity.get('accountNumber')
     group_name = entity.get('name')
 
@@ -24,7 +22,6 @@ def run_action(credentials, rule, entity, params):
         logging.info(f'{__file__} - {msg}') 
    
     logging.info(f'{__file__} - ${run_action.__name__} started')
-    logging.info(f'Group name read from entity is : {group_name}')
     logging.info(
         f'{__file__} - subscription_id : {subscription_id} - group_name : {group_name}')
 

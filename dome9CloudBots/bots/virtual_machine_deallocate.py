@@ -14,9 +14,9 @@ def run_action(credentials ,rule, entity, params):
         return f'{msg}' 
     compute_client = ComputeManagementClient(credentials, subscription_id) 
     try:
-        compute_client.virtual_machines.begin_power_off (group_name, vm_name)
+        compute_client.virtual_machines.begin_deallocate(group_name, vm_name)
         id = entity.get('id')
-        msg = f'Virtual machine was stopped. id: {id}'
+        msg = f'Virtual machine was deallocated. id: {id}'
         logging.info(f'{__file__} - {msg}')
         return f'{msg}'
     except CloudError as e:   
