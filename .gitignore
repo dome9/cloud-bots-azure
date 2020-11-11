@@ -4,6 +4,10 @@ csx
 .vs
 edge
 Publish
+lib
+.vscode
+.DS_Store
+.gitignore
 
 *.user
 *.suo
