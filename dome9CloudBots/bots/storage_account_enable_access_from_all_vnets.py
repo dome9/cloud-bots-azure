@@ -1,7 +1,6 @@
-# What it does: Restricts Storage account access to internal subnets only
-# Usage: storage_account_disable_public_network_access <vnet resource group> <vnet> <subnet>
-# Usage: Example storage_account_disable_public_network_access my-resource-group my-vnet my-subnet
-# Limitations: VNet must have service endpoints configured for Storage access
+# What it does: Allows Storage account access to all subnets in all VNets in a subscription
+# Usage: storage_account_enable_access_from_all_vnets
+# Limitations: None
 
 import logging
 from msrestazure.azure_exceptions import CloudError
@@ -9,16 +8,15 @@ from azure.mgmt.storage import StorageManagementClient
 from azure.mgmt.storage.models import (
     StorageAccountUpdateParameters, NetworkRuleSet, VirtualNetworkRule)
 from azure.mgmt.network import NetworkManagementClient
-
+from azure.mgmt.network.models import ServiceEndpointPropertiesFormat, Subnet, ServiceEndpointPropertiesFormat
+from azure.mgmt.storage import StorageManagementClient
+from azure.core.exceptions import HttpResponseError, ResourceExistsError
 def raise_credentials_error():
     msg = 'Error! Subscription id or credentials are missing.'
     logging.info(f'{__file__} - {msg}')
     return msg
 
-
 def run_action(credentials, rule, entity, params):
-    logging.info(f'Parameters are: {params}')
-    vnet_group_name, vnet_name, subnet_name = params
     logging.info(f'{__file__} - ${run_action.__name__} started')
     subscription_id = entity['accountNumber']
     group_name = entity['resourceGroup']['name']
@@ -27,28 +25,34 @@ def run_action(credentials, rule, entity, params):
     logging.info(
         f'{__file__} - subscription_id : {subscription_id} - group_name : {group_name} - storage_account : {storage_account_name}')
 
-#    subnet_path = '/subscriptions/' + subscription_id + '/resourceGroups/' + vnet_group_name + \
-#        '/providers/Microsoft.Network/virtualNetworks/' + \
-#        vnet_name + '/subnets/' + subnet_name
-
     if not subscription_id or not credentials:
         return raise_credentials_error()
 
-    try:
+    try:  
+        network_client = NetworkManagementClient(credentials,subscription_id)
         storage_client = StorageManagementClient(credentials, subscription_id)
-        network_client = NetworkManagementClient(credentials, subscription_id)
 
         vnets = network_client.virtual_networks.list_all()
-        for v in vnets:
-            subnets = network_client.subnets.list(resource_group_name=)
-        storage_client.storage_accounts.update(group_name,storage_account_name, StorageAccountUpdateParameters(network_rule_set=NetworkRuleSet(default_action='Allow', virtual_network_rules=[VirtualNetworkRule(virtual_network_resource_id=subnet_path)])))
-        msg = f'Private network access was successfully configured for storage account: {storage_account_name}'
-        logging.info(f'{__file__} - {msg}')
-        return f'{msg}'
+        acls = []
+        endpoint_params = [ServiceEndpointPropertiesFormat(service='Microsoft.Storage', locations=["*"])]
 
-    except CloudError as e:
-        msg = f'Unexpected error : {e.message}'
-        if 'SubnetsHaveNoServiceEndpointsConfigured' in msg:
-            logging.info(f'Unable to set private access as the VNet does not have Service Endpoints configured')
-        logging.info(f'{__file__} - {msg}')
-        return msg
+        for v in vnets:
+            vnet_name = v.name
+            vnet_nsg_split = v.id.split('/')
+            vnet_nsg = vnet_nsg_split[4]
+            subnets = v.subnets
+            for s in subnets:
+                subnet_path = s.id
+                subnet_name = s.name
+                subnet_address_prefix = s.address_prefix
+                service_endpoint_list = s.service_endpoints
+        
+                # Create storage endpointif doesn't exist
+                network_client.subnets.begin_create_or_update(resource_group_name=vnet_nsg, virtual_network_name=vnet_name, subnet_name=subnet_name,
+                    subnet_parameters=Subnet(address_prefix=subnet_address_prefix, service_endpoints=endpoint_params))
+                
+                acls.append(VirtualNetworkRule(virtual_network_resource_id=subnet_path))            
+        storage_client.storage_accounts.update(group_name,storage_account_name, StorageAccountUpdateParameters(network_rule_set=NetworkRuleSet(default_action='Deny', virtual_network_rules=acls)))
+        
+    except (CloudError, HttpResponseError, ResourceExistsError) as e:
+        print("An error occured : ", e)   
