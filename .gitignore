@@ -1,3 +1,5 @@
+lib
+include
 bin
 obj
 csx
@@ -5,6 +7,7 @@ csx
 edge
 Publish
 
+*.csproj
 *.user
 *.suo
 *.cscfg
@@ -36,6 +39,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+pyvenv.cfg
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
