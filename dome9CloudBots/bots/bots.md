@@ -1,5 +1,13 @@
 # Bots
 
+## storage_account_enable_access_from_all_vnets
+
+**What it does**: Allows Storage account access to all subnets in all VNets in a subscription
+
+**Usage:** storage_account_enable_access_from_all_vnets
+
+**Limitations**: None
+
 ## create_delete_resource_lock_at_resource_group_level
 
 **What it does**: Creates a resource lock at resource group level
