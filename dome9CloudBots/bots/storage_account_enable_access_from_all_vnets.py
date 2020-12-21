@@ -21,10 +21,11 @@ def run_action(credentials, rule, entity, params):
     subscription_id = entity['accountNumber']
     group_name = entity['resourceGroup']['name']
     storage_account_name = entity['name']
+    storage_account_region = entity['region']
     
     logging.info(
         f'{__file__} - subscription_id : {subscription_id} - group_name : {group_name} - storage_account : {storage_account_name}')
-
+    
     if not subscription_id or not credentials:
         return raise_credentials_error()
 
@@ -41,18 +42,25 @@ def run_action(credentials, rule, entity, params):
             vnet_nsg_split = v.id.split('/')
             vnet_nsg = vnet_nsg_split[4]
             subnets = v.subnets
-            for s in subnets:
-                subnet_path = s.id
-                subnet_name = s.name
-                subnet_address_prefix = s.address_prefix
-                service_endpoint_list = s.service_endpoints
-        
-                # Create storage endpointif doesn't exist
-                network_client.subnets.begin_create_or_update(resource_group_name=vnet_nsg, virtual_network_name=vnet_name, subnet_name=subnet_name,
-                    subnet_parameters=Subnet(address_prefix=subnet_address_prefix, service_endpoints=endpoint_params))
-                
-                acls.append(VirtualNetworkRule(virtual_network_resource_id=subnet_path))            
-        storage_client.storage_accounts.update(group_name,storage_account_name, StorageAccountUpdateParameters(network_rule_set=NetworkRuleSet(default_action='Deny', virtual_network_rules=acls)))
+            vnet_region = v.location
+            if storage_account_region == vnet_region:
+                logging.info(f'Regions match - applying ACLs to {vnet_name}')
+                for s in subnets:
+                    subnet_path = s.id
+                    subnet_name = s.name
+                    subnet_address_prefix = s.address_prefix
+                    service_endpoint_list = s.service_endpoints
+                    logging.info(f'Subnet path :  {subnet_path} Subnet Name : {subnet_name} Subnet CIDR : {subnet_address_prefix} Endpoint list : {service_endpoint_list}')
+            
+                    # Create storage endpointif doesn't exist
+                    network_client.subnets.begin_create_or_update(resource_group_name=vnet_nsg, virtual_network_name=vnet_name, subnet_name=subnet_name,
+                        subnet_parameters=Subnet(address_prefix=subnet_address_prefix, service_endpoints=endpoint_params))
+                    
+                    acls.append(VirtualNetworkRule(virtual_network_resource_id=subnet_path))            
+                storage_client.storage_accounts.update(group_name,storage_account_name, StorageAccountUpdateParameters(network_rule_set=NetworkRuleSet(default_action='Deny', virtual_network_rules=acls)))
+            else:
+               logging.info(f'Regions do not match - skipping {vnet_name}')
+
         
     except (CloudError, HttpResponseError, ResourceExistsError) as e:
-        print("An error occured : ", e)   
+        logging.info(f'An error occured : {e}')   
