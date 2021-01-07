@@ -54,7 +54,7 @@ def run_action(credentials, rule, entity, params):
 
     subscription_id = entity.get('accountNumber')
     resource_group_name = entity.get('resourceGroup', {}).get('name')
-    nsg_name = entity.get('name')
+    nsg_name = entity['nics'][0]['networkSecurityGroup']['name']
     logging.info(
         f'{__file__} - subscription_id : {subscription_id} - group_name : {resource_group_name} nsg_name : {nsg_name}')
 
@@ -80,7 +80,7 @@ def run_action(credentials, rule, entity, params):
 
         nsg_dict['security_rules'] = security_rules
         nsg_after_change = nsg.from_dict(nsg_dict)
-        network_client.network_security_groups.create_or_update(resource_group_name, nsg_name, nsg_after_change)
+        network_client.network_security_groups.begin_create_or_update(resource_group_name, nsg_name, nsg_after_change)
         entity_ID = entity.get('id')
         msg = f'Network Security group name: {nsg_name} with id: {entity_ID} was modified, port: {port} direction:{direction} scope:{scope}'
         logging.info(f'{__file__} - {msg}')
