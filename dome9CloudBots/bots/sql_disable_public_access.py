@@ -3,6 +3,7 @@
 # Example: sql_disable_public_access tls_12
 # Example: sql_disable_public_access
 # Limitations: An Azure Private Endpoint MUST be pre-configured to allow traffic, see https://docs.microsoft.com/en-gb/azure/azure-sql/database/connectivity-settings#deny-public-network-access
+# Last checked 13/1/21
 
 import logging
 from msrestazure.azure_exceptions import CloudError
@@ -36,8 +37,8 @@ def run_action(credentials, rule, entity, params):
 
     try:
         sql_client = SqlManagementClient(credentials, subscription_id)
-        sql_client.servers.create_or_update(group_name, server_name, Server(location=server_location, public_network_access='Disabled', minimal_tls_version=min_tls))        
-        msg = f'Azure SQL public network access disabled successfully on : {server_name}, TLS version set to {min_tls}'
+        sql_client.servers.begin_create_or_update(group_name, server_name, Server(location=server_location, public_network_access='Disabled', minimal_tls_version=min_tls))        
+        msg = f'Azure SQL public network access disabled successfully on : {server_name}, TLS version set to {min_tls_version}'
         logging.info(f'{__file__} - {msg}')
         return f'{msg}'
 

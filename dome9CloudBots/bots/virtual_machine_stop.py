@@ -1,3 +1,5 @@
+# Last checked 13/1/21
+
 from msrestazure.azure_exceptions import CloudError
 from azure.mgmt.compute import ComputeManagementClient
 import logging

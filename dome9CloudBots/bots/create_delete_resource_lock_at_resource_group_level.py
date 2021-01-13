@@ -2,6 +2,7 @@
 # Usage: create_delete_resource_lock_at_resource_group_level <lock-name>
 # Example: create_delete_resource_lock_at_resource_group_level my-lock
 # Limitations: None
+# Last checked 13/1/21
 
 import logging
 from msrestazure.azure_exceptions import CloudError

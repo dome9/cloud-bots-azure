@@ -1,6 +1,7 @@
 # What it does: Allows Storage account access to all subnets in all VNets in a subscription
 # Usage: storage_account_enable_access_from_all_vnets
 # Limitations: None
+# Last checked 13/1/21
 
 import logging
 from msrestazure.azure_exceptions import CloudError
@@ -9,7 +10,6 @@ from azure.mgmt.storage.models import (
     StorageAccountUpdateParameters, NetworkRuleSet, VirtualNetworkRule)
 from azure.mgmt.network import NetworkManagementClient
 from azure.mgmt.network.models import ServiceEndpointPropertiesFormat, Subnet, ServiceEndpointPropertiesFormat
-from azure.mgmt.storage import StorageManagementClient
 from azure.core.exceptions import HttpResponseError, ResourceExistsError
 def raise_credentials_error():
     msg = 'Error! Subscription id or credentials are missing.'

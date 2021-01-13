@@ -7,6 +7,8 @@
 # Usage: AUTO: modify_network_security_group_scope_by_port <port> <direction> <scope> <access>
 # Example: AUTO: modify_network_security_group_scope_by_port 556 source 10.0.0.0/24,172.16.0.1/32,168.243.22.0/23 Allow
 # Limitations: None
+# Last checked 13/1/21
+
 
 from msrestazure.azure_exceptions import CloudError
 from azure.mgmt.network import NetworkManagementClient

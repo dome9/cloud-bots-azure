@@ -4,8 +4,9 @@
 # Corresponds with rule D9.AZU.CRY.11
 # Usage: AUTO: sql_enable_data_encryption
 # Limitations: None
+# Last checked 13/1/21
 
-from azure.common.credentials import ServicePrincipalCredentials
+#from azure.common.credentials import ServicePrincipalCredentials
 import logging
 import os
 from msrestazure.azure_exceptions import CloudError
@@ -13,12 +14,12 @@ from azure.mgmt.sql import SqlManagementClient
 from azure.mgmt.sql.models import TransparentDataEncryptionStatus
 import re
 
-# Set Azure AD credentials from the environment variables
-credentials = ServicePrincipalCredentials(
-    client_id=os.environ['CLIENT_ID'],
-    secret=os.environ['SECRET'],
-    tenant=os.environ['TENANT']
-)
+# # Set Azure AD credentials from the environment variables
+# credentials = ServicePrincipalCredentials(
+#     client_id=os.environ['CLIENT_ID'],
+#     secret=os.environ['SECRET'],
+#     tenant=os.environ['TENANT']
+# )
 
 def raise_credentials_error():
     msg = 'Error! Subscription id or credentials are missing.'

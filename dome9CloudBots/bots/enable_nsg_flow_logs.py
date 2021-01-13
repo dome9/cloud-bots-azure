@@ -2,6 +2,8 @@
 # Usage: enable_nsg_flow_logs <storage-account-name> <storage-account-resource-group> <network-watcher-name> <log-retention-days> <flow-log-name>
 # Example: enable_nsg_flow_logs my-storage-account storage-resource-group NetworkWatcher_northeurope 30 myflowlog
 # Limitations: None
+# Last checked 13/1/21
+
 
 from msrestazure.azure_exceptions import CloudError
 from azure.mgmt.network import NetworkManagementClient

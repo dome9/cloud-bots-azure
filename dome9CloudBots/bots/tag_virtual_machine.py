@@ -1,4 +1,5 @@
 ## AUTO: tag_virtual_machine tag-name tag-value ##
+# Last checked 13/1/21
 
 from msrestazure.azure_exceptions import CloudError
 from azure.mgmt.compute import ComputeManagementClient
@@ -18,7 +19,7 @@ def run_action(credentials ,rule, entity, params):
         return f'{msg}' 
     compute_client = ComputeManagementClient(credentials, subscription_id) 
     try:
-        compute_client.virtual_machines.create_or_update(group_name, vm_name,{'location':location,'tags': {tag_name:tag_value}})
+        compute_client.virtual_machines.begin_create_or_update(group_name, vm_name,{'location':location,'tags': {tag_name:tag_value}})
         id = entity.get('id')
         msg = f'Tag name: {tag_name} with value: {tag_value} at location: {location} was added to virtual machine id: {id}'
         logging.info(f'{__file__} - {msg}')

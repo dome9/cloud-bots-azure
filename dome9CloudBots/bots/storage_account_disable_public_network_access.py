@@ -2,6 +2,7 @@
 # Usage: storage_account_disable_public_network_access <vnet resource group> <vnet> <subnet>
 # Usage: Example storage_account_disable_public_network_access my-resource-group my-vnet my-subnet
 # Limitations: VNet must have service endpoints configured for Storage access
+# Last checked 13/1/21
 
 import logging
 from msrestazure.azure_exceptions import CloudError

@@ -2,6 +2,7 @@
 # Usage: sql_enable_azure_ad_authentication <azure-ad-admin-email> <azure-ad-admin-sid> <azure-ad-tenant-id>
 # Usage: Example sql_enable_azure_ad_authentication sqladmin@mytenant.onmicrosoft.com 2be17144-2741-1111-ce5e-614a7bb5a9b5 12aa321e-a741-11b8-b5e9-52d834f3d0c0
 # Limitations: None
+# Last checked 13/1/21
 
 import logging
 from msrestazure.azure_exceptions import CloudError
@@ -27,7 +28,7 @@ def run_action(credentials, rule, entity, params):
 
     try:
         sql_client = SqlManagementClient(credentials, subscription_id)
-        sql_client.server_azure_ad_administrators.create_or_update(group_name, server_name, ServerAzureADAdministrator(login=azure_ad_admin_name, sid=azure_ad_user_sid, tenant_id=tenant))  
+        sql_client.server_azure_ad_administrators.begin_create_or_update(group_name, server_name, ServerAzureADAdministrator(login=azure_ad_admin_name, sid=azure_ad_user_sid, tenant_id=tenant))  
         msg = f'Azure AD Administrator authentication enabled successfully on database server: {server_name}'
         logging.info(f'{__file__} - {msg}')
         return f'{msg}'

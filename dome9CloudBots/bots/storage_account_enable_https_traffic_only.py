@@ -1,6 +1,8 @@
 # What it does: enable Storage account enable secure transfer
 # Usage: AUTO: storage_account_enable_https_traffic_only
 # Limitations: None
+# Last checked 13/1/21
+
 
 import logging
 from msrestazure.azure_exceptions import CloudError

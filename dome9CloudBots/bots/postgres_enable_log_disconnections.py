@@ -3,20 +3,22 @@
 # Corresponds with rule D9.AZU.LOG.03 
 # Usage: AUTO: postgres_enable_log_disconnections
 # Limitations: None
+# Last checked 13/1/21
 
-from azure.common.credentials import ServicePrincipalCredentials
+
+#from azure.common.credentials import ServicePrincipalCredentials
 import logging
 import os
 from azure.mgmt.rdbms.postgresql import PostgreSQLManagementClient
 from msrestazure.azure_exceptions import CloudError
 from azure.mgmt.rdbms.postgresql.models import Configuration
 
-# Set Azure AD credentials from the environment variables
-credentials = ServicePrincipalCredentials(
-    client_id=os.environ['CLIENT_ID'],
-    secret=os.environ['SECRET'],
-    tenant=os.environ['TENANT']
-)
+# # Set Azure AD credentials from the environment variables
+# credentials = ServicePrincipalCredentials(
+#     client_id=os.environ['CLIENT_ID'],
+#     secret=os.environ['SECRET'],
+#     tenant=os.environ['TENANT']
+# )
 
 def raise_credentials_error():
     msg = 'Error! Subscription id or credentials are missing.'
