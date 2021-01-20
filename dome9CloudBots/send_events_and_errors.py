@@ -3,8 +3,6 @@ import os
 import json
 from sendgrid import SendGridAPIClient
 
-
-
 def sendEvent(output_message):
     logging.info(f'{__file__} - send event')
     message = {
