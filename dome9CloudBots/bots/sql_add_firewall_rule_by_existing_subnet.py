@@ -5,7 +5,7 @@
 # Last checked 13/1/21
 
 import logging
-from msrestazure.azure_exceptions import CloudError
+from azure.core.exceptions import HttpResponseError
 from azure.mgmt.sql import SqlManagementClient
 from azure.mgmt.sql.models import Server
 
@@ -53,7 +53,7 @@ def run_action(credentials, rule, entity, params):
         logging.info(f'{__file__} - {msg}')
         return f'{msg}'
 
-    except CloudError as e:
+    except HttpResponseError as e:
         msg = f'Unexpected error : {e.message}'
         logging.info(f'{__file__} - {msg}')
         return msg

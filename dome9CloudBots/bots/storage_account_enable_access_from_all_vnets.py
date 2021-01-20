@@ -53,7 +53,7 @@ def run_action(credentials, rule, entity, params):
                     logging.info(f'Subnet path :  {subnet_path} Subnet Name : {subnet_name} Subnet CIDR : {subnet_address_prefix} Endpoint list : {service_endpoint_list}')
             
                     # Create storage endpointif doesn't exist
-                    network_client.subnets.begin_create_or_update(resource_group_name=vnet_nsg, virtual_network_name=vnet_name, subnet_name=subnet_name,
+                    network_client.subnets.create_or_update(resource_group_name=vnet_nsg, virtual_network_name=vnet_name, subnet_name=subnet_name,
                         subnet_parameters=Subnet(address_prefix=subnet_address_prefix, service_endpoints=endpoint_params))
                     
                     acls.append(VirtualNetworkRule(virtual_network_resource_id=subnet_path))            

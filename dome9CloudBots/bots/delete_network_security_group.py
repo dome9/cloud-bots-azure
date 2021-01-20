@@ -1,4 +1,4 @@
-from msrestazure.azure_exceptions import CloudError
+from azure.core.exceptions import HttpResponseError
 from azure.mgmt.network import NetworkManagementClient
 from azure.mgmt.network.v2019_02_01.models import NetworkSecurityGroup
 from azure.mgmt.network.v2019_02_01.models import SecurityRule
@@ -20,12 +20,12 @@ def run_action(credentials ,rule, entity, params):
     
     try:                 
         network_client.network_security_groups.get(resource_group_name, nsg_name)     
-        network_client.network_security_groups.begin_delete(resource_group_name, nsg_name)     
+        network_client.network_security_groups.delete(resource_group_name, nsg_name)     
         id = entity.get('id')
         msg = f'Network Security group was deleted. id: {id}'
         logging.info(f'{__file__} - {msg}')
         return f'{msg}'
-    except CloudError as e:   
+    except HttpResponseError as e:   
         msg = f'unexpected error : {e.message}'
         logging.info(f'{__file__} - {msg}') 
         return f'{msg}'

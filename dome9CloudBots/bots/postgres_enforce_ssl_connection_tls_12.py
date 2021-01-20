@@ -6,19 +6,11 @@
 # Limitations: None
 # Last checked 13/1/21
 
-#from azure.common.credentials import ServicePrincipalCredentials
 import logging
 import os
 from azure.mgmt.rdbms.postgresql import PostgreSQLManagementClient
 from msrestazure.azure_exceptions import CloudError
 from azure.mgmt.rdbms.postgresql.models import ServerUpdateParameters
-
-# # Set Azure AD credentials from the environment variables
-# credentials = ServicePrincipalCredentials(
-#     client_id=os.environ['CLIENT_ID'],
-#     secret=os.environ['SECRET'],
-#     tenant=os.environ['TENANT']
-# )
 
 def raise_credentials_error():
     msg = 'Error! Subscription id or credentials are missing.'

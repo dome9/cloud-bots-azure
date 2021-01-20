@@ -5,20 +5,11 @@
 # Limitations: None
 # Last checked 13/1/21
 
-
-#from azure.common.credentials import ServicePrincipalCredentials
 import logging
 import os
 from azure.mgmt.rdbms.postgresql import PostgreSQLManagementClient
 from msrestazure.azure_exceptions import CloudError
 from azure.mgmt.rdbms.postgresql.models import Configuration
-
-# # Set Azure AD credentials from the environment variables
-# credentials = ServicePrincipalCredentials(
-#     client_id=os.environ['CLIENT_ID'],
-#     secret=os.environ['SECRET'],
-#     tenant=os.environ['TENANT']
-# )
 
 def raise_credentials_error():
     msg = 'Error! Subscription id or credentials are missing.'
@@ -38,7 +29,7 @@ def run_action(credentials, rule, entity, params):
 
     try:
         db_client = PostgreSQLManagementClient(credentials, subscription_id)
-        db_client.configurations.create_or_update(group_name,server_name, 'log_disconnections', value='ON')   
+        db_client.configurations.create_or_update(group_name,server_name, configuration_name='log_disconnections', parameters=Configuration(value='ON'))   
         msg = f'Log disconnections was enabled successfully on PostgreSQL server: {server_name}'
         logging.info(f'{__file__} - {msg}')
         return f'{msg}'

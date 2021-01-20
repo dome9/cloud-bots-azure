@@ -37,6 +37,7 @@ def run_action(credentials, rule, entity, params):
         vnets = network_client.virtual_networks.list_all()
         acls = []
         endpoint_params = [ServiceEndpointPropertiesFormat(service='Microsoft.Sql', locations=["*"])]
+        subnet_path = ""
 
         for v in vnets:
             vnet_name = v.name

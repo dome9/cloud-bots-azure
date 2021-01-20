@@ -4,8 +4,7 @@
 # Limitations: None
 # Last checked 13/1/21
 
-
-from msrestazure.azure_exceptions import CloudError
+from azure.core.exceptions import HttpResponseError
 from azure.mgmt.network import NetworkManagementClient
 from azure.mgmt.storage import StorageManagementClient
 from azure.mgmt.network.models import NetworkSecurityGroup, SecurityRule, FlowLog
@@ -41,11 +40,11 @@ def run_action(credentials ,rule, entity, params):
     }
 
     try:
-        network_client.flow_logs.begin_create_or_update(nw_resource_group_name, network_watcher_name, flow_log_name, flow_log_parameters)
+        network_client.flow_logs.create_or_update(nw_resource_group_name, network_watcher_name, flow_log_name, flow_log_parameters)
         msg = f'Network Security group flow logs have been enabled on: {nsg_name}'
         logging.info(f'{__file__} - {msg}')
         return f'{msg}'
-    except CloudError as e:   
+    except HttpResponseError as e:   
         msg = f'unexpected error : {e.message}'
         logging.info(f'{__file__} - {msg}') 
         return f'{msg}'

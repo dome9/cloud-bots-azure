@@ -1,6 +1,6 @@
 # Last checked 13/1/21
 
-from msrestazure.azure_exceptions import CloudError
+from azure.core.exceptions import HttpResponseError
 from azure.mgmt.compute import ComputeManagementClient
 import logging
 
@@ -16,12 +16,12 @@ def run_action(credentials ,rule, entity, params):
         return f'{msg}' 
     compute_client = ComputeManagementClient(credentials, subscription_id) 
     try:
-        compute_client.virtual_machines.begin_deallocate(group_name, vm_name)
+        compute_client.virtual_machines.deallocate(group_name, vm_name)
         id = entity.get('id')
         msg = f'Virtual machine was deallocated. id: {id}'
         logging.info(f'{__file__} - {msg}')
         return f'{msg}'
-    except CloudError as e:   
+    except HttpResponseError as e:   
         msg = f'Unexpected error : {e.message}'
         logging.info(f'{__file__} - {msg}') 
         return f'{msg}'
