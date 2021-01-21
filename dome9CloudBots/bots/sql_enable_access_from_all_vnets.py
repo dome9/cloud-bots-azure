@@ -1,7 +1,7 @@
 # What it does: Allows Azure SQL access to all subnets in all VNets in a subscription in a region
 # Usage: sql_enable_access_from_all_vnets
 # Limitations: None
-# Last checked 21/1/21
+# Last checked 13/1/21
 
 import logging
 from msrestazure.azure_exceptions import CloudError
@@ -56,11 +56,11 @@ def run_action(credentials, rule, entity, params):
                     logging.info(f'Subnet path :  {subnet_path} Subnet Name : {subnet_name} Subnet CIDR : {subnet_address_prefix} Endpoint list : {service_endpoint_list}')
             
                     # Create storage endpoint if doesn't exist
-                    network_client.subnets.begin_create_or_update(resource_group_name=vnet_nsg, virtual_network_name=vnet_name, subnet_name=subnet_name,
+                    network_client.subnets.create_or_update(resource_group_name=vnet_nsg, virtual_network_name=vnet_name, subnet_name=subnet_name,
                         subnet_parameters=Subnet(address_prefix=subnet_address_prefix, service_endpoints=endpoint_params))
                     
                     acls.append(VirtualNetworkRule(virtual_network_subnet_id=subnet_path))            
-                sql_client.virtual_network_rules.begin_create_or_update(server_group_name, sql_server_name, firewall_rule_name, parameters=VirtualNetworkRule(virtual_network_subnet_id=subnet_path, ignore_missing_vnet_service_endpoint=False))
+                sql_client.virtual_network_rules.create_or_update(server_group_name, sql_server_name, firewall_rule_name, virtual_network_subnet_id=subnet_path, ignore_missing_vnet_service_endpoint=False)
                 logging.info(f'Azure SQL firewall rule {firewall_rule_name} set successfully on : {sql_server_name}')
             else:
                logging.info(f'Regions do not match - skipping {vnet_name}')
