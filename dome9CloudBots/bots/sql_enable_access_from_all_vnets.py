@@ -1,7 +1,7 @@
 # What it does: Allows Azure SQL access to all subnets in all VNets in a subscription in a region
 # Usage: sql_enable_access_from_all_vnets
 # Limitations: None
-# Last checked 13/1/21
+# Last checked 21/1/21
 
 import logging
 from msrestazure.azure_exceptions import CloudError

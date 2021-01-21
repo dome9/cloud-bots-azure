@@ -2,7 +2,7 @@
 # Usage: sql_add_firewall_rule_by_existing_subnet - <firewall rule name> <vnet-resource-group> <existing-vnet-name> <existing-subnet-name>
 # Example: sql_add_firewall_rule_by_existing_subnet my_vnet_rule my-resource-group vnet-example subnet-example
 # Limitations: A valid VNet SQL Service Endpoint MUST already exist, or the bot will fail
-# Last checked 13/1/21
+# Last checked 21/1/21
 
 import logging
 from azure.core.exceptions import HttpResponseError

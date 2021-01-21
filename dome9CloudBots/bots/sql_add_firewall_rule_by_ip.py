@@ -3,7 +3,7 @@
 # Example: sql_add_firewall_rule_by_ip my_rule 10.0.0.0 10.254.254.254
 # Limitations: CIDR blocks are not supported as rule values, must be individual starting and ending IP addresses
 # Limitations: SQL Server "Deny public network access" value must be set to NO (default), or the bot will fail
-# Last checked 13/1/21
+# Last checked 20/1/21
 
 import logging
 from azure.core.exceptions import HttpResponseError
