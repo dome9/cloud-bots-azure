@@ -7,6 +7,7 @@
 # Usage: AUTO: modify_network_security_group_scope_by_port <port> <direction> <scope> <access>
 # Example: AUTO: modify_network_security_group_scope_by_port 556 source 10.0.0.0/24,172.16.0.1/32,168.243.22.0/23 Allow
 # Limitations: None
+# Last checked 26/1/21
 
 from azure.core.exceptions import HttpResponseError
 from azure.mgmt.network import NetworkManagementClient
@@ -53,13 +54,24 @@ def run_action(credentials, rule, entity, params):
     logging.info(f'{__file__} - run_action started')
 
     subscription_id = entity.get('accountNumber')
-    resource_group_name = entity.get('resourceGroup', {}).get('name')
-    nsg_name = entity.get('name')
-    logging.info(
-        f'{__file__} - subscription_id : {subscription_id} - group_name : {resource_group_name} nsg_name : {nsg_name}')
+    entity_type = entity.get('type')
+    
+    if entity_type == 'VirtualMachine':
+        logging.info(f'Entity is a VM')
+        nsg_name = entity['nics'][0]['networkSecurityGroup']['name']
+        resource_group_name = entity['nics'][0]['networkSecurityGroup']['resourceGroup']['name']
+    else:
+        logging.info(f'Entity is an NSG')
+        resource_group_name = entity.get('resourceGroup', {}).get('name')
+        nsg_name = entity.get('name')
+    
+    logging.info(f'{__file__} - subscription_id : {subscription_id} - group_name : {resource_group_name} nsg_name : {nsg_name}')
 
     try:
-        network_client = NetworkManagementClient(credentials, subscription_id)
+        network_client = NetworkManagementClient(
+            credentials,
+            subscription_id
+        )
         nsg = network_client.network_security_groups.get(resource_group_name, nsg_name)
 
         # Change nsg - NetworkSecurityGroup to dict
@@ -77,7 +89,7 @@ def run_action(credentials, rule, entity, params):
 
         nsg_dict['security_rules'] = security_rules
         nsg_after_change = nsg.from_dict(nsg_dict)
-        network_client.network_security_groups.begin_create_or_update(resource_group_name, nsg_name, nsg_after_change)
+        network_client.network_security_groups.create_or_update(resource_group_name, nsg_name, nsg_after_change)
         entity_ID = entity.get('id')
         msg = f'Network Security group name: {nsg_name} with id: {entity_ID} was modified, port: {port} direction:{direction} scope:{scope}'
         logging.info(f'{__file__} - {msg}')
