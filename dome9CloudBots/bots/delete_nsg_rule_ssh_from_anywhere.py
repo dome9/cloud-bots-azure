@@ -2,7 +2,7 @@
 # Usage: AUTO: delete_ssh_rule_rdp_from_anywhere
 # Limitations: None
 
-from msrestazure.azure_exceptions import CloudError
+from azure.core.exceptions import HttpResponseError
 from azure.mgmt.network import NetworkManagementClient
 import logging
 
@@ -16,10 +16,7 @@ def run_action(credentials, rule, entity, params):
         f'{__file__} - subscription_id : {subscription_id} - group_name : {resource_group_name} nsg_name : {nsg_name}')
 
     try:
-        network_client = NetworkManagementClient(
-            credentials,
-            subscription_id
-        )
+        network_client = NetworkManagementClient(credentials, subscription_id)
         inbound_rules = entity.get('inboundRules')        
         for r in (inbound_rules):
             if ('0.0.0.0/0' in r['source'] and '0.0.0.0/0' in r['destination'] and r['destinationPort'] == 22 and r['destinationPortTo'] == 22 \
@@ -33,7 +30,7 @@ def run_action(credentials, rule, entity, params):
                     sg_rule = (r['name'])
                     msg = f'Network Security group rule: {sg_rule} does not meet the deletion criteria'
                     logging.info(f'{__file__} - {msg}')
-    except CloudError as e:
+    except HttpResponseError as e:
         msg = f'unexpected error : {e.message}'
         logging.info(f'{__file__} - {msg}')
 

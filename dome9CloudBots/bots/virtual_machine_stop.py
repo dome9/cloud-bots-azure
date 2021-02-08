@@ -1,4 +1,8 @@
-from msrestazure.azure_exceptions import CloudError
+# What it does : Stops (but does not deallocate) a Virtual Machine
+# Usage : virtual_machine_stop
+# Updated 8/2/21
+
+from azure.core.exceptions import HttpResponseError
 from azure.mgmt.compute import ComputeManagementClient
 import logging
 
@@ -14,12 +18,12 @@ def run_action(credentials ,rule, entity, params):
         return f'{msg}' 
     compute_client = ComputeManagementClient(credentials, subscription_id) 
     try:
-        compute_client.virtual_machines.power_off(group_name, vm_name)
+        compute_client.virtual_machines.begin_power_off(group_name, vm_name)
         id = entity.get('id')
         msg = f'Virtual machine was stopped. id: {id}'
         logging.info(f'{__file__} - {msg}')
         return f'{msg}'
-    except CloudError as e:   
+    except HttpResponseError as e:   
         msg = f'Unexpected error : {e.message}'
         logging.info(f'{__file__} - {msg}') 
         return f'{msg}'

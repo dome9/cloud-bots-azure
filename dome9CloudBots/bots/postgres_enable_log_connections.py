@@ -2,20 +2,13 @@
 # Corresponds with rule D9.AZU.LOG.09
 # Usage: AUTO: postgres_enable_log_connections
 # Limitations: None
+# Updated 8/2/21
 
 from azure.common.credentials import ServicePrincipalCredentials
 import logging
-import os
 from azure.mgmt.rdbms.postgresql import PostgreSQLManagementClient
-from msrestazure.azure_exceptions import CloudError
+from azure.core.exceptions import HttpResponseError
 from azure.mgmt.rdbms.postgresql.models import Configuration
-
-# Set Azure AD credentials from the environment variables
-credentials = ServicePrincipalCredentials(
-    client_id=os.environ['CLIENT_ID'],
-    secret=os.environ['SECRET'],
-    tenant=os.environ['TENANT']
-)
 
 def raise_credentials_error():
     msg = 'Error! Subscription id or credentials are missing.'
@@ -35,12 +28,12 @@ def run_action(credentials, rule, entity, params):
 
     try:
         db_client = PostgreSQLManagementClient(credentials, subscription_id)
-        db_client.configurations.create_or_update(group_name,server_name, 'log_connections', value='ON')   
+        db_client.configurations.begin_create_or_update(group_name,server_name, 'log_connections', value='ON')   
         msg = f'Log connections was enabled successfully on PostgreSQL server: {server_name}'
         logging.info(f'{__file__} - {msg}')
         return f'{msg}'
 
-    except CloudError as e:
+    except HttpResponseError as e:
         msg = f'Unexpected error : {e.message}'
         logging.info(f'{__file__} - {msg}')
         return msg

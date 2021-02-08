@@ -3,9 +3,10 @@
 # Example: sql_disable_public_access tls_12
 # Example: sql_disable_public_access
 # Limitations: None
+# Updated 8/2/21
 
 import logging
-from msrestazure.azure_exceptions import CloudError
+from azure.core.exceptions import HttpResponseError
 from azure.mgmt.sql import SqlManagementClient
 from azure.mgmt.sql.models import Server
 
@@ -16,6 +17,7 @@ def raise_credentials_error():
 
 def run_action(credentials, rule, entity, params):
     min_tls_version = params
+    global min_tls
     if 'tls_12' in min_tls_version:
         min_tls = '1.2'
     elif 'tls_11' in min_tls_version:
@@ -36,12 +38,12 @@ def run_action(credentials, rule, entity, params):
 
     try:
         sql_client = SqlManagementClient(credentials, subscription_id)
-        sql_client.servers.create_or_update(group_name, server_name, Server(location=server_location, public_network_access='Disabled', minimal_tls_version=min_tls))        
+        sql_client.servers.begin_create_or_update(group_name, server_name, Server(location=server_location, public_network_access='Disabled', minimal_tls_version=min_tls))        
         msg = f'Azure SQL public network access disabled successfully on : {server_name}, TLS version set to {min_tls}'
         logging.info(f'{__file__} - {msg}')
         return f'{msg}'
 
-    except CloudError as e:
+    except HttpResponseError as e:
         msg = f'Unexpected error : {e.message}'
         logging.info(f'{__file__} - {msg}')
         return msg
