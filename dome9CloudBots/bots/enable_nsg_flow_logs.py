@@ -2,7 +2,7 @@
 # Usage: enable_nsg_flow_logs <storage-account-name> <storage-account-resource-group> <network-watcher-name> <log-retention-days> <flow-log-name>
 # Example: enable_nsg_flow_logs my-storage-account storage-resource-group NetworkWatcher_northeurope 30 myflowlog
 # Limitations: None
-# Last checked 21/1/21
+# Last checked 8/2/21
 
 from azure.core.exceptions import HttpResponseError
 from azure.mgmt.network import NetworkManagementClient
@@ -40,7 +40,7 @@ def run_action(credentials ,rule, entity, params):
     }
 
     try:
-        network_client.flow_logs.create_or_update(nw_resource_group_name, network_watcher_name, flow_log_name, flow_log_parameters)
+        network_client.flow_logs.begin_create_or_update(nw_resource_group_name, network_watcher_name, flow_log_name, flow_log_parameters)
         msg = f'Network Security group flow logs have been enabled on: {nsg_name}'
         logging.info(f'{__file__} - {msg}')
         return f'{msg}'

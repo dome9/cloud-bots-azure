@@ -2,10 +2,10 @@
 # Usage: create_delete_resource_lock_at_resource_group_level <lock-name>
 # Example: create_delete_resource_lock_at_resource_group_level my-lock
 # Limitations: None
-# Last checked 13/1/21
+# Last checked 8/2/21
 
 import logging
-from msrestazure.azure_exceptions import CloudError
+from azure.core.exceptions import HttpResponseError
 from azure.mgmt.resource import ResourceManagementClient, ManagementLockClient
 
 def raise_credentials_error():
@@ -36,7 +36,7 @@ def run_action(credentials, rule, entity, params):
         logging.info(f'{__file__} - {msg}')
         return f'{msg}'
 
-    except CloudError as e:
+    except HttpResponseError as e:
         msg = f'Unexpected error : {e.message}'
         logging.info(f'{__file__} - {msg}')
         return msg

@@ -7,11 +7,11 @@
 # Example 1: AUTO: delete_nsg_rule_singular 556 10.0.0.0/24 - - Allow
 # Example 2: AUTO: delete_nsg_rule_singular - - 22 0.0.0.0/2 Deny
 # Limitations: Comma seperated values not supported in this release
+# Updated 8/2/21
 
 from azure.core.exceptions import HttpResponseError
 from azure.mgmt.network import NetworkManagementClient
 import logging
-import os
 from azure.mgmt.network.models import SecurityRule
 
 def run_action(credentials, rule, entity, params):

@@ -2,10 +2,10 @@
 # Usage: disable_blob_public_access
 # Usage: Example AUTO:disable_blob_public_access
 # Limitations: None
+# Updated 8/2/21
  
 import logging
-from msrestazure.azure_exceptions import CloudError
-from azure.identity import ClientSecretCredential
+from azure.core.exceptions import HttpResponseError
 from azure.mgmt.storage import StorageManagementClient
 from azure.mgmt.storage.models import StorageAccountUpdateParameters
  
