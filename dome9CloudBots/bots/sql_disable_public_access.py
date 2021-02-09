@@ -2,7 +2,7 @@
 # Usage: sql_disable_public_access <optional-min-tls-version> - supported values are tls_10, tls_11, tls_12
 # Example: sql_disable_public_access tls_12
 # Example: sql_disable_public_access
-# Limitations: None
+# Limitations: Requires a Private Endpoint Connection to be created to enable the "Deny public access" feature
 # Updated 8/2/21
 
 import logging
@@ -24,6 +24,10 @@ def run_action(credentials, rule, entity, params):
         min_tls = '1.1'
     elif 'tls_10' in min_tls_version:
         min_tls = '1.0'
+    else:
+        msg = 'TLS version not defined correctly - should be tls_10, tls_11 or tls_12'
+        logging.info(f'{__file__} - {msg}')
+        return msg
 
     logging.info(f'{__file__} - ${run_action.__name__} started')
     group_name = entity.get('resourceGroup', {}).get('name')

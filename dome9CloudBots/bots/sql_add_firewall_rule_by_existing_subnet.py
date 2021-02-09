@@ -2,12 +2,12 @@
 # Usage: sql_add_firewall_rule_by_existing_subnet - <firewall rule name> <vnet-resource-group> <existing-vnet-name> <existing-subnet-name>
 # Example: sql_add_firewall_rule_by_existing_subnet my_vnet_rule my-resource-group vnet-example subnet-example
 # Limitations: A valid VNet SQL Service Endpoint MUST already exist, or the bot will fail
-# Last checked 8/2/21
+# Last updated 9/2/21
 
 import logging
 from azure.core.exceptions import HttpResponseError
 from azure.mgmt.sql import SqlManagementClient
-from azure.mgmt.sql.models import Server
+from azure.mgmt.sql.models import Server, VirtualNetworkRule
 
 
 def raise_credentials_error():
@@ -48,7 +48,8 @@ def run_action(credentials, rule, entity, params):
 
     try:
         sql_client = SqlManagementClient(credentials, subscription_id)
-        sql_client.virtual_network_rules.begin_create_or_update(server_group_name, server_name, firewall_rule_name, subnet_path, ignore_missing_vnet_service_endpoint=False)
+        sql_client.virtual_network_rules.begin_create_or_update(server_group_name, server_name, firewall_rule_name, parameters=VirtualNetworkRule(
+            virtual_network_subnet_id=subnet_path, ignore_missing_vnet_service_endpoint=False))
         msg = f'Azure SQL firewall rule {firewall_rule_name} successfully on : {server_name}'
         logging.info(f'{__file__} - {msg}')
         return f'{msg}'
