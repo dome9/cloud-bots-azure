@@ -20,6 +20,7 @@ def run_action(credentials, rule, entity, params):
     server_name = entity['name']
     subscription_id = entity['accountNumber']
     group_name = entity['resourceGroup']
+    param_name = 'log_duration'
     logging.info(
         f'{__file__} - subscription_id : {subscription_id} - group_name : {group_name} - server_name : {server_name}')
 
@@ -28,7 +29,7 @@ def run_action(credentials, rule, entity, params):
 
     try:
         db_client = PostgreSQLManagementClient(credentials, subscription_id)
-        db_client.configurations.begin_create_or_update(group_name,server_name, 'log_duration', value='ON')   
+        db_client.configurations.begin_create_or_update(group_name,server_name, param_name, parameters=Configuration(value='ON'))  
         msg = f'Log duration was enabled successfully on PostgreSQL server: {server_name}'
         logging.info(f'{__file__} - {msg}')
         return f'{msg}'

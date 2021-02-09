@@ -122,7 +122,7 @@ def run_action(credentials, rule, entity, params):
                 
             if match_counter == fields_to_match:
                 logging.info(f'Based on pattern match, deleting rule ID {rule_name}')
-                network_client.security_rules.delete(resource_group_name, nsg_name, rule_name)
+                network_client.security_rules.begin_delete(resource_group_name, nsg_name, rule_name)
     except HttpResponseError as e:
         msg = f'unexpected error : {e.message}'
         logging.error(f'{__file__} - {msg}')

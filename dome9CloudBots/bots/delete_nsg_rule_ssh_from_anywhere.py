@@ -1,6 +1,7 @@
 # What it does: Delete any network security group rules that allows SSH access from anywhere (0.0.0.0/0)
 # Usage: AUTO: delete_ssh_rule_rdp_from_anywhere
 # Limitations: None
+# Updated 8/2/21
 
 from azure.core.exceptions import HttpResponseError
 from azure.mgmt.network import NetworkManagementClient
@@ -23,7 +24,7 @@ def run_action(credentials, rule, entity, params):
                 and 'INBOUND' in r['direction'] and 'ALLOW' in r['action']):
                     sg_rule = (r['name'])
                     print('Security Group rule name to be deleted is: ' + sg_rule)
-                    network_client.security_rules.delete(resource_group_name, nsg_name, sg_rule)
+                    network_client.security_rules.begin_delete(resource_group_name, nsg_name, sg_rule)
                     msg = f'Network Security group name: {nsg_name} rule name {sg_rule} was deleted successfully'
                     logging.info(f'{__file__} - {msg}')
             else:
