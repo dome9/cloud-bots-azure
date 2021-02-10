@@ -124,8 +124,6 @@ CloudBots:
 
 5.  Create an Azure Function App
 
-[![Deploy to Azure](https://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https://raw.githubusercontent.com/CloudGuard/cloud-bots-azure/bots_new_handler/template.json)
-
     1.  Clone the CloudBots Azure code from
          [GitHub](https://github.com/Dome9/cloud-bots-azure)
 
@@ -141,6 +139,7 @@ CloudBots:
     
     7.  Run **func azure functionapp publish *functname*** where the functname is your function name from the "**Deploy to Azure**" workflow
     
+[![Deploy to Azure](https://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https://raw.githubusercontent.com/CloudGuard/cloud-bots-azure/bots_new_handler/template.json)    
     
 6.  Deployment
     
