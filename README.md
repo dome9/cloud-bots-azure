@@ -80,12 +80,11 @@ CloudBots:
     1.  [Azure
         CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest),
         and then login to your Azure account
-    2.  [Docker](https://www.docker.com)
-    3.  [Azure Functions Core
+    2.  [Azure Functions Core
         Tools](https://github.com/Azure/azure-functions-core-tools)
-    4.  [Python 3.6.X](https://www.python.org/)
-    5.  [NodeJS \> 8.5](https://nodejs.org/en/download)
-    6.  [Microsoft .NET core
+    3.  [Python 3.6.X or higher](https://www.python.org/)
+    4.  [NodeJS \> 8.5](https://nodejs.org/en/download)
+    5.  [Microsoft .NET core
         \> 2.2](https://dotnet.microsoft.com/download/dotnet-core)
 
 2.  Create Azure App Registration:
