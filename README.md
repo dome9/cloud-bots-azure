@@ -65,11 +65,11 @@ and your CloudGuard account.
 Follow these steps to configure your Azure subscriptions to use CloudGuard
 CloudBots:
 
-  - Install packages needed by the Cloudbots
+  - Install Python and dependent packages needed by the Cloudbots
   - Create a new Azure app registration for CloudBots
   - Optionally, create a SendGrid account to forward email notifications
   - Assign IAM roles for the app registration created above
-  - Create an Azure function for the CloudBots
+  - Create an empty Azure function for the CloudBots
   - Deploy the CloudBots in the Azure subscription
 
 <!-- end list -->
@@ -148,26 +148,25 @@ step 4 (Assign Roles), above, for each subscription.
 
 # Setup your CloudGuard account
 
-On CloudGuard you must add remediation tags to rules in a compliance ruleset.
+On CloudGuard you must add remediation definitions to rules in a compliance ruleset. Refer to the latest CloudGuard documentation on how to do this (https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/PostureManagement/Remediation.html?tocpath=Posture%20Management%7C_____5#).
 
-## Configure the rules
+## Configure the remediations
 
 Follow these steps in your CloudGuard account to tag the compliance rules &
 rulesets to use bots as a remediation step.
 
-1.  In the CloudGuard web app, navigate to the Rulesets page in the
-    Compliance & Governance menu.
+1.  In the CloudGuard web app, navigate to the Remediation page in the
+    Posture Management menu.
 
-2.  Select or create a ruleset that will be used for the cloudbots.
+2.  Click Create New Remediation, in the upper right.
 
-3.  Select the rules for which you want to add a remediation step.
-
-4.  In the Compliance Section add a row with the following string:
-    `AUTO: <bot-name> <params>` where *bot-name* is the name of the bot,
-    and *params* is a list of arguments for the bot (if any).
-    
-    For example, `AUTO: ec2_virtual_machine_stop` will run the bot to
-    stop an EC2 instance.
+3.  Select the rules for which the remediation applies, from the given options. The options can be combined, and the effective rules on which the remediation applies are the combination of all the selected options.
+    - a Ruleset (mandatory)
+    - a specific Rule in the ruleset (optional, if missing, all rules are implied)
+    - a specific Entity, by its entity ID (optional, if missing, all entities are implied); this selects all rules involving the selected entities
+    - a specific Cloud Account, this applies the remediation to rules in the selected ruleset only when the ruleset is applied to the selected cloud accounts.
+    - Select the CloudBot, from the list. If the cloudbot is not in the list, select Custom, and then add the name of the cloudbot, along with the runtime arguments. The cloudbot must be deployed in the selected cloud account, in the same folder as the other bots.
+    - Add a comment (optional) and then click Save.
 
 ## Configure a Continuous Compliance policy
 
