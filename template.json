@@ -5,7 +5,7 @@
         "AzureFunctionName": {
             "type": "string",
             "metadata": {
-                "description": "Azure Function name - must be globally unique"
+                "description": "Azure CloudBots Function name - must be globally unique"
             }
         },
         "ApplicationInsightsName": {
@@ -67,6 +67,25 @@
             "type": "string",
             "metadata": {
                 "description": "Azure AD tenant ID."
+            }
+        },
+        "SendGridAPIKey": {
+            "type":"string",
+            "metadata": {
+                "description": "SendGrid API Key."
+            }
+        },
+        "RemediationEmailAddress": {
+            "type": "string",
+            "metadata": {
+                "description": "E-mail address for bot remediation alerts."
+            }
+        },
+        "SendLogs": {
+            "type": "bool",
+            "defaultValue": "true",
+            "metadata": {
+                "description": "Enable CloudBots logs to Check Point Support"
             }
         },
         "location": {
@@ -154,6 +173,18 @@
                         {
                             "name": "CG_API_SECRET",
                             "value": "[parameters('CloudGuardAPISecret')]"
+                        },
+                        {
+                            "name": "SEND_GRID_API_CLIENT",
+                            "value": "[parameters('SendGridAPIKey')]"
+                        },
+                        {
+                            "name": "OUTPUT_EMAIL",
+                            "value": "[parameters('RemediationEmailAddress')]"
+                        },
+                        {
+                            "name": "SEND_LOGS",
+                            "value": "[parameters('SendLogs')]"
                         }
                     ]
                 },
