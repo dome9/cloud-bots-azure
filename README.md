@@ -123,6 +123,7 @@ CloudBots:
     7.  Repeat these steps for each additional Subscription.
 
 5.  Create an Azure Function App
+
 [![Deploy to Azure](https://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https://raw.githubusercontent.com/CloudGuard/cloud-bots-azure/bots_new_handler/template.json)
 
     
