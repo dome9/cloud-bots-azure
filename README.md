@@ -16,33 +16,33 @@
       - [Setup your Azure subscriptions for
         CloudBots](#setup-your-azure-subscriptions-for-cloudbots)
       - [Multiple Accounts](#multiple-accounts)
-  - [Setup your Dome9 account](#setup-your-dome9-account)
+  - [Setup your Dome9 account](#setup-your-CloudGuard-account)
       - [Configure the rules](#configure-the-rules)
       - [Configure a Continuous Compliance
         policy](#configure-a-continuous-compliance-policy)
   - [Update the CloudBots code](#update-the-cloudbots-code)
   - [Log Collection for
     Troubleshooting](#log-collection-for-troubleshooting)
-  - [What are Dome9 CloudBots?](#what-are-dome9-cloudbots)
+  - [What are CloudGuard CloudBots?](#what-are-CloudGuard-cloudbots)
       - [Flow Diagram](#flow-diagram)
           - [The Bots](#the-bots)
       - [Onboarding](#onboarding)
           - [Setup your Azure account for
             CloudBots](#setup-your-azure-account-for-cloudbots)
           - [Multiple Accounts](#multiple-accounts)
-      - [Setup your Dome9 account](#setup-your-dome9-account)
+      - [Setup your CloudGuard account](#setup-your-CloudGuard-account)
           - [Configure the rules](#configure-the-rules)
           - [Configure the Continuous Compliance
             policy](#configure-the-continuous-compliance-policy)
       - [Log Collection for
         Troubleshooting](#log-collection-for-troubleshooting)
 
-## What are Dome9 CloudBots?
+## What are CloudGuard CloudBots?
 
 Cloud-Bots is an auto remediation solution for Azure, built on top of
-the CloudGuard Dome9 Continuous Compliance capabilities.
+the CloudGuard Native Continuous Compliance capabilities.
 
-They can also be used standalone, without Dome9, to remedy issues in AWS
+They can also be used standalone, without CloudGuard, to remedy issues in AWS
 accounts. Details are included how to configure and trigger them.
 
 # Flow Diagram
@@ -58,11 +58,11 @@ trigger it.
 # Deploy the CloudBots to your Azure accounts
 
 To use the CloudBots in your Azure accounts, you must setup your account
-and your Dome9 account.
+and your CloudGuard account.
 
 ## Setup your Azure subscriptions for CloudBots
 
-Follow these steps to configure your Azure subscriptions to use Dome9
+Follow these steps to configure your Azure subscriptions to use CloudGuard
 CloudBots:
 
   - Install packages needed by the Cloudbots
@@ -91,7 +91,7 @@ CloudBots:
     
     1.  In the Azure portal, navigate to App registrations, and the
         click *New registration*.
-    2.  Enter a name for the app (for example, *dome9CloudBots*), then
+    2.  Enter a name for the app (for example, *CloudGuardCloudBots*), then
         click *Register*.
     3.  Save the *Application (client) ID* and *Directory (tenant) ID*.
     4.  Navigate to *Certificates & secrets*, from the left side menu,
@@ -106,7 +106,7 @@ CloudBots:
     2.  Click *Add*, and complete the signup form.
     3.  Select the new SendGrid account, and then click *Manage*.
     4.  Select *Settings -\> API Keys*, and then click *Create API Key.*
-    5.  Enter a name (for example, *dome9CloudBots*), select *Full
+    5.  Enter a name (for example, *CloudGuardCloudBots*), select *Full
         Access*, then click *Create & View*.
     6.  Save the key value (will be needed in a later step).
 
@@ -123,14 +123,14 @@ CloudBots:
     7.  Repeat these steps for each additional Subscription.
 
 5.  Create an Azure Function App
-[![Deploy to Azure](https://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https://raw.githubusercontent.com/dome9/cloud-bots-azure/bots_new_handler/template.json)
+[![Deploy to Azure](https://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https://raw.githubusercontent.com/CloudGuard/cloud-bots-azure/bots_new_handler/template.json)
 
     
     1.  Navigate to *Function App*.
     2.  Click *Add*.
     3.  Complete the form with the following (all other values - leave
         the default):
-          - App name: dome9CloudBots
+          - App name: CloudGuardCloudBots
           - Resource Group: use the name from step 2, above.
           - OS: Linux
           - Runtime Stack: Python
@@ -168,7 +168,7 @@ CloudBots:
         
         Name: OUTPUT\_EMAIL Value: enter email address
         
-        Name: SEND\_LOGS Value: True to enable logging to Dome9, False
+        Name: SEND\_LOGS Value: True to enable logging to CloudGuard, False
         to disable logging
     
     7.  Click *Save*.
@@ -178,16 +178,16 @@ CloudBots:
 If you are deploying CloudBots on several Azure subscriptions, repeat
 step 4 (Assign Roles), above, for each subscription.
 
-# Setup your Dome9 account
+# Setup your CloudGuard account
 
-On Dome9 you must add remediation tags to rules in a compliance ruleset.
+On CloudGuard you must add remediation tags to rules in a compliance ruleset.
 
 ## Configure the rules
 
-Follow these steps in your Dome9 account to tag the compliance rules &
+Follow these steps in your CloudGuard account to tag the compliance rules &
 rulesets to use bots as a remediation step.
 
-1.  In the Dome9 web app, navigate to the Rulesets page in the
+1.  In the CloudGuard web app, navigate to the Rulesets page in the
     Compliance & Governance menu.
 
 2.  Select or create a ruleset that will be used for the cloudbots.
@@ -217,14 +217,14 @@ Azure function webhook.
 6.  Select *Send to HTTP Endpoint* and enter the URL from the Function
     App and then click **SAVE**.
 
-**Note:** Dome9 will send event messages to the webhook for new
+**Note:** CloudGuard will send event messages to the webhook for new
 findings. To send events for previous findings, follow these steps:
 
 1.  Navigate to the **Policies** page.
 2.  Find the ruleset and account in the list, and hover over the right
     of the row, then click on the *Send All Alerts* icon.
 3.  Select the *webhook* Notification Type option, and the Notification
-    Policy (the one created above), then click **SEND**. Dome9 will send
+    Policy (the one created above), then click **SEND**. CloudGuard will send
     event messages to the Azure function webhook.
 
 # Update the CloudBots code
@@ -243,7 +243,7 @@ findings. To send events for previous findings, follow these steps:
 
 # Log Collection for Troubleshooting
 
-The cloudbots send log information to Dome9, that is used for
+The cloudbots send log information to CloudGuard, that is used for
 troubleshooting. By default, this is enabled for all bots. You can
 disable this in your Azure account. Select the function, and set the
 environment variable SEND\_LOGS to False. This will apply to all bots in
