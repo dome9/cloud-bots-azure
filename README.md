@@ -150,23 +150,23 @@ step 4 (Assign Roles), above, for each subscription.
 
 On CloudGuard you must add remediation definitions to rules in a compliance ruleset. Refer to the latest CloudGuard documentation on how to do this (https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/PostureManagement/Remediation.html?tocpath=Posture%20Management%7C_____5#).
 
-## Configure the remediations
+## Configure the Remediation
 
 Follow these steps in your CloudGuard account to tag the compliance rules &
 rulesets to use bots as a remediation step.
 
-1.  In the CloudGuard web app, navigate to the Remediation page in the
+1.  In the CloudGuard web app, navigate to the **Remediation** page in the
     Posture Management menu.
 
-2.  Click Create New Remediation, in the upper right.
+2.  Click **Create New Remediation**, in the upper right.
 
 3.  Select the rules for which the remediation applies, from the given options. The options can be combined, and the effective rules on which the remediation applies are the combination of all the selected options.
-    - a Ruleset (mandatory)
-    - a specific Rule in the ruleset (optional, if missing, all rules are implied)
-    - a specific Entity, by its entity ID (optional, if missing, all entities are implied); this selects all rules involving the selected entities
-    - a specific Cloud Account, this applies the remediation to rules in the selected ruleset only when the ruleset is applied to the selected cloud accounts.
+    - A Ruleset (mandatory)
+    - A specific Rule in the ruleset (optional, if missing, all rules are implied)
+    - A specific Entity, by its entity ID (optional, if missing, all entities are implied); this selects all rules involving the selected entities
+    - A specific Cloud Account, this applies the remediation to rules in the selected ruleset only when the ruleset is applied to the selected cloud accounts.
     - Select the CloudBot, from the list. If the cloudbot is not in the list, select Custom, and then add the name of the cloudbot, along with the runtime arguments. The cloudbot must be deployed in the selected cloud account, in the same folder as the other bots.
-    - Add a comment (optional) and then click Save.
+    - Add a comment and then click **Save**.
 
 ## Configure a Continuous Compliance policy
 
@@ -200,10 +200,7 @@ findings. To send events for previous findings, follow these steps:
 1.  Deployment
     1.  Clone the CloudBots Azure code from
         [GitHub](https://github.com/Dome9/cloud-bots-azure)
-    2.  Navigate to the locally cloned CloudBots directory and run the
-        following command: `func init --docker`
-    3.  Select *Python*.
-    4.  Deploy the code to the remote Function App (this could take a
+    2.  Deploy the code to the remote Function App (this could take a
         while). Run the following command, replacing ${functionAppName}
         with the Function App name that was given in the previous step
         (5 (v)): `func azure functionapp publish ${functionAppName}`
