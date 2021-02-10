@@ -5,20 +5,20 @@
         "AzureFunctionName": {
             "type": "string",
             "metadata": {
-                "description": "Azure CloudBots Function name - must be globally unique"
+                "description": "Azure CloudBots Function name - must be globally unique (example : acme-bots-azure)"
             }
         },
         "ApplicationInsightsName": {
             "type": "string",
             "metadata": {
-                "description": "Application Insights instance name."
+                "description": "Application Insights instance name, should be the same as the Function App name (example : acme-bots-azure)"
             }
         },
         "StorageAccountName": {
             "type": "string",
             "maxLength": 24,
             "metadata": {
-                "description": "Storage account name (must be globally unique, max 24 characters)."
+                "description": "Storage account name (must be globally unique, max 24 characters. Example : acmebotsstorage)"
             }
         },
         "NewOrExistingStorageAccount": {
@@ -42,43 +42,43 @@
         "CloudGuardAPIKey": {
             "type": "string",
             "metadata": {
-                "description": "CloudGuard API key value."
+                "description": "CloudGuard API key value (example : 860dd9e5-10ae-4b0d-8635-71b34542e01z)"
             }
         },
         "CloudGuardAPISecret": {
             "type": "securestring",
             "metadata": {
-                "description": "CloudGuard API key secret value."
+                "description": "CloudGuard API key secret value (example : of9m1exysmjrpsd44ghyj5sp)"
             }
         },
         "AzureApplicationID": {
             "type": "string",
             "metadata": {
-                "description": "Azure application registration ID (AppID)."
+                "description": "Azure application registration ID (AppID) (example : 8d534c4d-ff39-4d5b-bb5a-0df3a2e843f5)"
             }
         },
         "AzureApplicationSecret": {
             "type": "securestring",
             "metadata": {
-                "description": "Azure Application ID secret key."
+                "description": "Azure Application ID secret key (example : cXC.4sVwq8i4k6Om.~j4Eo9_1ga0GN4-.F"
             }
         },
         "AzureADTenantID": {
             "type": "string",
             "metadata": {
-                "description": "Azure AD tenant ID."
+                "description": "Azure AD tenant ID (example : 12cf329b-a194-41a2-a0e9-32d934f3d0bc"
             }
         },
         "SendGridAPIKey": {
             "type":"string",
             "metadata": {
-                "description": "SendGrid API Key."
+                "description": "SendGrid API Key (example : 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"
             }
         },
         "RemediationEmailAddress": {
             "type": "string",
             "metadata": {
-                "description": "E-mail address for bot remediation alerts."
+                "description": "E-mail address for bot remediation alerts (example : remediation@acme.com)"
             }
         },
         "SendLogs": {
