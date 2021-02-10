@@ -39,18 +39,6 @@
                 "description": "Storage Account type"
             }
         },
-        "CloudGuardAPIKey": {
-            "type": "string",
-            "metadata": {
-                "description": "CloudGuard API key value (example : 860dd9e5-10ae-4b0d-8635-71b34542e01z)"
-            }
-        },
-        "CloudGuardAPISecret": {
-            "type": "securestring",
-            "metadata": {
-                "description": "CloudGuard API key secret value (example : of9m1exysmjrpsd44ghyj5sp)"
-            }
-        },
         "AzureApplicationID": {
             "type": "string",
             "metadata": {
@@ -165,14 +153,6 @@
                         {
                             "name": "AZURE_TENANT_ID",
                             "value": "[parameters('AzureADTenantID')]"
-                        },
-                        {
-                            "name": "CG_API_KEY",
-                            "value": "[parameters('CloudGuardAPIKey')]"
-                        },
-                        {
-                            "name": "CG_API_SECRET",
-                            "value": "[parameters('CloudGuardAPISecret')]"
                         },
                         {
                             "name": "SEND_GRID_API_CLIENT",
