@@ -126,20 +126,20 @@ CloudBots:
 
 [![Deploy to Azure](https://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https://raw.githubusercontent.com/CloudGuard/cloud-bots-azure/bots_new_handler/template.json)
 
-    1. Clone the CloudBots Azure code from
+    1.  Clone the CloudBots Azure code from
          [GitHub](https://github.com/Dome9/cloud-bots-azure)
 
-    2. Click the "Deploy to Azure" button and fill out the deployment form
+    2.  Click the "Deploy to Azure" button and fill out the deployment form
 
-    3. Both the **Azure Function** name and the **Storage Account** name **must be globally unique or deployment will fail (if a new storage account is created)**
+    3.  Both the **Azure Function** name and the **Storage Account** name **must be globally unique or deployment will fail (if a new storage account is created)**
     
-    4. Once the ARM template deployment is complete, open a command prompt and navigate to the **azd9-autoonboarding** folder
+    4.  Once the ARM template deployment is complete, open a command prompt and navigate to the **azd9-autoonboarding** folder
     
-    5. Install the Azure Functions command line tools (*https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=windows%2Ccsharp%2Cbash*)
+    5.  Install the Azure Functions command line tools (*https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=windows%2Ccsharp%2Cbash*)
 
-    6. Run **func init**
+    6.  Run **func init**
     
-    7. Run **func azure functionapp publish *functname*** where the functname is your function name from the "**Deploy to Azure**" workflow
+    7.  Run **func azure functionapp publish *functname*** where the functname is your function name from the "**Deploy to Azure**" workflow
     
     
 6.  Deployment
