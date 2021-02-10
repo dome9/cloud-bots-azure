@@ -42,8 +42,8 @@
 Cloud-Bots is an auto remediation solution for Azure, built on top of
 the CloudGuard Native Continuous Compliance capabilities.
 
-They can also be used standalone, without CloudGuard, to remedy issues in AWS
-accounts. Details are included how to configure and trigger them.
+They can also be used standalone, without CloudGuard, to remedy issues in Azure
+subscriptions. Details are included how to configure and trigger them.
 
 # Flow Diagram
 
@@ -125,13 +125,13 @@ CloudBots:
 5.  Create an Azure Function App
 
     1.  Clone the CloudBots Azure code from
-         [GitHub](https://github.com/Dome9/cloud-bots-azure)
+         [GitHub](https://github.com/Dome9/cloud-bots-azure) *(git clone https://github.com/dome9/cloud-bots-azure.git)*
 
     2.  Click the "Deploy to Azure" button and fill out the deployment form
 
-    3.  Both the **Azure Function** name and the **Storage Account** name **must be globally unique or deployment will fail (if a new storage account is created)**
+    3.  Both the Azure Function name and the Storage Account name **must be globally unique or deployment will fail (if a new storage account is created)**
     
-    4.  Once the ARM template deployment is complete, open a command prompt and navigate to the **azd9-autoonboarding** folder
+    4.  Once the ARM template deployment is complete, open a command prompt and navigate to the *cloud-bots-azure* folder
     
     5.  Install the Azure Functions command line tools (*https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=windows%2Ccsharp%2Cbash*)
 
@@ -141,43 +141,6 @@ CloudBots:
     
 [![Deploy to Azure](https://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https://raw.githubusercontent.com/CloudGuard/cloud-bots-azure/bots_new_handler/template.json)    
     
-6.  Deployment
-    
-    1.  Clone the CloudBots Azure code from
-        [GitHub](https://github.com/Dome9/cloud-bots-azure)
-    
-    2.  Navigate to the locally cloned CloudBots directory and run the
-        following command: `func init --docker`
-    
-    3.  Select *Python*.
-    
-    4.  Deploy the code to the remote Function App (this could take a
-        while). Run the following command, replacing ${functionAppName}
-        with the Function App name that was given in the previous step
-        (5 (v)): `func azure functionapp publish ${functionAppName}`
-    
-    5.  In the Azure portal, navigate to the Function App and then to
-        *Configuration*.
-    
-    6.  Set the following environment variables. Click *New application
-        settings* and repeat for each item:
-        
-        Name: SECRET Value: enter the value from step 2 (v)
-        
-        Name: TENANT Value: enter the value from step 2 (iii)
-        
-        Name: CLIENT\_ID Value: enter the value from step 2 (iii)
-        
-        Name: SEND\_GRID\_API\_CLIENT Value: enter the value from step 3
-        (vi)
-        
-        Name: OUTPUT\_EMAIL Value: enter email address
-        
-        Name: SEND\_LOGS Value: True to enable logging to CloudGuard, False
-        to disable logging
-    
-    7.  Click *Save*.
-
 ## Multiple Accounts
 
 If you are deploying CloudBots on several Azure subscriptions, repeat
