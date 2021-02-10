@@ -1,4 +1,4 @@
-# Last checked 13/1/21
+# Last update 10/2/21
 
 from azure.core.exceptions import HttpResponseError
 from azure.mgmt.compute import ComputeManagementClient
@@ -16,7 +16,7 @@ def run_action(credentials ,rule, entity, params):
         return f'{msg}' 
     compute_client = ComputeManagementClient(credentials, subscription_id) 
     try:
-        compute_client.virtual_machines.deallocate(group_name, vm_name)
+        compute_client.virtual_machines.begin_deallocate(group_name, vm_name)
         id = entity.get('id')
         msg = f'Virtual machine was deallocated. id: {id}'
         logging.info(f'{__file__} - {msg}')
