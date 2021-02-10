@@ -139,7 +139,7 @@ CloudBots:
     
     7.  Run **func azure functionapp publish *functname*** where the functname is your function name from the "**Deploy to Azure**" workflow
     
-[![Deploy to Azure](https://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/%3A%2F%2Fraw.githubusercontent.com%2F/Dome9%2Fcloud-bots-azure%2Fbots_new_handler%2Ftemplate.json)    
+[![Deploy to Azure](https://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2F/Dome9%2Fcloud-bots-azure%2Fbots_new_handler%2Ftemplate.json)    
     
 ## Multiple Accounts
 
