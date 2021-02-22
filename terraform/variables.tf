@@ -25,7 +25,7 @@ variable "resource_group_name" {
 }
 
 variable "storage_account_name" {
-    description = "Name of the storage account for CloudBots code and logs"
+    description = "Name of the storage account for CloudBots code and logs (MUST BE GLOBALLY UNIQUE)"
     default = "sacloudbots"
 }
 
