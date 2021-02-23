@@ -7,8 +7,9 @@
 # Example 1: AUTO: delete_network_security_group_single_rule 556 10.0.0.0/24 - - Allow
 # Example 2: AUTO: delete_network_security_group_single_rule - - 22 0.0.0.0/2 Deny
 # Limitations: None
+# Updated 8/2/21
 
-from msrestazure.azure_exceptions import CloudError
+from azure.core.exceptions import HttpResponseError
 from azure.mgmt.network import NetworkManagementClient
 import logging
 
@@ -107,13 +108,13 @@ def run_action(credentials, rule, entity, params):
 
         nsg_dict['security_rules'] = security_rules
         nsg_after_change = nsg.from_dict(nsg_dict)
-        network_client.network_security_groups.create_or_update(resource_group_name, nsg_name, nsg_after_change)
+        network_client.network_security_groups.begin_create_or_update(resource_group_name, nsg_name, nsg_after_change)
         entity_ID = entity.get('id')
         msg = f'Network Security group name: {nsg_name} with id: {entity_ID} was modified'
         logging.info(f'{__file__} - {msg}')
         return f'{msg}'
 
-    except CloudError as e:
+    except HttpResponseError as e:
         msg = f'unexpected error : {e.message}'
         logging.info(f'{__file__} - {msg}')
 

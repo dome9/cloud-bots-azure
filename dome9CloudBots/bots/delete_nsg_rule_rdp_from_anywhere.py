@@ -2,7 +2,7 @@
 # Usage: AUTO: delete_nsg_rule_rdp_from_anywhere
 # Limitations: None
 
-from msrestazure.azure_exceptions import CloudError
+from azure.core.exceptions import HttpResponseError
 from azure.mgmt.network import NetworkManagementClient
 import logging
 
@@ -27,14 +27,14 @@ def run_action(credentials, rule, entity, params):
                 and 'INBOUND' in r['direction'] and 'ALLOW' in r['action']):
                     sg_rule = (r['name'])
                     print('Security Group rule name to be deleted is: ' + sg_rule)
-                    network_client.security_rules.delete(resource_group_name, nsg_name, sg_rule)
+                    network_client.security_rules.begin_delete(resource_group_name, nsg_name, sg_rule)
                     msg = f'Network Security group name: {nsg_name} rule name {sg_rule} was deleted successfully'
                     logging.info(f'{__file__} - {msg}')
             else:
                     sg_rule = (r['name'])
                     msg = f'Network Security group rule: {sg_rule} does not meet the deletion criteria and was not deleted'
                     logging.info(f'{__file__} - {msg}')
-    except CloudError as e:
+    except HttpResponseError as e:
         msg = f'unexpected error : {e.message}'
         logging.info(f'{__file__} - {msg}')
 

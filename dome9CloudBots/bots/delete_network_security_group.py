@@ -1,7 +1,14 @@
-from msrestazure.azure_exceptions import CloudError
+# What it does: Delete network security group 
+# Deletion will be performed by given NSG
+# Usage: delete_network_security_group
+# Example: delete_network_security_group
+# Limitations: None
+# Updated 8/2/21
+
+from azure.core.exceptions import HttpResponseError
 from azure.mgmt.network import NetworkManagementClient
-from azure.mgmt.network.v2019_02_01.models import NetworkSecurityGroup
-from azure.mgmt.network.v2019_02_01.models import SecurityRule
+from azure.mgmt.network.models import NetworkSecurityGroup
+from azure.mgmt.network.models import SecurityRule
 
 import logging
 
@@ -15,18 +22,15 @@ def run_action(credentials ,rule, entity, params):
         msg = 'Error! Subscription id or Resource group name are missing.'
         logging.info(f'{__file__} - {msg}')
         return f'{msg}' 
-    network_client = NetworkManagementClient(
-    credentials,
-    subscription_id
-    )
+    network_client = NetworkManagementClient(credentials, subscription_id)
     try:                 
         network_client.network_security_groups.get(resource_group_name, nsg_name)     
-        network_client.network_security_groups.delete(resource_group_name, nsg_name)     
+        network_client.network_security_groups.begin_delete(resource_group_name, nsg_name)     
         id = entity.get('id')
         msg = f'Network Security group was deleted. id: {id}'
         logging.info(f'{__file__} - {msg}')
         return f'{msg}'
-    except CloudError as e:   
+    except HttpResponseError as e:   
         msg = f'unexpected error : {e.message}'
         logging.info(f'{__file__} - {msg}') 
         return f'{msg}'

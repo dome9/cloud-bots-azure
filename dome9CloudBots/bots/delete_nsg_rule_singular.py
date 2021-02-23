@@ -7,13 +7,12 @@
 # Example 1: AUTO: delete_nsg_rule_singular 556 10.0.0.0/24 - - Allow
 # Example 2: AUTO: delete_nsg_rule_singular - - 22 0.0.0.0/2 Deny
 # Limitations: Comma seperated values not supported in this release
+# Updated 8/2/21
 
-from msrestazure.azure_exceptions import CloudError
+from azure.core.exceptions import HttpResponseError
 from azure.mgmt.network import NetworkManagementClient
 import logging
-import os
-from azure.common.credentials import ServicePrincipalCredentials
-from azure.mgmt.network.v2019_02_01.models import SecurityRule, SecurityRulePaged
+from azure.mgmt.network.models import SecurityRule
 
 def run_action(credentials, rule, entity, params):
     destination_port, destination_scope, source_port, source_scope, access = params
@@ -25,10 +24,7 @@ def run_action(credentials, rule, entity, params):
 
     try:
         # Instantiate Network Client Connection
-        network_client = NetworkManagementClient(
-            credentials,
-            subscription_id
-                )
+        network_client = NetworkManagementClient(credentials, subscription_id)
 
         # Set field to be ignored on AUTO tag
         ignore_field = '-'
@@ -126,8 +122,8 @@ def run_action(credentials, rule, entity, params):
                 
             if match_counter == fields_to_match:
                 logging.info(f'Based on pattern match, deleting rule ID {rule_name}')
-                network_client.security_rules.delete(resource_group_name, nsg_name, rule_name)
-    except CloudError as e:
+                network_client.security_rules.begin_delete(resource_group_name, nsg_name, rule_name)
+    except HttpResponseError as e:
         msg = f'unexpected error : {e.message}'
         logging.error(f'{__file__} - {msg}')
 

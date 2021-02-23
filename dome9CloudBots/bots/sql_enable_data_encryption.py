@@ -4,21 +4,13 @@
 # Corresponds with rule D9.AZU.CRY.11
 # Usage: AUTO: sql_enable_data_encryption
 # Limitations: None
+# Last updated 10/2/21
 
-from azure.common.credentials import ServicePrincipalCredentials
 import logging
-import os
-from msrestazure.azure_exceptions import CloudError
+from azure.core.exceptions import HttpResponseError
 from azure.mgmt.sql import SqlManagementClient
-from azure.mgmt.sql.models import TransparentDataEncryptionStatus
+from azure.mgmt.sql.models import TransparentDataEncryptionStatus, TransparentDataEncryption
 import re
-
-# Set Azure AD credentials from the environment variables
-credentials = ServicePrincipalCredentials(
-    client_id=os.environ['CLIENT_ID'],
-    secret=os.environ['SECRET'],
-    tenant=os.environ['TENANT']
-)
 
 def raise_credentials_error():
     msg = 'Error! Subscription id or credentials are missing.'
@@ -34,6 +26,7 @@ def run_action(credentials, rule, entity, params):
     server_name = split_id[8]
     print(group_name)
     database_name = split_id[10]
+    tde_name='current'
     logging.info(
         f'{__file__} - subscription_id : {subscription_id} - group_name : {group_name} - server_name : {server_name} - database_name : {database_name}')
 
@@ -42,12 +35,13 @@ def run_action(credentials, rule, entity, params):
 
     try:
         sql_client = SqlManagementClient(credentials, subscription_id)
-        sql_client.transparent_data_encryptions.create_or_update(group_name, server_name, database_name, status=TransparentDataEncryptionStatus.enabled)  
+        sql_client.transparent_data_encryptions.create_or_update(group_name, server_name, database_name, tde_name,
+            parameters=TransparentDataEncryption(status=TransparentDataEncryptionStatus.enabled))  
         msg = f'Transparent data encryption enabled successfully on database : {database_name}'
         logging.info(f'{__file__} - {msg}')
         return f'{msg}'
 
-    except CloudError as e:
+    except HttpResponseError as e:
         msg = f'Unexpected error : {e.message}'
         logging.info(f'{__file__} - {msg}')
         return msg

@@ -1,0 +1,176 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "AzureFunctionName": {
+            "type": "string",
+            "metadata": {
+                "description": "Azure CloudBots Function name - must be globally unique (example : acme-bots-azure)"
+            }
+        },
+        "ApplicationInsightsName": {
+            "type": "string",
+            "metadata": {
+                "description": "Application Insights instance name, should be the same as the Function App name (example : acme-bots-azure)"
+            }
+        },
+        "StorageAccountName": {
+            "type": "string",
+            "maxLength": 24,
+            "metadata": {
+                "description": "Storage account name (must be globally unique, max 24 characters. Example : acmebotsstorage)"
+            }
+        },
+        "NewOrExistingStorageAccount": {
+            "type": "string",
+            "allowedValues": [
+                "new",
+                "existing"
+            ]
+        },
+        "StorageAccountType": {
+            "type": "string",
+            "allowedValues": [
+                "Standard_LRS",
+                "Standard_GRS",
+                "Standard_RAGRS"
+            ],
+            "metadata": {
+                "description": "Storage Account type"
+            }
+        },
+        "AzureApplicationID": {
+            "type": "string",
+            "metadata": {
+                "description": "Azure application registration ID (AppID) (example : 8d534c4d-ff39-4d5b-bb5a-0df3a2e843f5)"
+            }
+        },
+        "AzureApplicationSecret": {
+            "type": "securestring",
+            "metadata": {
+                "description": "Azure Application ID secret key (example : cXC.4sVwq8i4k6Om.~j4Eo9_1ga0GN4-.F"
+            }
+        },
+        "AzureADTenantID": {
+            "type": "string",
+            "metadata": {
+                "description": "Azure AD tenant ID (example : 12cf329b-a194-41a2-a0e9-32d934f3d0bc"
+            }
+        },
+        "SendGridAPIKey": {
+            "type":"string",
+            "metadata": {
+                "description": "SendGrid API Key (example : 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"
+            }
+        },
+        "RemediationEmailAddress": {
+            "type": "string",
+            "metadata": {
+                "description": "E-mail address for bot remediation alerts (example : remediation@acme.com)"
+            }
+        },
+        "SendLogs": {
+            "type": "bool",
+            "defaultValue": "true",
+            "metadata": {
+                "description": "Enable CloudBots logs to Check Point Support"
+            }
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "Location for all resources."
+            }
+        }
+    },
+    "variables": {
+        "sa-name": "[parameters('StorageAccountName')]",
+        "storageAccountid": "[resourceId('Microsoft.Storage/storageAccounts', parameters('StorageAccountName'))]" 
+    },
+    "resources": [
+        {
+            "condition": "[equals(parameters('NewOrExistingStorageAccount'),'new')]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "name": "[variables('sa-name')]",
+            "apiVersion": "2019-04-01",
+            "location": "[resourceGroup().location]",
+            "kind": "StorageV2",
+            "sku": {
+                "name": "[parameters('storageAccountType')]"
+            }
+        },
+        {
+            "apiVersion": "2015-05-01",
+            "name": "[parameters('ApplicationInsightsName')]",
+            "type": "Microsoft.Insights/components",
+            "kind": "web",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', parameters('AzureFunctionName'))]": "Resource"
+            },
+            "properties": {
+                "Application_Type": "web",
+                "ApplicationId": "[parameters('ApplicationInsightsName')]"
+            }
+        },
+        {
+            "apiVersion": "2015-08-01",
+            "type": "Microsoft.Web/sites",
+            "kind": "functionapp,linux",
+            "name": "[parameters('AzureFunctionName')]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('StorageAccountName'))]",
+                "[resourceId('Microsoft.Insights/components', parameters('ApplicationInsightsName'))]"
+            ],
+            "properties": {
+                "siteConfig": {
+                    "appSettings": [
+                        {
+                            "name": "AzureWebJobsStorage",
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('StorageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]"
+                        },
+                        {
+                            "name": "FUNCTIONS_WORKER_RUNTIME",
+                            "value": "python"
+                        },
+                        {
+                            "name": "FUNCTIONS_EXTENSION_VERSION",
+                            "value": "~2"
+                        },
+                        {
+                            "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                            "value": "[reference(resourceId('microsoft.insights/components/', parameters('ApplicationInsightsName')), '2015-05-01').InstrumentationKey]"
+                        },
+                        {   "name": "AZURE_CLIENT_ID",
+                            "value": "[parameters('AzureApplicationID')]"
+                        },
+                        {
+                            "name": "AZURE_CLIENT_SECRET",
+                            "value": "[parameters('AzureApplicationSecret')]"
+                        },
+                        {
+                            "name": "AZURE_TENANT_ID",
+                            "value": "[parameters('AzureADTenantID')]"
+                        },
+                        {
+                            "name": "SEND_GRID_API_CLIENT",
+                            "value": "[parameters('SendGridAPIKey')]"
+                        },
+                        {
+                            "name": "OUTPUT_EMAIL",
+                            "value": "[parameters('RemediationEmailAddress')]"
+                        },
+                        {
+                            "name": "SEND_LOGS",
+                            "value": "[parameters('SendLogs')]"
+                        }
+                    ]
+                },
+                "reserved": true
+            }
+        }
+        
+    ]
+}

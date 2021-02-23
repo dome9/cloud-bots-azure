@@ -4,20 +4,12 @@
 # Corresponds with rule D9.AZU.CRY.17
 # Usage: AUTO: postgres_enforce_ssl_connection_tls_12
 # Limitations: None
+# Updated 8/2/21
 
-from azure.common.credentials import ServicePrincipalCredentials
 import logging
-import os
 from azure.mgmt.rdbms.postgresql import PostgreSQLManagementClient
-from msrestazure.azure_exceptions import CloudError
+from azure.core.exceptions import HttpResponseError
 from azure.mgmt.rdbms.postgresql.models import ServerUpdateParameters
-
-# Set Azure AD credentials from the environment variables
-credentials = ServicePrincipalCredentials(
-    client_id=os.environ['CLIENT_ID'],
-    secret=os.environ['SECRET'],
-    tenant=os.environ['TENANT']
-)
 
 def raise_credentials_error():
     msg = 'Error! Subscription id or credentials are missing.'
@@ -37,7 +29,7 @@ def run_action(credentials, rule, entity, params):
 
     try:
         db_client = PostgreSQLManagementClient(credentials, subscription_id)
-        db_client.servers.update(group_name, 
+        db_client.servers.begin_update(group_name, 
                                  server_name, 
                                  ServerUpdateParameters(ssl_enforcement='Enabled', minimal_tls_version="TLS1_2"))   
         msg = f'Force SSL connection was enabled successfully on PostgreSQL server: {server_name}'
@@ -45,7 +37,7 @@ def run_action(credentials, rule, entity, params):
         logging.info(f'{__file__} - {msg}')
         return f'{msg}'
 
-    except CloudError as e:
+    except HttpResponseError as e:
         msg = f'Unexpected error : {e.message}'
         logging.info(f'{__file__} - {msg}')
         return msg
