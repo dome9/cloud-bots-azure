@@ -76,6 +76,23 @@
                 "description": "Enable CloudBots logs to Check Point Support"
             }
         },
+        "BasicAuthEnabled": {
+            "type" : "string",
+            "defaultValue": "0",
+            "allowedValues": ["0", "1"]
+        },
+        "BasicAuthUsername": {
+            "type" : "string",
+            "metadata": {
+                "description": "Basic Auth Username"
+            }
+        },
+        "BasicAuthPassword": {
+            "type" : "string",
+            "metadata": {
+                "description": "Basic Auth Password"
+            }
+        },
         "location": {
             "type": "string",
             "defaultValue": "[resourceGroup().location]",
@@ -165,6 +182,18 @@
                         {
                             "name": "SEND_LOGS",
                             "value": "[parameters('SendLogs')]"
+                        },
+                        {
+                            "name": "BASIC_AUTH_ENABLED",
+                            "value": "[parameters('BasicAuthEnabled')]"
+                        },
+                        {
+                            "name": "BASIC_AUTH_USERNAME",
+                            "value": "[parameters('BasicAuthUsername')]"
+                        },
+                        {
+                            "name": "BASIC_AUTH_PASSWORD",
+                            "value": "[parameters('BasicAuthPassword')]"
                         }
                     ]
                 },
