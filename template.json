@@ -143,15 +143,15 @@
                             "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
                             "value": "[reference(resourceId('microsoft.insights/components/', parameters('ApplicationInsightsName')), '2015-05-01').InstrumentationKey]"
                         },
-                        {   "name": "AZURE_CLIENT_ID",
+                        {   "name": "CLIENT_ID",
                             "value": "[parameters('AzureApplicationID')]"
                         },
                         {
-                            "name": "AZURE_CLIENT_SECRET",
+                            "name": "SECRET",
                             "value": "[parameters('AzureApplicationSecret')]"
                         },
                         {
-                            "name": "AZURE_TENANT_ID",
+                            "name": "TENANT",
                             "value": "[parameters('AzureADTenantID')]"
                         },
                         {
