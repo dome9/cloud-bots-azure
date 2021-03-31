@@ -39,7 +39,7 @@ variable "function_name" {
     default = "cloudbots-function"
 }
 
-variable "client_id" {
+variable "azure_client_id" {
     description = "The App Registration client ID"
     default = "xxxxx-xxxxx-xxxxxx-xxxxx"
 }
@@ -49,7 +49,7 @@ variable "output_email" {
     default = "a.person@acme.com"
 }
 
-variable "secret" {
+variable "azure_client_secret" {
     description = "The App Registration secret key"
     default = "xxxxxxxxx"
 }
@@ -64,7 +64,22 @@ variable "send_logs" {
     default = "true"
 }
 
-variable "tenant" {
+variable "basic_auth_enabled" {
+    description = "Basic Auth Enabled Flag"
+    default = "0"
+}
+
+variable "basic_auth_username" {
+    description = "Basic Auth Username"
+    default = "xxxxxxxxxxxxxxx"
+}
+
+variable "basic_auth_password" {
+    description = "Basic Auth Password"
+    default = "xxxxxxxxxxxxxxx"
+}
+
+variable "azure_tenant_id" {
     description = "Azure AD tenant ID"
     default = "xxxxxxxxxxxxxxx"
 }

@@ -10,9 +10,9 @@ MININAL_ACTION_LENGTH = 1
 
 def get_credentials():
     credentials = ClientSecretCredential(
-        client_id=os.environ['CLIENT_ID'],
-        client_secret=os.environ['SECRET'],
-        tenant_id=os.environ['TENANT']
+        client_id=os.environ['AZURE_CLIENT_ID'],
+        client_secret=os.environ['AZURE_CLIENT_SECRET'],
+        tenant_id=os.environ['AZURE_TENANT_ID']
     )
     return credentials
 

@@ -3,8 +3,11 @@ import time
 import azure.functions as func
 import json
 import sys, os.path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname( __file__ ))))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__))))
 #Dot before file name use for relative path in Azure function app, need to be removed for local development
+import hashlib
+import base64
+import hmac
 from .handle_event import *
 from .send_events_and_errors import *
 from .send_logs import *
@@ -12,6 +15,42 @@ from .send_logs import *
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
   logging.info('Azure cloud bot function processed a request.')
+    #Basic Auth Support
+  if os.getenv('BASIC_AUTH_ENABLED') and os.getenv(
+      'BASIC_AUTH_ENABLED') == "1":
+    basic_auth_username = os.getenv('BASIC_AUTH_USERNAME')
+    basic_auth_password = os.getenv('BASIC_AUTH_PASSWORD')
+    # Make creds to bytes
+    if "authorization" not in dict(req.headers).keys():
+      logging.info(
+        "Request missing authorization header. Returning 401 Unauthorized."
+      )
+      return func.HttpResponse(f'Unauthorized', status_code=401)
+
+    # Make creds to bytes
+    string_requester_credentials = str.split(
+      req.headers['Authorization'])[1]
+    logging.debug(string_requester_credentials)
+    byte_requester_credentials = base64.b64decode(
+      string_requester_credentials.encode('ascii'), validate=True)
+    byte_stored_credentials = (basic_auth_username + ":" +
+                   basic_auth_password).encode('ascii')
+
+    #Make bytes to hashes
+    stored_credentials = hashlib.sha256()
+    stored_credentials.update(byte_stored_credentials)
+    stored_credentials = stored_credentials.digest()
+
+    requester_credentials = hashlib.sha256()
+    requester_credentials.update(byte_requester_credentials)
+    requester_credentials = requester_credentials.digest()
+
+    #Compare hashes
+    if hmac.compare_digest(requester_credentials, stored_credentials):
+      logging.info("Request is authorized.")
+    else:
+      return func.HttpResponse(f'Unauthorized', status_code=401)
+
   try:
     source_message = req.get_json()
   except Exception as e:
