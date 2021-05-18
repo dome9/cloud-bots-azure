@@ -57,7 +57,7 @@ def is_scope_match(rule, direction, scope):
     return rule[f'{direction}_address_prefix'] == scope or scope == SEPARATOR
 
 def is_access_match(rule, access):
-    return rule['access'] == access
+    return rule['access'] == access.capitalize() # this must be Allow or Deny
 
 def is_rule_should_be_deleted_by_direction(rule, direction, port, scope, access):
     return is_port_match(rule, direction, port) and is_scope_match(rule, direction, scope) and is_access_match(rule,
