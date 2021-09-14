@@ -91,7 +91,7 @@
             }
         },
         "BasicAuthPassword": {
-            "type" : "password",
+            "type" : "securestring",
             "metadata": {
                 "description": "Basic Auth Password"
             }
