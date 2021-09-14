@@ -79,7 +79,10 @@
         "BasicAuthEnabled": {
             "type" : "string",
             "defaultValue": "0",
-            "allowedValues": ["0", "1"]
+            "allowedValues": [
+                "0",
+                "1"
+            ]
         },
         "BasicAuthUsername": {
             "type" : "string",
@@ -88,7 +91,7 @@
             }
         },
         "BasicAuthPassword": {
-            "type" : "string",
+            "type" : "password",
             "metadata": {
                 "description": "Basic Auth Password"
             }
