@@ -65,6 +65,7 @@
         },
         "RemediationEmailAddress": {
             "type": "string",
+            "defaultValue": "none",
             "metadata": {
                 "description": "E-mail address for bot remediation alerts (example : remediation@acme.com)"
             }
@@ -179,10 +180,6 @@
                             "value": "[parameters('SendGridAPIKey')]"
                         },
                         {
-                            "name": "OUTPUT_EMAIL",
-                            "value": "[parameters('RemediationEmailAddress')]"
-                        },
-                        {
                             "name": "SEND_LOGS",
                             "value": "[parameters('SendLogs')]"
                         },
@@ -202,7 +199,18 @@
                 },
                 "reserved": true
             }
+        },
+        {
+            "apiVersion": "2018-11-01",
+            "name": "appsettings",
+            "type": "Microsoft.Web/sites/config",
+            "condition": "[equals(parameters('RemediationEmailAddress'),'none')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites/sites', parameters('function-app-name'))]"
+            ],
+            "properties": {
+                "OUTPUT_EMAIL": "[parameters('RemediationEmailAddress')]"
+            }
         }
-        
     ]
 }
