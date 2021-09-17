@@ -206,7 +206,7 @@
             "type": "Microsoft.Web/sites/config",
             "condition": "[equals(parameters('RemediationEmailAddress'),'none')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites/sites', parameters('function-app-name'))]"
+                "[resourceId('Microsoft.Web/sites/sites', parameters('AzureFunctionName'))]"
             ],
             "properties": {
                 "OUTPUT_EMAIL": "[parameters('RemediationEmailAddress')]"
