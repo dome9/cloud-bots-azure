@@ -101,7 +101,7 @@
         },
         "BasicAuthPassword": {
             "defaultValue": "none",
-            "type": "String",
+            "type": "SecureString",
             "metadata": {
                 "description": "Basic Auth Password"
             }
