@@ -91,13 +91,17 @@ CloudBots:
     
     1.  In the Azure portal, navigate to App registrations, and the
         click *New registration*.
+        ![](docs/pictures/new-app-registration.jpg)
     2.  Enter a name for the app (for example, *CloudGuardCloudBots*), then
         click *Register*.
+        ![](docs/pictures/register-app-registration.jpg)
     3.  Save the *Application (client) ID* and *Directory (tenant) ID*.
+        ![](docs/pictures/applicationID-directoryID.jpg)
     4.  Navigate to *Certificates & secrets*, from the left side menu,
         and click *New client secret* and click *Add*
-    5.  Enter the secrets, saved in the previous step, in *Client
-        secrets*.
+        ![](docs/pictures/new-client-secret.jpg)
+    5.  Save the secret's *Value*.
+        ![](docs/pictures/secret-value.jpg)
 
 3.  Create SendGrid, to be used to send remediation outputs by email
     (Optional)
@@ -116,10 +120,14 @@ CloudBots:
     2.  Select the subscription that will use the CloudBots.
     3.  Select *Access control (IAM)* from the menu on the left.
     4.  Click *Add* -\> *Add role assignment*
+        
+        ![](docs/pictures/add-role-assignment.jpg)
     5.  Complete the form, using following:
           - Role: Contributor
           - Select: select the App Registration from step 2, above.
     6.  Click *Save*.
+        
+        ![](docs/pictures/role-assignment-configuration.jpg)
     7.  Repeat these steps for each additional Subscription.
 
 5.  Create an Azure Function App
@@ -130,6 +138,8 @@ CloudBots:
     2.  Click the "Deploy to Azure" button and fill out the deployment form
 
     3.  Both the Azure Function name and the Storage Account name **must be globally unique or deployment will fail (if a new storage account is created)**
+    
+    ![](docs/pictures/template-filled.jpg)
     
     4.  Once the ARM template deployment is complete, open a command prompt and navigate to the *cloud-bots-azure* folder
     
