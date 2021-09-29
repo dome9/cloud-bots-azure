@@ -158,7 +158,7 @@ step 4 (Assign Roles), above, for each subscription.
 
 # Setup your CloudGuard account
 
-On CloudGuard you must add remediation definitions to rules in a compliance ruleset. Refer to the latest CloudGuard documentation on how to do this (https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/PostureManagement/Remediation.html?tocpath=Posture%20Management%7C_____5#).
+On CloudGuard you must add remediation definitions to rules in a compliance ruleset. Refer to the latest CloudGuard documentation on how to do this (https://sc1.checkpoint.com/documents/CloudGuard_Dome9/Documentation/PostureManagement/Remediation.htm#microcontent1).
 
 ## Configure the Remediation
 
@@ -175,8 +175,11 @@ rulesets to use bots as a remediation step.
     - A specific Rule in the ruleset (optional, if missing, all rules are implied)
     - A specific Entity, by its entity ID (optional, if missing, all entities are implied); this selects all rules involving the selected entities
     - A specific Cloud Account, this applies the remediation to rules in the selected ruleset only when the ruleset is applied to the selected cloud accounts.
-    - Select the CloudBot, from the list. If the cloudbot is not in the list, select Custom, and then add the name of the cloudbot, along with the runtime arguments. The cloudbot must be deployed in the selected cloud account, in the same folder as the other bots.
+    - Select the CloudBot, from the list. If the cloudbot is not in the list, select Custom, and then add the name of the cloudbot, along with the runtime arguments**. The cloudbot must be deployed in the selected cloud account, in the same folder as the other bots.
     - Add a comment and then click **Save**.
+    
+** Example for using a custom bot:
+![](docs/pictures/add-custom-bot.jpg)
 
 ## Configure a Continuous Compliance policy
 
