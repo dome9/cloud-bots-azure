@@ -19,18 +19,18 @@ SEPARATOR = '-'
 def is_port_range(port):
     return len(port) > ONE_PORT
 
+
 def is_port_in_range(port_to_find, ports_list):
     for port in ports_list:
         if port == port_to_find:
             return True
 
-        else:
+        if SEPARATOR in port:
             # Due to Azure SDK we split cases as port can be : '360' or '360-366'
             ports = port.split(SEPARATOR)
             starting_port, ending_port = ports
-            if is_port_range(ports) and port_to_find > starting_port and port_to_find < ending_port:
+            if is_port_range(ports) and starting_port <= port_to_find <= ending_port:
                 return True
-
     return False
 
 def is_port_match(rule, direction, port):
@@ -42,9 +42,9 @@ def is_port_match(rule, direction, port):
 
         else:
             ports = port_to_find.split('-')
-            if (len(ports) > ONE_PORT):
+            if len(ports) > ONE_PORT:
                 starting_port, ending_port = ports
-                if is_port_range(ports) and port > starting_port and port < ending_port:
+                if is_port_range(ports) and starting_port <= port <= ending_port:
                     return True
 
     elif ports_to_find:
