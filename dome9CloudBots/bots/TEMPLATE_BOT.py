@@ -8,6 +8,7 @@
 # Basic import for Bot execution. you should import the right Azure SDK library for your bot
 from msrestazure.azure_exceptions import CloudError
 import logging
+import dome9CloudBots.bots_utils
 
 def run_action(credentials ,rule, entity, params):
     logging.info(f'{__file__} - run_action started')
@@ -15,10 +16,9 @@ def run_action(credentials ,rule, entity, params):
     subscription_id = entity.get('accountNumber')
 
     # Make sure you have the relevant subscription and credentials to perform action in Azure
-    if not subscription_id or not credentials:
-        msg = 'Error! Subscription id or credentials are missing.'
-        logging.info(f'{__file__} - {msg}')
-        return f'{msg}'
+    if not dome9CloudBots.bots_utils.are_credentials_and_subscription_exists(subscription_id, credentials):
+        error_msg = dome9CloudBots.bots_utils.get_credentials_error()
+        return error_msg
 
     # Generate the suitable Azure client object for API calls
     # Example : compute_client = ComputeManagementClient(credentials, subscription_id)

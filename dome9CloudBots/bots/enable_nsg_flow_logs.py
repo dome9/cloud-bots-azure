@@ -6,11 +6,11 @@
 
 from azure.core.exceptions import HttpResponseError
 from azure.mgmt.network import NetworkManagementClient
-from azure.mgmt.storage import StorageManagementClient
-from azure.mgmt.network.models import NetworkSecurityGroup, SecurityRule, FlowLog
 import logging
+import dome9CloudBots.bots_utils
 
 nw_resource_group_name = 'NetworkWatcherRG'
+
 
 def run_action(credentials ,rule, entity, params):
     storage_account_name, sa_resource_group_name, network_watcher_name, retention_days, flow_log_name = params
@@ -22,11 +22,12 @@ def run_action(credentials ,rule, entity, params):
     logging.info(f'{__file__} - subscription_id : {subscription_id} - nsg_name : {nsg_name}')
     
     target_resource_path = entity.get('id')
-    storage_account_path = '/subscriptions/' + subscription_id + '/resourceGroups/' + sa_resource_group_name + '/providers/Microsoft.Storage/storageAccounts/' + storage_account_name
-    if not subscription_id or not credentials:
-        msg = 'Error! Subscription id or Resource group name are missing.'
-        logging.info(f'{__file__} - {msg}')
-        return f'{msg}' 
+    storage_account_path = '/subscriptions/' + subscription_id + '/resourceGroups/' + sa_resource_group_name + \
+                           '/providers/Microsoft.Storage/storageAccounts/' + storage_account_name
+
+    if not dome9CloudBots.bots_utils.are_credentials_and_subscription_exists(subscription_id, credentials):
+        error_msg = dome9CloudBots.bots_utils.get_credentials_error()
+        return error_msg
     
     network_client = NetworkManagementClient(credentials, subscription_id)
 
@@ -35,8 +36,8 @@ def run_action(credentials ,rule, entity, params):
         'target_resource_id': target_resource_path,
         'storage_id': storage_account_path,
         'enabled':True,
-        'retention_policy':{'days':retention_days, 'enabled':True},
-        'format':{'type':'JSON', 'version':2}
+        'retention_policy': {'days': retention_days, 'enabled': True},
+        'format': {'type': 'JSON', 'version': 2}
     }
 
     try:
