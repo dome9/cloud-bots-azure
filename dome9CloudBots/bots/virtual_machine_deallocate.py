@@ -17,14 +17,24 @@ def run_action(credentials ,rule, entity, params):
         error_msg = dome9CloudBots.bots_utils.get_credentials_error()
         return error_msg
 
-    compute_client = ComputeManagementClient(credentials, subscription_id) 
+    output_msg = ''
+
     try:
+        compute_client = ComputeManagementClient(credentials, subscription_id)
         compute_client.virtual_machines.begin_deallocate(group_name, vm_name)
         id = entity.get('id')
         msg = f'Virtual machine was deallocated. id: {id}'
         logging.info(f'{__file__} - {msg}')
-        return f'{msg}'
+        output_msg += msg
+
     except HttpResponseError as e:   
-        msg = f'Unexpected error : {e.message}'
+        msg = f'Failed to deallocate virtual machine : {e.message}'
         logging.info(f'{__file__} - {msg}') 
-        return f'{msg}'
+        output_msg += msg
+
+    except Exception as e:
+        msg = f'Unexpected error : {e}'
+        logging.info(f'{__file__} - {msg}')
+        output_msg += msg
+
+    return output_msg

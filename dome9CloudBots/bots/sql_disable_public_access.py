@@ -13,6 +13,7 @@ import dome9CloudBots.bots_utils
 
 
 def run_action(credentials, rule, entity, params):
+    logging.info(f'{__file__} - ${run_action.__name__} started')
     min_tls_version = params
     global min_tls
     if 'tls_12' in min_tls_version:
@@ -26,7 +27,6 @@ def run_action(credentials, rule, entity, params):
         logging.info(f'{__file__} - {msg}')
         return msg
 
-    logging.info(f'{__file__} - ${run_action.__name__} started')
     group_name = entity.get('resourceGroup', {}).get('name')
     subscription_id = entity.get('accountNumber')
     server_name = entity.get('name')
@@ -38,15 +38,23 @@ def run_action(credentials, rule, entity, params):
         error_msg = dome9CloudBots.bots_utils.get_credentials_error()
         return error_msg
 
+    output_msg = ''
+
     try:
         sql_client = SqlManagementClient(credentials, subscription_id)
-        sql_client.servers.begin_create_or_update(group_name, server_name, Server(location=server_location, public_network_access='Disabled', minimal_tls_version=min_tls))        
+        sql_client.servers.begin_create_or_update(group_name, server_name, Server(location=server_location, public_network_access='Disabled', minimal_tls_version=min_tls))
         msg = f'Azure SQL public network access disabled successfully on : {server_name}, TLS version set to {min_tls}'
         logging.info(f'{__file__} - {msg}')
-        return f'{msg}'
+        output_msg += msg
 
     except HttpResponseError as e:
-        msg = f'Unexpected error : {e.message}'
+        msg = f'Failed to disable public network access on: {server_name} - {e.message}'
         logging.info(f'{__file__} - {msg}')
-        return msg
-    
+        output_msg += msg
+
+    except Exception as e:
+        msg = f'Unexpected error : {e}'
+        logging.info(f'{__file__} - {msg}')
+        output_msg += msg
+
+    return output_msg

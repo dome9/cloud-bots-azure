@@ -26,16 +26,24 @@ def run_action(credentials, rule, entity, params):
         error_msg = dome9CloudBots.bots_utils.get_credentials_error()
         return error_msg
 
+    output_msg = ''
+
     try:
         sql_client = SqlManagementClient(credentials, subscription_id)
         sql_client.server_azure_ad_administrators.begin_create_or_update(group_name, server_name, admin_name, 
             ServerAzureADAdministrator(administrator_type=AdministratorType("ActiveDirectory"),login=azure_ad_admin_name, sid=azure_ad_user_sid, tenant_id=tenant))  
         msg = f'Azure AD Administrator authentication enabled successfully on database server: {server_name}'
         logging.info(f'{__file__} - {msg}')
-        return f'{msg}'
+        output_msg += msg
 
     except HttpResponseError as e:
-        msg = f'Unexpected error : {e.message}'
+        msg = f'Failed to enable authentication on database server: {server_name} - {e.message}'
         logging.info(f'{__file__} - {msg}')
-        return msg
-    
+        output_msg += msg
+
+    except Exception as e:
+        msg = f'Unexpected error : {e}'
+        logging.info(f'{__file__} - {msg}')
+        output_msg += msg
+
+    return output_msg

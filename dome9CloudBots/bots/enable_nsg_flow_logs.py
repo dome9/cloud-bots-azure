@@ -13,8 +13,8 @@ nw_resource_group_name = 'NetworkWatcherRG'
 
 
 def run_action(credentials ,rule, entity, params):
-    storage_account_name, sa_resource_group_name, network_watcher_name, retention_days, flow_log_name = params
     logging.info(f'{__file__} - run_action started')
+    storage_account_name, sa_resource_group_name, network_watcher_name, retention_days, flow_log_name = params
     subscription_id = entity.get('accountNumber')
     region = entity.get('region')
     nsg_name = entity.get('name')
@@ -40,12 +40,22 @@ def run_action(credentials ,rule, entity, params):
         'format': {'type': 'JSON', 'version': 2}
     }
 
+    output_msg = ''
+
     try:
         network_client.flow_logs.begin_create_or_update(nw_resource_group_name, network_watcher_name, flow_log_name, flow_log_parameters)
         msg = f'Network Security group flow logs have been enabled on: {nsg_name}'
         logging.info(f'{__file__} - {msg}')
-        return f'{msg}'
+        output_msg += msg
+
     except HttpResponseError as e:   
-        msg = f'unexpected error : {e.message}'
+        msg = f'Failed enabling flow logs on {nsg_name} : {e.message}'
         logging.info(f'{__file__} - {msg}') 
-        return f'{msg}'
+        output_msg += msg
+
+    except Exception as e:
+        msg = f'Unexpected error : {e}'
+        logging.info(f'{__file__} - {msg}')
+        output_msg += msg
+
+    return output_msg

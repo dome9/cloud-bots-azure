@@ -24,6 +24,8 @@ def run_action(credentials, rule, entity, params):
         error_msg = dome9CloudBots.bots_utils.get_credentials_error()
         return error_msg
 
+    output_msg = ''
+
     try:
         db_client = PostgreSQLManagementClient(credentials, subscription_id)
         db_client.servers.begin_update(group_name, 
@@ -31,10 +33,16 @@ def run_action(credentials, rule, entity, params):
                                        ServerUpdateParameters(ssl_enforcement='Enabled'))
         msg = f'Force SSL connection was enabled successfully on PostgreSQL server: {server_name}'
         logging.info(f'{__file__} - {msg}')
-        return f'{msg}'
+        output_msg += msg
 
     except HttpResponseError as e:
-        msg = f'Unexpected error : {e.message}'
+        msg = f'Failed enabling the force SSL option on PostgreSQL server: {server_name} - \n{e.message}'
         logging.info(f'{__file__} - {msg}')
-        return msg
-    
+        output_msg += msg
+
+    except Exception as e:
+        msg = f'Unexpected error : {e}'
+        logging.info(f'{__file__} - {msg}')
+        output_msg += msg
+
+    return output_msg

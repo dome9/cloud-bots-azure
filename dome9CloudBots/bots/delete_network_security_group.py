@@ -23,14 +23,25 @@ def run_action(credentials ,rule, entity, params):
         return error_msg
 
     network_client = NetworkManagementClient(credentials, subscription_id)
+
+    output_msg = ''
+
     try:                 
         network_client.network_security_groups.get(resource_group_name, nsg_name)     
         network_client.network_security_groups.begin_delete(resource_group_name, nsg_name)     
         id = entity.get('id')
         msg = f'Network Security group was deleted. id: {id}'
         logging.info(f'{__file__} - {msg}')
-        return f'{msg}'
-    except HttpResponseError as e:   
-        msg = f'unexpected error : {e.message}'
-        logging.info(f'{__file__} - {msg}') 
-        return f'{msg}'
+        output_msg += msg
+
+    except HttpResponseError as e:
+        msg = f'Failed to delete network security group : {e.message}'
+        logging.info(f'{__file__} - {msg}')
+        output_msg += msg
+
+    except Exception as e:
+        msg = f'Unexpected error : {e}'
+        logging.info(f'{__file__} - {msg}')
+        output_msg += msg
+
+    return output_msg

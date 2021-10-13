@@ -7,6 +7,7 @@
 
 # Basic import for Bot execution. you should import the right Azure SDK library for your bot
 from msrestazure.azure_exceptions import CloudError
+from azure.core.exceptions import HttpResponseError
 import logging
 import dome9CloudBots.bots_utils
 
@@ -22,6 +23,7 @@ def run_action(credentials ,rule, entity, params):
 
     # Generate the suitable Azure client object for API calls
     # Example : compute_client = ComputeManagementClient(credentials, subscription_id)
+    output_msg = ''
     try:
         # Execute Azure API call
         # Example : compute_client.virtual_machines.power_off(group_name, vm_name)
@@ -30,14 +32,23 @@ def run_action(credentials ,rule, entity, params):
         id = entity.get('id')
         msg = f'Virtual machine was stopped. id: {id}'
         logging.info(f'{__file__} - {msg}')
+        output_msg += msg
         # Return the message, this is the Bot message in the remediation output
         return f'{msg}'
-    except CloudError as e:
+
+    except HttpResponseError as e:
         # If there is exception the API call failed so create message summarize the failure
-        msg = f'Unexpected error : {e.message}'
+        msg = f'Failed to stop virtual machine : {e.message}'
         logging.info(f'{__file__} - {msg}')
-        # Return the message, this is the Bot message in the remediation output
-        return f'{msg}'
+        output_msg += msg
+
+    except Exception as e:
+        # Catch here global exceptions
+        msg = f'Unexpected error : {e}'
+        logging.info(f'{__file__} - {msg}')
+        output_msg += msg
+
+    return output_msg
 
 
 # The bot return value is the Bot_message in the rule violation found in the remediation output
