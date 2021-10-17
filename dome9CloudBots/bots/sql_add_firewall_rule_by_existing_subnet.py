@@ -12,6 +12,7 @@ import dome9CloudBots.bots_utils
 
 
 def run_action(credentials, rule, entity, params):
+    logging.info(f'{__file__} - ${run_action.__name__} started')
     firewall_rule_name, firewall_rule_vnet_rg_name, firewall_rule_vnet_name, firewall_rule_subnet_name = params
     if not firewall_rule_name:
         msg = 'Error! Firewall rule name is missing.'
@@ -21,12 +22,11 @@ def run_action(credentials, rule, entity, params):
         logging.info(f'{__file__} - {msg}')
     elif not firewall_rule_vnet_name:
         msg = 'Error! Firewall rule VNet name is missing.'
-        logging.info(f'{__file__} - {msg}')    
+        logging.info(f'{__file__} - {msg}')
     elif not firewall_rule_subnet_name:
         msg = 'Error! Firewall rule Subnet name is missing.'
         logging.info(f'{__file__} - {msg}')
 
-    logging.info(f'{__file__} - ${run_action.__name__} started')
     group_name = entity.get('resourceGroup', {}).get('name')
     subscription_id = entity.get('accountNumber')
     server_name = entity.get('name')
@@ -40,19 +40,27 @@ def run_action(credentials, rule, entity, params):
         return error_msg
 
     subnet_path = '/subscriptions/' + subscription_id + '/resourceGroups/' + firewall_rule_vnet_rg_name + \
-        '/providers/Microsoft.Network/virtualNetworks/' + \
-        firewall_rule_vnet_name + '/subnets/' + firewall_rule_subnet_name
+                  '/providers/Microsoft.Network/virtualNetworks/' + \
+                  firewall_rule_vnet_name + '/subnets/' + firewall_rule_subnet_name
+
+    output_msg = ''
 
     try:
         sql_client = SqlManagementClient(credentials, subscription_id)
         sql_client.virtual_network_rules.begin_create_or_update(server_group_name, server_name, firewall_rule_name, parameters=VirtualNetworkRule(
             virtual_network_subnet_id=subnet_path, ignore_missing_vnet_service_endpoint=False))
-        msg = f'Azure SQL firewall rule {firewall_rule_name} successfully on : {server_name}'
+        msg = f'Azure SQL firewall rule {firewall_rule_name} successfully added on : {server_name}'
         logging.info(f'{__file__} - {msg}')
-        return f'{msg}'
+        output_msg += msg
 
     except HttpResponseError as e:
-        msg = f'Unexpected error : {e.message}'
+        msg = f'Failed adding SQL firewall rule on {server_name}: {e.message}'
         logging.info(f'{__file__} - {msg}')
-        return msg
-    
+        output_msg += msg
+
+    except Exception as e:
+        msg = f'Unexpected error : {e}'
+        logging.info(f'{__file__} - {msg}')
+        output_msg += msg
+
+    return output_msg

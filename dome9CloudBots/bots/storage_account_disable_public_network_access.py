@@ -13,9 +13,9 @@ import dome9CloudBots.bots_utils
 
 
 def run_action(credentials, rule, entity, params):
+    logging.info(f'{__file__} - ${run_action.__name__} started')
     logging.info(f'Parameters are: {params}')
     vnet_group_name, vnet_name, subnet_name = params
-    logging.info(f'{__file__} - ${run_action.__name__} started')
     subscription_id = entity['accountNumber']
     group_name = entity['resourceGroup']['name']
     storage_account_name = entity['name']
@@ -30,16 +30,23 @@ def run_action(credentials, rule, entity, params):
         error_msg = dome9CloudBots.bots_utils.get_credentials_error()
         return error_msg
 
+    output_msg = ''
+
     try:
         storage_client = StorageManagementClient(credentials, subscription_id)
         storage_client.storage_accounts.update(group_name,storage_account_name, StorageAccountUpdateParameters(network_rule_set=NetworkRuleSet(default_action='Deny', virtual_network_rules=[VirtualNetworkRule(virtual_network_resource_id=subnet_path)])))
         msg = f'Private network access was successfully configured for storage account: {storage_account_name}'
         logging.info(f'{__file__} - {msg}')
-        return f'{msg}'
+        output_msg += msg
 
     except HttpResponseError as e:
-        msg = f'Unexpected error : {e.message}'
-        if 'SubnetsHaveNoServiceEndpointsConfigured' in msg:
-            logging.info(f'Unable to set private access as the VNet does not have Service Endpoints configured')
+        msg = f'Failed to configure Private network access for storage account: {storage_account_name} - {e.message}'
         logging.info(f'{__file__} - {msg}')
-        return msg
+        output_msg += msg
+
+    except Exception as e:
+        msg = f'Unexpected error : {e}'
+        logging.info(f'{__file__} - {msg}')
+        output_msg += msg
+
+    return output_msg

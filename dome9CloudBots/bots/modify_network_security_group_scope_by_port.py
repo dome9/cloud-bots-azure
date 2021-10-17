@@ -50,9 +50,9 @@ def is_port_in_range(port_to_find, ports_list):
 
 
 def run_action(credentials, rule, entity, params):
+    logging.info(f'{__file__} - run_action started')
     port, direction, scope, access, *_ = chain(params, [None])
     scope = scope.split(',')
-    logging.info(f'{__file__} - run_action started')
 
     subscription_id = entity.get('accountNumber')
     entity_type = entity.get('type')
@@ -130,7 +130,6 @@ def run_action(credentials, rule, entity, params):
             log_msg = f'Unexpected exception: {e}'
             logging.info(f'{__file__} - {log_msg}')
             output_msg += log_msg
-            return output_msg
 
     return output_msg
 

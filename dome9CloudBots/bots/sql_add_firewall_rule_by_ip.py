@@ -13,18 +13,18 @@ import dome9CloudBots.bots_utils
 
 
 def run_action(credentials, rule, entity, params):
+    logging.info(f'{__file__} - ${run_action.__name__} started')
     firewall_rule_name, firewall_rule_start_ip, firewall_rule_end_ip = params
     if not firewall_rule_name:
         msg = 'Error! Firewall rule name is missing.'
         logging.info(f'{__file__} - {msg}')
     elif not firewall_rule_start_ip:
         msg = 'Error! Firewall rule starting IP is missing.'
-        logging.info(f'{__file__} - {msg}')    
+        logging.info(f'{__file__} - {msg}')
     elif not firewall_rule_end_ip:
         msg = 'Error! Firewall rule ending IP is missing.'
         logging.info(f'{__file__} - {msg}')
 
-    logging.info(f'{__file__} - ${run_action.__name__} started')
     group_name = entity.get('resourceGroup', {}).get('name')
     subscription_id = entity.get('accountNumber')
     server_name = entity.get('name')
@@ -36,15 +36,23 @@ def run_action(credentials, rule, entity, params):
         error_msg = dome9CloudBots.bots_utils.get_credentials_error()
         return error_msg
 
+    output_msg = ''
+
     try:
         sql_client = SqlManagementClient(credentials, subscription_id)
-        sql_client.firewall_rules.create_or_update(group_name, server_name, firewall_rule_name, parameters=FirewallRule(start_ip_address=firewall_rule_start_ip, end_ip_address=firewall_rule_end_ip))        
+        sql_client.firewall_rules.create_or_update(group_name, server_name, firewall_rule_name, parameters=FirewallRule(start_ip_address=firewall_rule_start_ip, end_ip_address=firewall_rule_end_ip))
         msg = f'Azure SQL firewall rule {firewall_rule_name} successfully on : {server_name}'
         logging.info(f'{__file__} - {msg}')
-        return f'{msg}'
+        output_msg += msg
 
     except HttpResponseError as e:
-        msg = f'Unexpected error : {e.message}'
+        msg = f'Failed adding SQL firewall rule on {server_name}: {e.message}'
         logging.info(f'{__file__} - {msg}')
-        return msg
-    
+        output_msg += msg
+
+    except Exception as e:
+        msg = f'Unexpected error : {e}'
+        logging.info(f'{__file__} - {msg}')
+        output_msg += msg
+
+    return output_msg

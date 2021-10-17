@@ -22,6 +22,8 @@ def run_action(credentials, rule, entity, params):
         error_msg = dome9CloudBots.bots_utils.get_credentials_error()
         return error_msg
 
+    output_msg = ''
+
     try:
         storage_client = StorageManagementClient(credentials, subscription_id)
         storage_client.storage_accounts.update(group_name,
@@ -30,9 +32,16 @@ def run_action(credentials, rule, entity, params):
         id = entity['id']
         msg = f'Secure transfer was enabled successfully in storage account. id: {id}'
         logging.info(f'{__file__} - {msg}')
-        return f'{msg}'
+        output_msg += msg
 
     except HttpResponseError as e:
-        msg = f'Unexpected error : {e.message}'
+        msg = f'Failed to enable secure transfer in storage account - {e.message}'
         logging.info(f'{__file__} - {msg}')
         return msg
+
+    except Exception as e:
+        msg = f'Unexpected error : {e}'
+        logging.info(f'{__file__} - {msg}')
+        output_msg += msg
+
+    return output_msg

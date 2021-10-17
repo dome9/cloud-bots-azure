@@ -85,8 +85,8 @@ def is_rule_should_be_deleted(rule, destination_port, destination_scope, source_
     return False
 
 def run_action(credentials, rule, entity, params):
-    destination_port, destination_scope, source_port, source_scope, access = params
     logging.info(f'{__file__} - run_action started')
+    destination_port, destination_scope, source_port, source_scope, access = params
 
     subscription_id = entity.get('accountNumber')
     resource_group_name = entity.get('resourceGroup', {}).get('name')
@@ -98,6 +98,8 @@ def run_action(credentials, rule, entity, params):
         error_msg = dome9CloudBots.bots_utils.get_credentials_error()
         return error_msg
 
+    output_msg = ''
+
     try:
         network_client = NetworkManagementClient(
             credentials,
@@ -107,20 +109,34 @@ def run_action(credentials, rule, entity, params):
 
         nsg_dict = nsg.as_dict()
         security_rules = nsg_dict.get('security_rules')
+        modified = False
         for rule in security_rules:
             if is_rule_should_be_deleted(rule, destination_port, destination_scope, source_port, source_scope, access):
                 security_rules.remove(rule)
+                modified = True
+
+        if not modified:
+            msg = f'No rules to delete'
+            logging.info(f'{__file__} - {msg}')
+            return msg
 
         nsg_dict['security_rules'] = security_rules
         nsg_after_change = nsg.from_dict(nsg_dict)
         network_client.network_security_groups.begin_create_or_update(resource_group_name, nsg_name, nsg_after_change)
         entity_ID = entity.get('id')
+
         msg = f'Network Security group name: {nsg_name} with id: {entity_ID} was modified'
         logging.info(f'{__file__} - {msg}')
-        return f'{msg}'
+        output_msg += msg
 
     except HttpResponseError as e:
-        msg = f'unexpected error : {e.message}'
+        msg = f'Failed to modify network security group : {e.message}'
         logging.info(f'{__file__} - {msg}')
+        output_msg += msg
 
-        return f'{msg}'
+    except Exception as e:
+        msg = f'Unexpected error : {e}'
+        logging.info(f'{__file__} - {msg}')
+        output_msg += msg
+
+    return output_msg

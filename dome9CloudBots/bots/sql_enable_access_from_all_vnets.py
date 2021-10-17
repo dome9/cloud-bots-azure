@@ -26,6 +26,8 @@ def run_action(credentials, rule, entity, params):
         error_msg = dome9CloudBots.bots_utils.get_credentials_error()
         return error_msg
 
+    output_msg = ''
+
     try:  
         network_client = NetworkManagementClient(credentials,subscription_id)
         sql_client = SqlManagementClient(credentials, subscription_id)
@@ -63,9 +65,21 @@ def run_action(credentials, rule, entity, params):
                     acls.append(VirtualNetworkRule(virtual_network_subnet_id=subnet_path))            
                     sql_client.virtual_network_rules.begin_create_or_update(server_group_name, sql_server_name, firewall_rule_name, parameters=VirtualNetworkRule(
                         virtual_network_subnet_id=subnet_path, ignore_missing_vnet_service_endpoint=False))
-                    logging.info(f'Azure SQL firewall rule {firewall_rule_name} set successfully on : {sql_server_name}')
+                    msg = f'Azure SQL firewall rule {firewall_rule_name} set successfully on : {sql_server_name}'
+                    logging.info(f'{__file__} - {msg}')
+                    output_msg += msg + '\n'
+
             else:
                logging.info(f'Regions do not match - skipping {vnet_name}')
      
     except (HttpResponseError, ResourceExistsError) as e:
-        logging.info(f'An error occured : {e}')   
+        msg = f'Failed setting SQL firewall rule on: {sql_server_name} - {e}'
+        logging.info(f'{__name__} - {msg}')
+        output_msg += msg
+
+    except Exception as e:
+        msg = f'Unexpected error : {e}'
+        logging.info(f'{__file__} - {msg}')
+        output_msg += msg
+
+    return output_msg
