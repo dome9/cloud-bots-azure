@@ -7,11 +7,8 @@ import logging
 from azure.core.exceptions import HttpResponseError
 from azure.mgmt.storage import StorageManagementClient
 from azure.mgmt.storage.models import StorageAccountUpdateParameters
+import dome9CloudBots.bots_utils
 
-def raise_credentials_error():
-    msg = 'Error! Subscription id or credentials are missing.'
-    logging.info(f'{__file__} - {msg}')
-    return msg
 
 def run_action(credentials, rule, entity, params):
     logging.info(f'{__file__} - ${run_action.__name__} started')
@@ -21,8 +18,9 @@ def run_action(credentials, rule, entity, params):
     logging.info(
         f'{__file__} - subscription_id : {subscription_id} - group_name : {group_name} - storage_account : {storage_account_name}')
 
-    if not subscription_id or not credentials:
-        return raise_credentials_error()
+    if not dome9CloudBots.bots_utils.are_credentials_and_subscription_exists(subscription_id, credentials):
+        error_msg = dome9CloudBots.bots_utils.get_credentials_error()
+        return error_msg
 
     try:
         storage_client = StorageManagementClient(credentials, subscription_id)

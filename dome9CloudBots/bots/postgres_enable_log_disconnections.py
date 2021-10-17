@@ -1,5 +1,7 @@
-# What it does: Enables disconnection logging on an Azure PostgreSQL server to log end of a session, including duration, which in turn generates query and error logs. 
-# Query and error logs can be used to identify, troubleshoot, and repair configuration errors and sub-optimal performance.
+# What it does: Enables disconnection logging on an Azure PostgreSQL server to log end of a session, including duration,
+# which in turn generates query and error logs.
+# Query and error logs can be used to identify, troubleshoot,
+# and repair configuration errors and sub-optimal performance.
 # Corresponds with rule D9.AZU.LOG.03 
 # Usage: AUTO: postgres_enable_log_disconnections
 # Limitations: None
@@ -9,11 +11,8 @@ import logging
 from azure.mgmt.rdbms.postgresql import PostgreSQLManagementClient
 from azure.core.exceptions import HttpResponseError
 from azure.mgmt.rdbms.postgresql.models import Configuration
+import dome9CloudBots.bots_utils
 
-def raise_credentials_error():
-    msg = 'Error! Subscription id or credentials are missing.'
-    logging.info(f'{__file__} - {msg}')
-    return msg
 
 def run_action(credentials, rule, entity, params):
     logging.info(f'{__file__} - ${run_action.__name__} started')
@@ -24,8 +23,9 @@ def run_action(credentials, rule, entity, params):
     logging.info(
         f'{__file__} - subscription_id : {subscription_id} - group_name : {group_name} - server_name : {server_name}')
 
-    if not subscription_id or not credentials:
-        return raise_credentials_error()
+    if not dome9CloudBots.bots_utils.are_credentials_and_subscription_exists(subscription_id, credentials):
+        error_msg = dome9CloudBots.bots_utils.get_credentials_error()
+        return error_msg
 
     try:
         db_client = PostgreSQLManagementClient(credentials, subscription_id)

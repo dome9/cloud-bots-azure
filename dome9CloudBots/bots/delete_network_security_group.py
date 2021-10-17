@@ -7,10 +7,9 @@
 
 from azure.core.exceptions import HttpResponseError
 from azure.mgmt.network import NetworkManagementClient
-from azure.mgmt.network.models import NetworkSecurityGroup
-from azure.mgmt.network.models import SecurityRule
-
 import logging
+import dome9CloudBots.bots_utils
+
 
 def run_action(credentials ,rule, entity, params):
     logging.info(f'{__file__} - run_action started')
@@ -18,10 +17,11 @@ def run_action(credentials ,rule, entity, params):
     resource_group_name = entity.get('resourceGroup',{}).get('name')
     nsg_name = entity.get('name')
     logging.info(f'{__file__} - subscription_id : {subscription_id} - group_name : {resource_group_name} nsg_name : {nsg_name}')
-    if not subscription_id or not credentials:
-        msg = 'Error! Subscription id or Resource group name are missing.'
-        logging.info(f'{__file__} - {msg}')
-        return f'{msg}' 
+
+    if not dome9CloudBots.bots_utils.are_credentials_and_subscription_exists(subscription_id, credentials):
+        error_msg = dome9CloudBots.bots_utils.get_credentials_error()
+        return error_msg
+
     network_client = NetworkManagementClient(credentials, subscription_id)
     try:                 
         network_client.network_security_groups.get(resource_group_name, nsg_name)     
