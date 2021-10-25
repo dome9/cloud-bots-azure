@@ -2,6 +2,7 @@
 # Corresponds with rule D9.AZU.LOG.05 
 # Usage: AUTO: postgres_enable_connection_throttling
 # Limitations: None
+# Permissions: Microsoft.DBforPostgreSQL/servers/configurations/write
 # Updated 9/2/21
 
 import logging

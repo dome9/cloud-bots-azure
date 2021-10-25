@@ -4,6 +4,7 @@
 # Corresponds with rule D9.AZU.CRY.11
 # Usage: AUTO: sql_enable_data_encryption
 # Limitations: None
+# Permissions: Microsoft.Sql/servers/databases/transparentDataEncryption/write
 # Last updated 10/2/21
 
 import logging

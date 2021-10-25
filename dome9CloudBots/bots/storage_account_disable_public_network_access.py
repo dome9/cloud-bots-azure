@@ -2,6 +2,7 @@
 # Usage: storage_account_disable_public_network_access <vnet resource group> <vnet> <subnet>
 # Usage: Example storage_account_disable_public_network_access my-resource-group my-vnet my-subnet
 # Limitations: VNet must have service endpoints configured for Storage access
+# Permissions: Microsoft.Storage/storageAccounts/read, Microsoft.Storage/storageAccounts/write
 # Updated 8/2/21
 
 import logging

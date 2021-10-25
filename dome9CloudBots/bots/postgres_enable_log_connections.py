@@ -2,6 +2,7 @@
 # Corresponds with rule D9.AZU.LOG.09
 # Usage: AUTO: postgres_enable_log_connections
 # Limitations: None
+# Permissions: Microsoft.DBforPostgreSQL/servers/configurations/write
 # Updated 8/2/21
 
 from azure.common.credentials import ServicePrincipalCredentials

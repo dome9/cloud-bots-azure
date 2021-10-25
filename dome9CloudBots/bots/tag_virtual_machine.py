@@ -1,5 +1,6 @@
 # What it does : Tags a virtual machine with a key:value pair
-## AUTO: tag_virtual_machine tag-name tag-value ##
+# AUTO: tag_virtual_machine tag-name tag-value ##
+# Permissions: Microsoft.Compute/virtualMachines/write, Microsoft.Compute/virtualMachines/read
 
 from azure.core.exceptions import HttpResponseError
 from azure.mgmt.compute import ComputeManagementClient

@@ -3,6 +3,7 @@
 # Example: sql_disable_public_access tls_12
 # Example: sql_disable_public_access
 # Limitations: Requires a Private Endpoint Connection to be created to enable the "Deny public access" feature
+# Permissions: Microsoft.Sql/servers/write
 # Updated 8/2/21
 
 import logging
