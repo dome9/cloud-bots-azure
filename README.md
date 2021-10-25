@@ -68,6 +68,7 @@ CloudBots:
   - Install Python and dependent packages needed by the Cloudbots
   - Create a new Azure app registration for CloudBots
   - Optionally, create a SendGrid account to forward email notifications
+  - Create a custom role for the CloudBots Function
   - Assign IAM roles for the app registration created above
   - Create an empty Azure function for the CloudBots
   - Deploy the CloudBots in the Azure subscription
@@ -86,6 +87,7 @@ CloudBots:
     4.  [NodeJS \> 8.5](https://nodejs.org/en/download)
     5.  [Microsoft .NET core
         \> 2.2](https://dotnet.microsoft.com/download/dotnet-core)
+        
 
 2.  Create Azure App Registration:
     
@@ -102,6 +104,7 @@ CloudBots:
         ![](docs/pictures/new-client-secret.jpg)
     5.  Save the secret's *Value*.
         ![](docs/pictures/secret-value.jpg)
+        
 
 3.  Create SendGrid, to be used to send remediation outputs by email
     (Optional)
@@ -113,8 +116,30 @@ CloudBots:
     5.  Enter a name (for example, *CloudGuardCloudBots*), select *Full
         Access*, then click *Create & View*.
     6.  Save the key value (will be needed in a later step).
+    
+    
+4.  Create a custom role for the CloudBots Function
+    
+    1.  In the Azure Portal, navigate to *Subscriptions*.
+    2.  Select the subscription that will use the CloudBots.
+    3.  Select *Access control (IAM)* from the menu on the left.
+    4.  Click *Add* -\> *Add custom role*
+    
+    ![](docs/pictures/add-custom-role.jpg)
 
-4.  Assign Roles
+    5. Go to *JSON* section.
+    6. Click on *Edit* (in the top-right corner of the text box)
+    7. Copy the JSON object from the file: [CloudGuard-CloudBots-Role.json](CloudGuard-CloudBots-Role.json)
+    8. In the *assignableScopes* property, fill in your subscription id in the marked place.
+    ![](docs/pictures/custom-role-save-json.jpg)
+       
+    9. Press *Save* (in the top-right corner).
+    10. Press *Review + create* (at the bottom).
+    11. Check the permissions granted and press *Create*.
+    12. Repeat these steps for each additional Subscription.
+    
+
+5.  Assign Roles
     
     1.  Navigate to *Subscriptions*.
     2.  Select the subscription that will use the CloudBots.
@@ -122,15 +147,23 @@ CloudBots:
     4.  Click *Add* -\> *Add role assignment*
         
         ![](docs/pictures/add-role-assignment.jpg)
-    5.  Complete the form, using following:
-          - Role: Contributor
-          - Select: select the App Registration from step 2, above.
-    6.  Click *Save*.
+    5.  Search for the role you created in the last step and press on *View*.
+        ![](docs/pictures/search-role-assignment.jpg)
         
-        ![](docs/pictures/role-assignment-configuration.jpg)
-    7.  Repeat these steps for each additional Subscription.
+    6.  Press on *Select role*.
+        ![](docs/pictures/select-role-assignment.jpg)
+        
+    7.  Press on *Select members*.
+        ![](docs/pictures/add-members-to-role-assignment.jpg)
+        
+    8.  Select the App Registration you created earlier.
+        ![](docs/pictures/select-members.jpg)
+        
+    9.  Press on *Review +assign*.
+    10.  Repeat these steps for each additional Subscription.
 
-5.  Create an Azure Function App
+
+6.  Create an Azure Function App
 
     1.  Clone the CloudBots Azure code from
          [GitHub](https://github.com/Dome9/cloud-bots-azure) *(git clone https://github.com/dome9/cloud-bots-azure.git)*
