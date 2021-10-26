@@ -2,6 +2,7 @@
 # Usage: disable_blob_public_access
 # Usage: Example AUTO:disable_blob_public_access
 # Limitations: None
+# Permissions: Microsoft.Storage/storageAccounts/read, Microsoft.Storage/storageAccounts/write
 # Updated 8/2/21
  
 import logging

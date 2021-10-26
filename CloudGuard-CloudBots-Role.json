@@ -1,0 +1,39 @@
+{
+    "properties": {
+        "roleName": "CloudGuard-CloudBots-Role",
+        "description": "Role for CloudGuard's CloudBots function",
+        "assignableScopes": [
+            "/subscriptions/my-subscription-id"
+        ],
+        "permissions": [
+            {
+                "actions": [
+                    "Microsoft.Compute/virtualMachines/powerOff/action",
+                    "Microsoft.Authorization/locks/write",
+                    "Microsoft.Network/networkSecurityGroups/read",
+                    "Microsoft.Network/networkSecurityGroups/delete",
+                    "Microsoft.Network/networkSecurityGroups/write",
+                    "Microsoft.Storage/storageAccounts/write",
+                    "Microsoft.Storage/storageAccounts/read",
+                    "Microsoft.Network/networkWatchers/flowLogs/write",
+                    "Microsoft.DBforPostgreSQL/servers/configurations/write",
+                    "Microsoft.DBforPostgreSQL/servers/write",
+                    "Microsoft.DBforPostgreSQL/servers/read",
+                    "Microsoft.Sql/servers/virtualNetworkRules/write",
+                    "Microsoft.Storage/storageAccounts/listkeys/action",
+                    "Microsoft.Network/virtualNetworks/subnets/joinViaServiceEndpoint/action",
+                    "Microsoft.Sql/servers/firewallRules/write",
+                    "Microsoft.Sql/servers/write",
+                    "Microsoft.Sql/servers/administrators/write",
+                    "Microsoft.Sql/servers/databases/transparentDataEncryption/write",
+                    "Microsoft.Compute/virtualMachines/write",
+                    "Microsoft.Compute/virtualMachines/read",
+                    "Microsoft.Compute/virtualMachines/deallocate/action"
+                ],
+                "notActions": [],
+                "dataActions": [],
+                "notDataActions": []
+            }
+        ]
+    }
+}

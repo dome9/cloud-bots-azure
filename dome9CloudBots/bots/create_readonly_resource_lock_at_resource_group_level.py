@@ -2,6 +2,7 @@
 # Usage: create_readonly_resource_lock_at_resource_group_level <lock-name>
 # Example: create_readonly_resource_lock_at_resource_group_level my-lock
 # Limitations: None
+# Permissions: Microsoft.Authorization/locks/write
 # Last checked 8/2/21
 
 

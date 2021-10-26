@@ -1,6 +1,7 @@
 # What it does: Allows Azure SQL access to all subnets in all VNets in a subscription in a region
 # Usage: sql_enable_access_from_all_vnets
 # Limitations: "Deny public network access" must be set to NO for this bot to work.
+# Permissions: Microsoft.Sql/servers/write
 # Last updated 9/2/21
 
 import logging

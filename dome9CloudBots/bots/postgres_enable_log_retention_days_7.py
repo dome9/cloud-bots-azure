@@ -3,6 +3,7 @@
 # Corresponds with rule D9.AZU.LOG.06
 # Usage: AUTO: postgres_enable_log_retention_days_7
 # Limitations: None
+# Permissions: Microsoft.DBforPostgreSQL/servers/configurations/write
 # Updated 8/2/21
 
 import logging

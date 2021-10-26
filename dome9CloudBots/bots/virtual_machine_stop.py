@@ -1,5 +1,6 @@
 # What it does : Stops (but does not deallocate) a Virtual Machine
 # Usage : virtual_machine_stop
+# Permissions : Microsoft.Compute/virtualMachines/powerOff/action
 # Updated 8/2/21
 
 from azure.core.exceptions import HttpResponseError
