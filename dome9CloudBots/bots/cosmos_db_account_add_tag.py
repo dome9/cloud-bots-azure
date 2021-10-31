@@ -40,8 +40,10 @@ def run_action(credentials, rule, entity, params):
 
     try:
         logging.info(f'{__file__} - trying to add tags to Cosmos DB Account')
-        add_tag_to_cosmos_db_account(cosmos_db_account_name, credentials, region, resource_group, subscription_id,
-                                     tag_key, tag_value)
+        cosmos_db_client = CosmosDBManagementClient(credentials, subscription_id)
+        cosmos_db_account = get_cosmos_db_account(cosmos_db_client, cosmos_db_account_name, resource_group)
+        add_tag_to_cosmos_db_account(cosmos_db_client, cosmos_db_account, region, tag_key, tag_value,
+                                     resource_group, cosmos_db_account_name)
 
     except HttpResponseError as e:
         error_msg = f'Failed to add tag to Cosmos DB Account - {cosmos_db_account_name} : {e.message}'
@@ -54,25 +56,29 @@ def run_action(credentials, rule, entity, params):
     return output_msg
 
 
-def add_tag_to_cosmos_db_account(cosmos_db_account_name, credentials, region, resource_group, subscription_id, tag_key,
-                                 tag_value):
+def add_tag_to_cosmos_db_account(cosmos_db_client, cosmos_db_account, region, tag_key, tag_value,
+                                 resource_group, cosmos_db_account_name):
     """
     not sending 'enable_multiple_write_locations' may raise:
     "Cannot update EnableMultipleWriteLocations flag and other properties at the same".
     not sending 'enable_free_tier' may raise:
     "Cannot update FreeTier property for existing account"
     """
-    cosmos_db_client = CosmosDBManagementClient(credentials, subscription_id)
-    cosmos_db = cosmos_db_client.database_accounts.get(resource_group, cosmos_db_account_name)
-    current_tags = cosmos_db.tags
+    current_tags = cosmos_db_account.tags
     new_tags = current_tags
     new_tags[tag_key] = tag_value
-    update_parameters = DatabaseAccountCreateUpdateParameters(tags=new_tags,
-                                                              location=region,
-                                                              locations=cosmos_db.locations,
-                                                              enable_multiple_write_locations=cosmos_db.enable_multiple_write_locations,
-                                                              enable_free_tier=cosmos_db.enable_free_tier)
+    update_parameters = \
+        DatabaseAccountCreateUpdateParameters(tags=new_tags,
+                                              location=region,
+                                              locations=cosmos_db_account.locations,
+                                              enable_multiple_write_locations=cosmos_db_account.enable_multiple_write_locations,
+                                              enable_free_tier=cosmos_db_account.enable_free_tier)
     cosmos_db_client.database_accounts.begin_create_or_update(resource_group, cosmos_db_account_name, update_parameters)
+
+
+def get_cosmos_db_account(cosmos_db_client, cosmos_db_account_name, resource_group):
+    cosmos_db = cosmos_db_client.database_accounts.get(resource_group, cosmos_db_account_name)
+    return cosmos_db
 
 
 def extract_data_from_entity(entity):
