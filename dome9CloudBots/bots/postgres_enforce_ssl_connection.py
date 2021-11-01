@@ -3,6 +3,7 @@
 # Corresponds with rule D9.AZU.CRY.17
 # Usage: AUTO: postgres_enforce_ssl_connection
 # Limitations: None
+# Permissions: Microsoft.DBforPostgreSQL/servers/write, Microsoft.DBforPostgreSQL/servers/read
 # Updated 8/2/21
 
 import logging

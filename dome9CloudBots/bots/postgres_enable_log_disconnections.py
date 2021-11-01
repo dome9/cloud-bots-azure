@@ -5,6 +5,7 @@
 # Corresponds with rule D9.AZU.LOG.03 
 # Usage: AUTO: postgres_enable_log_disconnections
 # Limitations: None
+# Permissions: Microsoft.DBforPostgreSQL/servers/configurations/write
 # Updated 8/2/21
 
 import logging

@@ -2,6 +2,7 @@
 # Usage: enable_nsg_flow_logs <storage-account-name> <storage-account-resource-group> <network-watcher-name> <log-retention-days> <flow-log-name>
 # Example: enable_nsg_flow_logs my-storage-account storage-resource-group NetworkWatcher_northeurope 30 myflowlog
 # Limitations: None
+# Permissions: Microsoft.Network/networkWatchers/flowLogs/write, Microsoft.Storage/storageAccounts/listKeys/action
 # Last checked 8/2/21
 
 from azure.core.exceptions import HttpResponseError

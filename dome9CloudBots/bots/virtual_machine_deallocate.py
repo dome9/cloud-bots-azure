@@ -1,4 +1,5 @@
 # Last update 10/2/21
+# Permissions: Microsoft.Compute/virtualMachines/deallocate/action
 
 from azure.core.exceptions import HttpResponseError
 from azure.mgmt.compute import ComputeManagementClient

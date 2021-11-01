@@ -3,6 +3,7 @@
 # Usage: delete_network_security_group
 # Example: delete_network_security_group
 # Limitations: None
+# Permissions: Microsoft.Network/networkSecurityGroups/delete, Microsoft.Network/networkSecurityGroups/read
 # Updated 8/2/21
 
 from azure.core.exceptions import HttpResponseError

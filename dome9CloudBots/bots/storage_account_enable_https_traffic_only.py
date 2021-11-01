@@ -1,6 +1,7 @@
 # What it does: enable Storage account enable secure transfer
 # Usage: AUTO: storage_account_enable_https_traffic_only
 # Limitations: None
+# Permissions: Microsoft.Storage/storageAccounts/read, Microsoft.Storage/storageAccounts/write
 # Updated 8/2/21
 
 import logging

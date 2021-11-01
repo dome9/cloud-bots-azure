@@ -7,6 +7,7 @@
 # Example 1: AUTO: delete_network_security_group_single_rule 556 10.0.0.0/24 - - Allow
 # Example 2: AUTO: delete_network_security_group_single_rule - - 22 0.0.0.0/2 Deny
 # Limitations: None
+# Permissions: Microsoft.Network/networkSecurityGroups/read, Microsoft.Network/networkSecurityGroups/write
 # Updated 8/2/21
 
 from azure.core.exceptions import HttpResponseError
