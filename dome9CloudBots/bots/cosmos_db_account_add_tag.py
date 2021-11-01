@@ -1,4 +1,9 @@
-# TODO add description
+# What it does: Adds a tag to a Cosmos DB Account
+# Usage: cosmos_db_account_add_tag <tag_key> <tag_value>
+# Example: cosmos_db_account_add_tag my-key my-val
+# Limitations: None
+# Permissions: Microsoft.DocumentDB/databaseAccounts/read, Microsoft.DocumentDB/databaseAccounts/write
+# Last checked 1/11/21
 
 from azure.core.exceptions import HttpResponseError
 from azure.mgmt.cosmosdb import CosmosDBManagementClient
@@ -18,25 +23,26 @@ def run_action(credentials, rule, entity, params):
         logging.error(f'{__file__} - {error_msg}')
         raise ValueError(error_msg)
 
+    logging.info(f'{__file__} - checking if type is correct')
+    entity_type = entity.get('type')
+    if not dome9CloudBots.bots_utils.is_correct_type(dome9CloudBots.bots_utils.EntitiesTypes.COSMOS_DB_ACCOUNT,
+                                                     entity_type):
+        error_msg = f'Error! entity type is not Cosmos DB Account'
+        logging.error(f'{__file__} - {error_msg}')
+        raise TypeError(error_msg)
+
     try:
-        entity_type, cosmos_db_account_name, region, resource_group, subscription_id = extract_data_from_entity(entity)
+        cosmos_db_account_name, region, resource_group, subscription_id = extract_data_from_entity(entity)
     except KeyError as e:
         error_msg = f'Error! missing info {e}'
         logging.error(f'{__file__} - {error_msg}')
         raise KeyError(error_msg)
 
-    logging.info(f'{__file__} - checking if type is correct')
-    if not dome9CloudBots.bots_utils.is_correct_type(dome9CloudBots.bots_utils.EntitiesTypes.COSMOS_DB_ACCOUNT,
-                                                     entity_type):
-        error_msg = f'Error! entity type is not Cosmos DB Account'
-        logging.error(error_msg)
-        raise Exception(error_msg)
-
     logging.info(f'{__file__} - checking if credentials exists')
     if not dome9CloudBots.bots_utils.are_credentials_and_subscription_exists(subscription_id, credentials):
         error_msg = dome9CloudBots.bots_utils.get_credentials_error()
-        logging.error(error_msg)
-        raise Exception(error_msg)
+        logging.error(f'{__file__} - {error_msg}')
+        raise ValueError(error_msg)
 
     try:
         logging.info(f'{__file__} - trying to add tags to Cosmos DB Account')
@@ -82,9 +88,8 @@ def get_cosmos_db_account(cosmos_db_client, cosmos_db_account_name, resource_gro
 
 
 def extract_data_from_entity(entity):
-    entity_type = entity['type']
     region = entity['region']
     cosmos_db_account = entity['name']
     subscription_id = entity['accountNumber']
     resource_group = entity['resourceGroup']['name']
-    return entity_type, cosmos_db_account, region, resource_group, subscription_id
+    return cosmos_db_account, region, resource_group, subscription_id

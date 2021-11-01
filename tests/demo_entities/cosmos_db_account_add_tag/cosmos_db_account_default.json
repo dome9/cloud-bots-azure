@@ -1,35 +1,4 @@
 {
-  "status": "Failed",
-  "policy": {
-    "name": "my-policy",
-    "description": ""
-  },
-  "findingKey": "123456789",
-  "bundle": {
-    "name": "my-bundle-name",
-    "description": "",
-    "id": 111111
-  },
-  "reportTime": "2021-10-27T07:30:47.625Z",
-  "rule": {
-    "name": "my-rule-name",
-    "ruleId": "",
-    "description": "",
-    "remediation": "",
-    "complianceTags": "",
-    "logicHash": "cmtXKQoKHlKO2N9LxenYfQ",
-    "severity": "High"
-  },
-  "account": {
-    "id": "my-account-id",
-    "name": "my-account-name",
-    "vendor": "Azure",
-    "dome9CloudAccountId": "my-dome9-account-id",
-    "organizationalUnitId": "00000000-0000-0000-0000-000000000000",
-    "organizationalUnitPath": ""
-  },
-  "region": "East US",
-  "entity": {
     "documentEndpoint": "https://my-cosmos-db.documents.azure.com:443/",
     "accountType": "Microsoft.DocumentDB/databaseAccounts",
     "kind": "GlobalDocumentDB",
@@ -93,9 +62,4 @@
     "accountNumber": "my-account-number",
     "region": "eastus",
     "externalFindings": null
-  },
-  "remediationActions": [
-    "cosmos_db_account_add_tag my_key my_val"
-  ],
-  "action": "Detect"
 }

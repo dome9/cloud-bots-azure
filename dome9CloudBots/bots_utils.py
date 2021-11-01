@@ -1,5 +1,6 @@
 import logging
 
+
 class EntitiesTypes:
     COSMOS_DB_ACCOUNT = 'CosmosDbAccount'
 
