@@ -28,7 +28,9 @@
                     "Microsoft.Sql/servers/databases/transparentDataEncryption/write",
                     "Microsoft.Compute/virtualMachines/write",
                     "Microsoft.Compute/virtualMachines/read",
-                    "Microsoft.Compute/virtualMachines/deallocate/action"
+                    "Microsoft.Compute/virtualMachines/deallocate/action",
+                    "Microsoft.DocumentDB/databaseAccounts/read",
+                    "Microsoft.DocumentDB/databaseAccounts/write"
                 ],
                 "notActions": [],
                 "dataActions": [],

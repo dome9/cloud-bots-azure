@@ -1,0 +1,65 @@
+{
+    "documentEndpoint": "https://my-cosmos-db.documents.azure.com:443/",
+    "accountType": "Microsoft.DocumentDB/databaseAccounts",
+    "kind": "GlobalDocumentDB",
+    "consistencyPolicy": {
+      "defaultConsistencyLevel": "Session",
+      "maxStalenessPrefix": 100,
+      "maxIntervalInSeconds": 5
+    },
+    "defaultConsistencyLevel": "Session",
+    "readableReplications": [
+      {
+        "id": "my-cosmos-db-eastus",
+        "locationName": "East US",
+        "documentEndpoint": "https://my-cosmos-db-eastus.documents.azure.com:443/",
+        "provisioningState": "Succeeded",
+        "failoverPriority": 0
+      }
+    ],
+    "writableReplications": [
+      {
+        "id": "my-cosmos-db-eastus",
+        "locationName": "East US",
+        "documentEndpoint": "https://my-cosmos-db-eastus.documents.azure.com:443/",
+        "provisioningState": "Succeeded",
+        "failoverPriority": 0
+      }
+    ],
+    "databaseAccountOfferType": "Standard",
+    "ipRangeFilter": [],
+    "resourceGroup": {
+      "tags": [],
+      "locks": null,
+      "id": "/subscriptions/my-subscription-id/resourceGroups/my-resource-group",
+      "type": "ResourceGroup",
+      "name": "my-resource-group",
+      "dome9Id": "7|my-account-id|resourcegroup|my-resource-group",
+      "accountNumber": "my-account-number",
+      "region": "eastus",
+      "externalFindings": null
+    },
+    "tags": [
+      {
+        "key": "defaultExperience",
+        "value": "Core (SQL)"
+      },
+      {
+        "key": "hidden-cosmos-mmspecial",
+        "value": ""
+      }
+    ],
+    "publicNetworkAccess": "Enabled",
+    "isVirtualNetworkFilterEnabled": false,
+    "keyVaultKeyUri": null,
+    "privateEndpointConnections": null,
+    "virtualNetworkRules": [],
+    "locks": [],
+    "id": "/subscriptions/my-account-id/resourcegroups/my-resource-group/providers/microsoft.documentdb/databaseaccounts/my-cosmos-db",
+    "type": "CosmosDbAccount",
+    "name": "my-cosmos-db",
+    "dome9Id": "7|my-account-id|resourcegroup|my-resource-group|cosmosdbaccount|my-cosmos-db",
+    "accountNumber": "my-account-number",
+    "region": "eastus",
+    "externalFindings": null
+}

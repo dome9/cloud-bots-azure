@@ -1,0 +1,166 @@
+{
+  "state": "Running",
+  "resourceGroup": {
+    "tags": [
+      
+    ],
+    "locks": null,
+    "id": "/subscriptions/my-subscription-id/resourceGroups/my-resource-group",
+    "type": "ResourceGroup",
+    "name": "my-resource-group",
+    "dome9Id": "7|cloud-account|resourcegroup|my-resource-group",
+    "accountNumber": "my-subscription-id",
+    "region": "eastus",
+    "externalFindings": null
+  },
+  "inner": {
+    "hostNames": [
+      "my-function-name.azurewebsites.net"
+    ],
+    "repositorySiteName": "my-function-name",
+    "enabled": true,
+    "enabledHostNames": [
+      "my-function-name.azurewebsites.net",
+      "my-function-name.scm.azurewebsites.net"
+    ],
+    "hostNameSslStates": [
+      {
+        "name": "my-function-name.azurewebsites.net",
+        "sslState": "Disabled",
+        "virtualIP": null,
+        "thumbprint": null,
+        "toUpdate": null,
+        "hostType": "Standard"
+      },
+      {
+        "name": "my-function-name.scm.azurewebsites.net",
+        "sslState": "Disabled",
+        "virtualIP": null,
+        "thumbprint": null,
+        "toUpdate": null,
+        "hostType": "Repository"
+      }
+    ],
+    "serverFarmId": "/subscriptions/my-subscription-id/resourceGroups/my-resource-group/providers/Microsoft.Web/serverfarms/EastUSLinuxDynamicPlan",
+    "reserved": true,
+    "lastModifiedTimeUtc": 1634488763,
+    "clientCertEnabled": false,
+    "hostNamesDisabled": null,
+    "outboundIpAddresses": [
+      "40.71.177.34",
+      "40.71.1.129",
+      "52.170.233.65",
+      "40.71.3.54",
+      "52.191.115.185"
+    ],
+    "possibleOutboundIpAddresses": [
+      "40.71.177.34",
+      "40.71.1.129",
+      "52.170.233.65",
+      "40.71.3.54",
+      "52.191.115.185",
+      "104.211.20.160",
+      "104.211.22.67"
+    ],
+    "httpsOnly": false,
+    "defaultHostName": "my-function-name.azurewebsites.net",
+    "identity": null,
+    "identityStatus": false
+  },
+  "config": {
+    "netFrameworkVersion": "v4.0",
+    "phpVersion": "",
+    "pythonVersion": "",
+    "nodeVersion": "",
+    "linuxFxVersion": "",
+    "remoteDebuggingEnabled": false,
+    "httpLoggingEnabled": false,
+    "http20Enabled": false,
+    "publishingUsername": "$my-function-name",
+    "webSocketsEnabled": false,
+    "alwaysOn": false,
+    "javaVersion": null,
+    "javaContainerVersion": null,
+    "autoHealEnabled": false,
+    "tracingOptions": null,
+    "vnetName": "",
+    "minTlsVersions": {
+      "value": "1.2"
+    },
+    "scmIpSecurityRestrictionsUseMain": false,
+    "accessRestrictions": [
+      {
+        "ipAddress": "Any",
+        "subnetMask": null,
+        "vnetSubnetResourceId": null,
+        "vnetTrafficTag": null,
+        "subnetTrafficTag": null,
+        "action": "Allow",
+        "tag": null,
+        "priority": 1,
+        "name": "Allow all",
+        "description": "Allow all access",
+        "kind": "Ip"
+      },
+      {
+        "ipAddress": "Any",
+        "subnetMask": null,
+        "vnetSubnetResourceId": null,
+        "vnetTrafficTag": null,
+        "subnetTrafficTag": null,
+        "action": "Allow",
+        "tag": null,
+        "priority": 1,
+        "name": "Allow all",
+        "description": "Allow all access",
+        "kind": "ScmIp"
+      }
+    ]
+  },
+  "isAuthenticateOn": false,
+  "privateEndpoints": [
+    
+  ],
+  "unauthenticatedClientAction": null,
+  "tags": [
+    
+  ],
+  "appServicePlan": {
+    "id": "/subscriptions/my-subscription-id/resourceGroups/my-resource-group/providers/Microsoft.Web/serverfarms/EastUSLinuxDynamicPlan",
+    "name": "EastUSLinuxDynamicPlan",
+    "kind": "functionapp",
+    "location": "East US",
+    "tags": null,
+    "sku": {
+      "name": "Y1",
+      "tier": "Dynamic",
+      "size": "Y1",
+      "family": "Y",
+      "capacity": 0
+    },
+    "properties": {
+      "webSpace": "my-resource-group-EastUSwebspace-Linux",
+      "adminSiteName": null,
+      "hostingEnvironment": null,
+      "hostingEnvironmentProfile": null,
+      "planName": "VirtualDedicatedPlan",
+      "adminRuntimeSiteName": null,
+      "computeMode": "Shared",
+      "siteMode": null,
+      "hostingEnvironmentId": null,
+      "kubeEnvironmentProfile": null
+    }
+  },
+  "externalPrivateEndpoints": [
+    
+  ],
+  "locks": [
+    
+  ],
+  "id": "/subscriptions/my-subscription-id/resourceGroups/my-resource-group/providers/Microsoft.Web/sites/my-function-name",
+  "type": "FunctionApp",
+  "name": "my-function-name",
+  "dome9Id": "7|cloud-account|resourcegroup|my-resource-group|functionapp|my-function-name",
+  "accountNumber": "my-subscription-id",
+  "region": "eastus"
+}
