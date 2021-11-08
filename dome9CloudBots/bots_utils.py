@@ -3,6 +3,7 @@ import logging
 
 class EntitiesTypes:
     COSMOS_DB_ACCOUNT = 'CosmosDbAccount'
+    SQL_DB = 'SQLDB'
 
 
 def get_credentials_error():
