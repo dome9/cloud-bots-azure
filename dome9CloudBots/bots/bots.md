@@ -179,3 +179,15 @@ Example 2:  delete_network_security_group_single_rule 556 10.0.0.0/24 - - Allow
 Example 3:  delete_network_security_group_single_rule - - 22 0.0.0.0/2 Deny
 
 Limitations: None
+
+## cosmos_db_account_add_tag
+
+What it does: Adds a tag to a Cosmos DB Account
+
+Usage: cosmos_db_account_add_tag <tag_key> <tag_value>
+
+Example: cosmos_db_account_add_tag my-key my-val
+
+Limitations: None
+
+Permissions: Microsoft.DocumentDB/databaseAccounts/read, Microsoft.DocumentDB/databaseAccounts/write
