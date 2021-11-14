@@ -1,99 +1,20 @@
-from azure.mgmt.monitor import MonitorManagementClient
-from azure.identity import ClientSecretCredential
-from azure.mgmt.sql import SqlManagementClient
-
-
-if __name__ == '__main__':
-    CLIENT_ID = 'de3e976b-819e-4aa4-89ca-dffd8a409468'
-    DIRECTORY_ID = '741aca19-10ab-4d3d-9e7c-43b5ff76773c'
-    CLIENT_SECRET = 'LQW7Q~GdmjswW~rATCcNnXQtB6q4YnsvBiEl5'
-
-    credentials = ClientSecretCredential(
-            client_id=CLIENT_ID,
-            client_secret=CLIENT_SECRET,
-            tenant_id=DIRECTORY_ID
-        )
-
-    subscription_id = '66de47d2-4c17-4a17-bb9d-3b3f0cac31f0'
-
-    monitor = MonitorManagementClient(credentials, subscription_id)
-    sql_client = SqlManagementClient(credentials, subscription_id)
-
-    resource_uri = '/subscriptions/66de47d2-4c17-4a17-bb9d-3b3f0cac31f0/resourceGroups/Tests/providers/Microsoft.Sql/servers/bots-playground-sql-server/databases/sql_db_enable_auditing'
-    name = 'test-diagnostic-settings-sql-db'
-    event_hub_name = 'test-event-hub'
-    metrics = [{'category': "Basic", 'enabled': False, 'retention_policy': {'days': 0, 'enabled': False}, 'timeGrain': None}]
-    logs = [{
-      "category": "SQLSecurityAuditEvents",
-      "categoryGroup": None,
-      "enabled": True,
-      "retentionPolicy": {
-        "days": 0,
-        "enabled": False
-      }
-    }]
-    ws = '/subscriptions/66de47d2-4c17-4a17-bb9d-3b3f0cac31f0/resourcegroups/tests/providers/microsoft.operationalinsights/workspaces/sql-db-enable-auditing-ws'
-    auth_rule = '/subscriptions/66de47d2-4c17-4a17-bb9d-3b3f0cac31f0/resourceGroups/Tests/providers/Microsoft.EventHub/namespaces/sql-db-enable-auditing/authorizationRules/RootManageSharedAccessKey'
-
-    storage_endpoint = 'https://testsqldbenableauditing.blob.core.windows.net/'
-    # monitor.diagnostic_settings.create_or_update(resource_uri, name, parameters={'event_hub_name': event_hub_name, 'metrics': metrics, 'logs': logs})
-    ds = monitor.diagnostic_settings.create_or_update(resource_uri, name, parameters={
-                                                                                 'event_hub_name': event_hub_name,
-                                                                                 'event_hub_authorization_rule_id': auth_rule,
-                                                                                 'logs': logs,
-                                                                                 'metrics': metrics})
-
-    # storage_account_id = '/subscriptions/66de47d2-4c17-4a17-bb9d-3b3f0cac31f0/resourceGroups/Tests/providers/Microsoft.Storage/storageAccounts/testsqldbenableauditing'
-    # ds = monitor.diagnostic_settings.create_or_update(resource_uri, name, parameters={'storage_account_id': storage_account_id,
-    #                                                                                   'logs': logs,
-    #                                                                                   'metrics': metrics})
-
-    # storage_account_id = '/subscriptions/66de47d2-4c17-4a17-bb9d-3b3f0cac31f0/resourceGroups/Tests/providers/Microsoft.Storage/storageAccounts/testsqldbenableauditing'
-    # ds = monitor.diagnostic_settings.create_or_update(resource_uri, name,
-    #                                                   parameters={'workspace_id': ws,
-    #                                                               'logs': logs,
-    #                                                     \          'metrics': metrics})
-
-    parameters = {
-        'state': 'Enabled',
-        # 'storage_endpoint': storage_endpoint,
-        # 'storage_account_access_key': 't7eVSmGwALls6bl4amVv2i82ZSZ4YcJc6OSi48WpBpoo2NeX2VqHZIqUYQLnz2e83LCFOouYqcLldvGM647UtQ==',
-        'is_azure_monitor_target_enable': 'true',
-        "auditActionsAndGroups": [
-            "SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP",
-            "FAILED_DATABASE_AUTHENTICATION_GROUP",
-            "BATCH_COMPLETED_GROUP"
-        ]
-    }
-
-    policy = sql_client.database_blob_auditing_policies.create_or_update('Tests', 'bots-playground-sql-server',
-                                                                         'sql_db_enable_auditing',
-                                                                         parameters=parameters)
-
-    # policy = sql_client.database_blob_auditing_policies.create_or_update('Tests', 'bots-playground-sql-server',
-    #                                                                      'sql_db_enable_auditing',
-    #                                                                      parameters={
-    #                                                                          'storage_endpoint': storage_endpoint,
-    #                                                                          'storage_account_subscription_id': subscription_id,
-    #                                                                          'state': 'Enabled',
-    #                                                                          "auditActionsAndGroups": [
-    #                                                                              "SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP",
-    #                                                                              "FAILED_DATABASE_AUTHENTICATION_GROUP",
-    #                                                                              "BATCH_COMPLETED_GROUP"
-    #                                                                          ],
-    #                                                                      })
-
-    print(ds)
-    print(policy)
-
-    # params: event_hub_namespace event_hub_name event_hub_authorization_rule_name storage_account_name storage_endpoint storage_account_access_key workspace_id
 
 # What it does: enables auditing for SQL Database
-# Usage: sql_db_enable_auditing # TODO add Params
-# Example: sql_db_enable_auditing # todo add params
-# Limitations: # todo add limitations
+# Usage:  Use '-' for empty parameter
+#         sql_db_enable_auditing <storage_account_name> <storage_endpoint> <storage_account_access_key> <retention_days>
+#                            <workspace_name> <event_hub_namespace> <event_hub_name> <event_hub_authorization_rule_name>
+# Examples: sql_db_enable_auditing my-storage-account https://MyAccount.blob.core.windows.net 123dsedw344df4fdfQ== 7
+#                                  - - - -
+#           sql_db_enable_auditing - - - - my-workspace - - -
+#           sql_db_enable_auditing - - - - - my-event-hub-namespace my-event-hub my-authorization-rule
+#           sql_db_enable_auditing my-storage-account https://MyAccount.blob.core.windows.net 123dsedw344df4fdfQ== 7 -
+#                                  my-event-hub-namespace my-event-hub my-authorization-rule
+#           sql_db_enable_auditing - - - - my-workspace my-event-hub-namespace my-event-hub my-authorization-rule
+#           sql_db_enable_auditing my-storage-account https://MyAccount.blob.core.windows.net 123dsedw344df4fdfQ== 7
+#                                  my-workspace my-event-hub-namespace my-event-hub my-authorization-rule
+# Limitations: None
 # Permissions: # todo add permissions
-# Last checked 8/11/21
+# Last checked 14/11/21
 from azure.core.exceptions import HttpResponseError
 from azure.mgmt.sql import SqlManagementClient
 from azure.mgmt.monitor import MonitorManagementClient
@@ -109,8 +30,8 @@ LOGS = [
         "categoryGroup": None,
         "enabled": True,
         "retentionPolicy": {
-        "days": 0,
-        "enabled": False
+            "days": 0,
+            "enabled": False
         }
     },
     {
@@ -118,8 +39,8 @@ LOGS = [
         "categoryGroup": None,
         "enabled": True,
         "retentionPolicy": {
-        "days": 0,
-        "enabled": False
+            "days": 0,
+            "enabled": False
         }
     },
     {
@@ -127,8 +48,8 @@ LOGS = [
         "categoryGroup": None,
         "enabled": True,
         "retentionPolicy": {
-        "days": 0,
-        "enabled": False
+            "days": 0,
+            "enabled": False
         }
     },
     {
@@ -136,8 +57,8 @@ LOGS = [
         "categoryGroup": None,
         "enabled": True,
         "retentionPolicy": {
-        "days": 0,
-        "enabled": False
+            "days": 0,
+            "enabled": False
         }
     },
     {
@@ -145,8 +66,8 @@ LOGS = [
         "categoryGroup": None,
         "enabled": True,
         "retentionPolicy": {
-        "days": 0,
-        "enabled": False
+            "days": 0,
+            "enabled": False
         }
     },
     {
@@ -154,8 +75,8 @@ LOGS = [
         "categoryGroup": None,
         "enabled": True,
         "retentionPolicy": {
-        "days": 0,
-        "enabled": False
+            "days": 0,
+            "enabled": False
         }
     },
     {
@@ -163,8 +84,8 @@ LOGS = [
         "categoryGroup": None,
         "enabled": True,
         "retentionPolicy": {
-        "days": 0,
-        "enabled": False
+            "days": 0,
+            "enabled": False
         }
     },
     {
@@ -172,8 +93,8 @@ LOGS = [
         "categoryGroup": None,
         "enabled": True,
         "retentionPolicy": {
-        "days": 0,
-        "enabled": False
+            "days": 0,
+            "enabled": False
         }
     },
     {
@@ -181,8 +102,8 @@ LOGS = [
         "categoryGroup": None,
         "enabled": True,
         "retentionPolicy": {
-        "days": 0,
-        "enabled": False
+            "days": 0,
+            "enabled": False
         }
     },
     {
@@ -190,8 +111,8 @@ LOGS = [
         "categoryGroup": None,
         "enabled": True,
         "retentionPolicy": {
-        "days": 0,
-        "enabled": False
+            "days": 0,
+            "enabled": False
         }
     }
 ]
@@ -233,12 +154,7 @@ DIAGNOSTIC_SETTINGS_PARAMETERS = {
 
 ENABLE_AUDIT_PARAMETERS = {
     'state': 'Enabled',
-    'is_azure_monitor_target_enable': True,
-    'auditActionsAndGroups': [
-        'SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP',
-        'FAILED_DATABASE_AUTHENTICATION_GROUP',
-        'BATCH_COMPLETED_GROUP'
-    ]
+    'is_azure_monitor_target_enabled': True
 }
 
 
@@ -315,19 +231,41 @@ def generate_diagnostic_settings_name(database_name):
 def update_diagnostic_settings_parameters(params, resource_group, subscription_id):
     logging.info(f'{__file__} - trying to get params')
     try:
-        event_hub_namespace, event_hub_name, event_hub_authorization_rule_name, \
-            storage_account_name, storage_endpoint, storage_account_access_key, workspace_id = params
+        storage_account_name, storage_endpoint, storage_account_access_key, retention_days, \
+            workspace_name, event_hub_namespace, event_hub_name, event_hub_authorization_rule_name = params
+        update_retention_days(retention_days)
     except ValueError:
-        error_msg = 'Error! Incorrect number of params (expected )'
+        error_msg = 'Error! Incorrect number of params (expected 8)'
         logging.error(f'{__file__} - {error_msg}')
         raise ValueError(error_msg)
-    if is_storage_account_configured(storage_account_access_key, storage_endpoint):
+    if is_storage_account_configured(storage_account_name, storage_endpoint, storage_account_access_key, retention_days):
         add_storage_account_parameters_to_diagnostic_settings(resource_group, storage_account_name, subscription_id)
-    if is_log_analytics_configured(workspace_id):
+    if is_log_analytics_configured(workspace_name):
+        workspace_id = '/subscriptions/' + subscription_id + '/resourcegroups/' + resource_group + \
+                       '/providers/microsoft.operationalinsights/workspaces/' + workspace_name
         add_log_analytics_parameters_to_diagnostic_settings(workspace_id)
     if is_event_hub_configured(event_hub_authorization_rule_name, event_hub_name, event_hub_namespace):
         add_event_hub_parameters_to_diagnostic_settings(event_hub_authorization_rule_name, event_hub_name,
                                                         event_hub_namespace, resource_group, subscription_id)
+
+
+def update_retention_days(retention_days):
+    if retention_days == EMPTY:
+        return
+    try:
+        retention_days = int(retention_days)
+        if retention_days == 0:
+            return
+        for log in DIAGNOSTIC_SETTINGS_PARAMETERS['logs']:
+            log['retentionPolicy']['days'] = retention_days
+            log['retentionPolicy']['enabled'] = True
+        for metric in DIAGNOSTIC_SETTINGS_PARAMETERS['metrics']:
+            metric['retention_policy']['days'] = retention_days
+            metric['retention_policy']['enabled'] = True
+    except ValueError:
+        error_msg = 'Error! retention_days must be an integer'
+        logging.error(f'{__file__} - {error_msg}')
+        raise ValueError(error_msg)
 
 
 def add_event_hub_parameters_to_diagnostic_settings(event_hub_authorization_rule_name, event_hub_name,
@@ -349,12 +287,13 @@ def add_storage_account_parameters_to_diagnostic_settings(resource_group, storag
     DIAGNOSTIC_SETTINGS_PARAMETERS['storage_account_id'] = storage_account_id
 
 
-def is_storage_account_configured(storage_account_access_key, storage_endpoint):
-    return storage_endpoint != EMPTY and storage_account_access_key != EMPTY
+def is_storage_account_configured(storage_account_name, storage_endpoint, storage_account_access_key, retention_days):
+    return storage_account_name != EMPTY and storage_endpoint != EMPTY and \
+           storage_account_access_key != EMPTY and retention_days != EMPTY
 
 
-def is_log_analytics_configured(workspace_id):
-    return workspace_id != EMPTY
+def is_log_analytics_configured(workspace_name):
+    return workspace_name != EMPTY
 
 
 def is_event_hub_configured(event_hub_authorization_rule_name, event_hub_name, event_hub_namespace):
