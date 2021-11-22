@@ -30,7 +30,9 @@
                     "Microsoft.Compute/virtualMachines/read",
                     "Microsoft.Compute/virtualMachines/deallocate/action",
                     "Microsoft.DocumentDB/databaseAccounts/read",
-                    "Microsoft.DocumentDB/databaseAccounts/write"
+                    "Microsoft.DocumentDB/databaseAccounts/write",
+                    "Microsoft.Cache/redis/read",
+                    "Microsoft.Cache/redis/write"
                 ],
                 "notActions": [],
                 "dataActions": [],

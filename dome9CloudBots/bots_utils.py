@@ -3,6 +3,7 @@ import logging
 
 class EntitiesTypes:
     COSMOS_DB_ACCOUNT = 'CosmosDbAccount'
+    REDIS_CACHE = 'RedisCache'
 
 
 def get_credentials_error():
