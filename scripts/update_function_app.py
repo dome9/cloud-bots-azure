@@ -1,4 +1,5 @@
 import os
+import stat
 import tkinter as tk
 from tkinter import filedialog
 from shutil import copy2, rmtree
@@ -28,6 +29,11 @@ def main():
 
 
 def delete_files():
+    for root, dirs, files in os.walk(ROOT_DIRECTORY):
+        for curr_dir in dirs:
+            os.chmod(os.path.join(root, curr_dir), stat.S_IRWXU)
+        for file in files:
+            os.chmod(os.path.join(root, file), stat.S_IRWXU)
     try:
         print(f'Deleting files from: {ROOT_DIRECTORY}...')
         rmtree(ROOT_DIRECTORY)
