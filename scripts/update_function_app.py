@@ -39,6 +39,7 @@ def delete_files():
         rmtree(ROOT_DIRECTORY)
     except Exception as e:
         print(f'Failed to delete files from: {ROOT_DIRECTORY} - {e}')
+    print(f'Successfully deleted files from: {ROOT_DIRECTORY}')
 
 
 def ask_user_if_delete_files():
