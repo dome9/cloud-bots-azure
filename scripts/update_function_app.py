@@ -47,9 +47,11 @@ def ask_user_if_delete_files():
 
 
 def update_function_app(function_app_name):
+    os.chdir(ROOT_DIRECTORY)
     os.system('func init')
     command = f'func azure functionapp publish {function_app_name}'
     os.system(command)
+    os.chdir('..')
 
 
 def get_params_from_user():
