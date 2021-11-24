@@ -1,11 +1,10 @@
 import os
 import tkinter as tk
 from tkinter import filedialog
-from shutil import copy2
+from shutil import copy2, rmtree
 
-ROOT_DIRECTORY = '.'
-BOTS_DESTINATION = 'dome9CloudBots/bots'
-ZIP_NAME = 'cloudbots-zipped'
+ROOT_DIRECTORY = 'cloud-bots-azure'
+BOTS_DESTINATION = ROOT_DIRECTORY + '/dome9CloudBots/bots'
 YES = 'y'
 NO = 'n'
 
@@ -23,6 +22,28 @@ def main():
     except Exception as e:
         print(f'Error updating function function app: {function_app_name} - {e}')
     print(f'Successfully updated function function app: {function_app_name}')
+    is_delete_files = ask_user_if_delete_files()
+    if is_delete_files:
+        delete_files()
+
+
+def delete_files():
+    try:
+        print(f'Deleting files from: {ROOT_DIRECTORY}...')
+        rmtree(ROOT_DIRECTORY)
+    except Exception as e:
+        print(f'Failed to delete files from: {ROOT_DIRECTORY} - {e}')
+
+
+def ask_user_if_delete_files():
+    while True:
+        add_files_user_choice = input(f'Do you want to delete the files you cloned? ({YES}/{NO}) ')
+        if add_files_user_choice != YES and add_files_user_choice != NO:
+            print(f'Error! Illegal input. Required: ({YES}/{NO})')
+            continue
+        if add_files_user_choice == YES:
+            return True
+        return False
 
 
 def update_function_app(function_app_name):
