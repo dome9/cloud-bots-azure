@@ -1,8 +1,10 @@
 import os
 import stat
+import subprocess
 import tkinter as tk
 from tkinter import filedialog
 from shutil import copy2, rmtree
+from colorama import Fore, Style
 
 ROOT_DIRECTORY = 'cloud-bots-azure'
 BOTS_DESTINATION = ROOT_DIRECTORY + '/dome9CloudBots/bots'
@@ -17,12 +19,7 @@ def main():
         destination = choose_destination()
         add_files(files_to_add, destination)
     function_app_name = get_params_from_user()
-    try:
-        print(f'Updating function app: {function_app_name}...')
-        update_function_app(function_app_name)
-    except Exception as e:
-        print(f'Error updating function function app: {function_app_name} - {e}')
-    print(f'Successfully updated function function app: {function_app_name}')
+    update_function_app(function_app_name)
     is_delete_files = ask_user_if_delete_files()
     if is_delete_files:
         delete_files()
@@ -38,7 +35,7 @@ def delete_files():
         print(f'Deleting files from: {ROOT_DIRECTORY}...')
         rmtree(ROOT_DIRECTORY)
     except Exception as e:
-        print(f'Failed to delete files from: {ROOT_DIRECTORY} - {e}')
+        print(f'{Fore.RED}Failed to delete files from: {ROOT_DIRECTORY} - {e}{Style.RESET_ALL}')
     print(f'Successfully deleted files from: {ROOT_DIRECTORY}')
 
 
@@ -46,7 +43,7 @@ def ask_user_if_delete_files():
     while True:
         add_files_user_choice = input(f'Do you want to delete the files you cloned? ({YES}/{NO}) ')
         if add_files_user_choice != YES and add_files_user_choice != NO:
-            print(f'Error! Illegal input. Required: ({YES}/{NO})')
+            print(f'{Fore.RED}Error! Illegal input. Required: ({YES}/{NO}){Style.RESET_ALL}')
             continue
         if add_files_user_choice == YES:
             return True
@@ -54,11 +51,22 @@ def ask_user_if_delete_files():
 
 
 def update_function_app(function_app_name):
-    os.chdir(ROOT_DIRECTORY)
-    os.system('func init')
-    command = f'func azure functionapp publish {function_app_name}'
-    os.system(command)
-    os.chdir('..')
+    print(f'Updating function app: {function_app_name}...')
+    try:
+        subprocess.run(['func', 'init'], check=True)
+        update_command = [
+            'func',
+            'azure',
+            'functionapp',
+            'publish',
+            function_app_name
+        ]
+        subprocess.run(update_command, check=True)
+    except FileNotFoundError:
+        print(f'{Fore.RED}Error! Please install Azure Function Core Tools{Style.RESET_ALL}')
+    except Exception as e:
+        print(f'{Fore.RED}Error! Unexpected error occurred: {e}{Style.RESET_ALL}')
+    print(f'Successfully updated function function app: {function_app_name}')
 
 
 def get_params_from_user():
@@ -70,7 +78,7 @@ def ask_user_if_add_files():
     while True:
         add_files_user_choice = input(f'Do you want to add files to the function? ({YES}/{NO}) ')
         if add_files_user_choice != YES and add_files_user_choice != NO:
-            print(f'Error! Illegal input. Required: ({YES}/{NO})')
+            print(f'{Fore.RED}Error! Illegal input. Required: ({YES}/{NO}){Style.RESET_ALL}')
             continue
         if add_files_user_choice == YES:
             return True
@@ -84,7 +92,7 @@ def choose_destination():
         is_different_destination = input(f'Default destination is {BOTS_DESTINATION}. '
                                          f'Do you want to choose a different destination? ({YES}/{NO}) ')
         if is_different_destination != NO and is_different_destination != YES:
-            print(f'Error! Illegal input. Required: ({YES}/{NO})')
+            print(f'{Fore.RED}Error! Illegal input. Required: ({YES}/{NO}){Style.RESET_ALL}')
             continue
         if is_different_destination == NO:
             is_chosen = True
@@ -109,7 +117,7 @@ def add_files(files, destination, ):
             copy2(file_path, destination)
             print(f'Copied file: {file_path} to destination: {os.path.abspath(destination)}')
         except Exception as e:
-            print(f'Error! Failed to copy file: {file_path} to {destination} - {e}')
+            print(f'{Fore.RED}Error! Failed to copy file: {file_path} to {destination} - {e}{Style.RESET_ALL}')
 
 
 if __name__ == '__main__':

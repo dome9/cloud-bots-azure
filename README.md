@@ -242,14 +242,7 @@ findings. To send events for previous findings, follow these steps:
 
 # Update the CloudBots code
 
-**Note:** Make sure to use the latest versions of Azure CLI and Azure functions 
-1.  Deployment
-    1.  Clone the CloudBots Azure code from
-        [GitHub](https://github.com/Dome9/cloud-bots-azure)
-    2.  Deploy the code to the remote Function App (this could take a
-        while). Run the following command, replacing ${functionAppName}
-        with the Function App name that was given in the previous step
-        (5 (v)): `func azure functionapp publish ${functionAppName}`
+See [Update CloudBots Function App](scripts/README.md##Update CloudBots Function App)
 
 # Log Collection for Troubleshooting
 
