@@ -52,6 +52,7 @@ def ask_user_if_delete_files():
 
 def update_function_app(function_app_name):
     print(f'Updating function app: {function_app_name}...')
+    os.chdir(ROOT_DIRECTORY)
     try:
         subprocess.run(['func', 'init'], check=True)
         update_command = [
@@ -64,8 +65,12 @@ def update_function_app(function_app_name):
         subprocess.run(update_command, check=True)
     except FileNotFoundError:
         print(f'{Fore.RED}Error! Please install Azure Function Core Tools{Style.RESET_ALL}')
+        return
     except Exception as e:
         print(f'{Fore.RED}Error! Unexpected error occurred: {e}{Style.RESET_ALL}')
+        return
+    finally:
+        os.chdir('..')
     print(f'Successfully updated function function app: {function_app_name}')
 
 
