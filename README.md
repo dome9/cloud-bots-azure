@@ -242,7 +242,7 @@ findings. To send events for previous findings, follow these steps:
 
 # Update the CloudBots code
 
-See [Update CloudBots Function App](scripts/README.md#Update CloudBots Function App)
+See [Update CloudBots Function App](./scripts/README.md#Update CloudBots Function App)
 
 # Log Collection for Troubleshooting
 
