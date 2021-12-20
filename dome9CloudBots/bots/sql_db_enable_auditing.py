@@ -13,8 +13,12 @@
 #           sql_db_enable_auditing my-storage-account https://MyAccount.blob.core.windows.net 123dsedw344df4fdfQ== 7
 #                                  my-workspace my-event-hub-namespace my-event-hub my-authorization-rule
 # Limitations: None
-# Permissions: # todo add permissions
+# Permissions: Microsoft.Insights/DiagnosticSettings/Write,
+#              Microsoft.EventHub/namespaces/authorizationRules/listkeys/action,
+#              Microsoft.OperationalInsights/workspaces/sharedKeys/action,
+#              Microsoft.Sql/servers/databases/auditingSettings/write
 # Last checked 14/11/21
+
 from azure.core.exceptions import HttpResponseError
 from azure.mgmt.sql import SqlManagementClient
 from azure.mgmt.monitor import MonitorManagementClient

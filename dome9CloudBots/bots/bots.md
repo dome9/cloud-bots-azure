@@ -134,6 +134,31 @@ Limitations: None
 
 Permissions: Microsoft.Cache/redis/write, Microsoft.Cache/redis/read
 
+## sql_db_enable_auditing
+
+What it does: enables auditing for SQL Database
+
+Usage:  Use '-' for empty parameter
+         sql_db_enable_auditing <storage_account_name> <storage_endpoint> <storage_account_access_key> <retention_days>
+                            <workspace_name> <event_hub_namespace> <event_hub_name> <event_hub_authorization_rule_name>
+
+Examples: sql_db_enable_auditing my-storage-account https://MyAccount.blob.core.windows.net 123dsedw344df4fdfQ== 7
+                                  - - - -
+           sql_db_enable_auditing - - - - my-workspace - - -
+           sql_db_enable_auditing - - - - - my-event-hub-namespace my-event-hub my-authorization-rule
+           sql_db_enable_auditing my-storage-account https://MyAccount.blob.core.windows.net 123dsedw344df4fdfQ== 7 -
+                                  my-event-hub-namespace my-event-hub my-authorization-rule
+           sql_db_enable_auditing - - - - my-workspace my-event-hub-namespace my-event-hub my-authorization-rule
+           sql_db_enable_auditing my-storage-account https://MyAccount.blob.core.windows.net 123dsedw344df4fdfQ== 7
+                                  my-workspace my-event-hub-namespace my-event-hub my-authorization-rule
+
+Limitations: None
+
+Permissions: Microsoft.Insights/DiagnosticSettings/Write,
+              Microsoft.EventHub/namespaces/authorizationRules/listkeys/action,
+              Microsoft.OperationalInsights/workspaces/sharedKeys/action,
+              Microsoft.Sql/servers/databases/auditingSettings/write
+
 ## sql_disable_public_access
 
 What it does: Sets "Deny public network access" Azure SQL flag to "Yes" and optionally, "Minimal TLS Version" to specified value
