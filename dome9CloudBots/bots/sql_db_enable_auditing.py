@@ -304,5 +304,5 @@ def extract_data_from_entity(entity):
     database_name = entity['name']
     server_name = entity['sqlServerName']
     subscription_id = entity['accountNumber']
-    resource_group = entity['resourceGroup']['name']
+    resource_group = entity['resourceGroup']
     return resource_group, subscription_id, database_name, server_name
