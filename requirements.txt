@@ -105,7 +105,7 @@ oauthlib==3.1.0
 pbr==5.5.1
 pycodestyle==2.6.0
 pycparser==2.20
-PyJWT==2.0.1
+PyJWT==2.4.0
 python-dateutil==2.8.1
 python-http-client==3.3.1
 requests==2.25.1
