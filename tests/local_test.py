@@ -11,12 +11,6 @@ import dome9CloudBots.handle_event
 import dome9CloudBots.bots.cosmos_db_account_add_tag
 import dome9CloudBots.send_logs_api_gateway as send_logs_to_api_gateway
 
-azureUser = "rotemben@daffygdome9.onmicrosoft.com"
-azurePass = "Shlomo2023$$"
-
-# azure_cli = get_default_cli()
-# azure_cli.invoke(['login','-u', azureUser,'-p', azurePass])
-
 BOT_NAME = 'cosmos_db_account_add_tag'
 
 
