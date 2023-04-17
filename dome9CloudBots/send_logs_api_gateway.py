@@ -25,7 +25,7 @@ def send_logs_api_gateway(message):
             if "Bot message" in bot:
                 bot["BotMessage"] = bot.pop("Bot message")
 
-            logMessage = {
+            log_message = {
                 "logType": "feedback",
                 "dome9AccountId": dome9AccountId,
                 "vendor": vendor,
@@ -35,7 +35,7 @@ def send_logs_api_gateway(message):
                 "remediationInfo": bot,
                 "executionTime": str(execution_time)
             }
-            json_bytes = (json.dumps(logMessage) + '\n').encode('utf-8')
+            json_bytes = (json.dumps(log_message) + '\n').encode('utf-8')
             # Encode the JSON bytes as base64
             base64_bytes = base64.b64encode(json_bytes)
             # Convert the base64-encoded bytes to a string
@@ -48,10 +48,10 @@ def send_logs_api_gateway(message):
                     "StreamName": stream_name}
             try:
                 response = requests.post(url, json=data, headers=headers)
-            except:
-                print(f'bot feedback Failed set post request-')
+            except Exception as e:
+                print(f'bot feedback Failed set post request-' + str(e))
 
-            if (response.status_code == 200 and "SequenceNumber" in response.text and "ShardId" in response.text):
+            if response.status_code == 200 and "SequenceNumber" in response.text and "ShardId" in response.text:
                 print(f'{findingKey} - bot feedback was reported successfully')
             else:
                 print(f'{findingKey} bot feedback Failed {response.text}')
