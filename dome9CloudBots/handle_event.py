@@ -3,6 +3,7 @@ import importlib
 import logging
 import os
 from azure.identity import ClientSecretCredential
+from send_logs_api_gateway import *
 
 MININAL_TAG_LENGTH = 2
 MININAL_ACTION_LENGTH = 1
@@ -77,6 +78,15 @@ def handle_event(message, message_output):
     if not bots or not len(bots):
         print(f'''{__file__} - Rule: {message_data.get('rule_name')} Doesnt have any bots to run. Skipping.''')
         return False
+
+    # send feedback
+    message_output['logsHttpEndpoint'] = message.get('logsHttpEndpoint')
+    message_output['logsHttpEndpointKey'] = message.get('logsHttpEndpointKey')
+    message_output['logsHttpEndpointStreamName'] = message.get('logsHttpEndpointStreamName')
+    message_output['logsHttpEndpointStreamPartitionKey'] = message.get('logsHttpEndpointStreamPartitionKey')
+    message_output['dome9AccountId'] = message.get('dome9AccountId')
+    message_output['executionId'] = message.get('executionId')
+    message_output['vendor'] = message.get('account').get('vendor')
 
     message_output['Rules violations found'] = []
     for bot_to_run in bots:
