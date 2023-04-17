@@ -40,7 +40,7 @@ class TestCosmosDbAccountAddTag(unittest.TestCase):
     @patch('dome9CloudBots.bots.cosmos_db_account_add_tag.add_tag_to_cosmos_db_account')
     @unittest.skipIf(IS_EXTERNAL_TEST == '1', 'Testing externally')
     def test_local_with_default_tags(self, add_tag_to_cosmos_db_mock, get_cosmos_db_mock, cosmos_db_client_mock):
-        entity_path = 'demo_entities/' + BOT_NAME + '/cosmos_db_account_default.json'
+        entity_path = 'demo_entities/' + BOT_NAME + '/cosmos_db_account_default_for_feedback.json'
         with open(entity_path, 'r') as read_file:
             entity = read_file.read()
         entity = json.loads(entity)
@@ -63,7 +63,7 @@ class TestCosmosDbAccountAddTag(unittest.TestCase):
     @patch('dome9CloudBots.bots.cosmos_db_account_add_tag.add_tag_to_cosmos_db_account')
     @unittest.skipIf(IS_EXTERNAL_TEST == '1', 'Testing externally')
     def test_local_missing_credentials(self, add_tag_to_cosmos_db_mock, get_cosmos_db_mock, cosmos_db_client_mock):
-        entity_path = 'demo_entities/' + BOT_NAME + '/cosmos_db_account_default.json'
+        entity_path = 'demo_entities/' + BOT_NAME + '/cosmos_db_account_default_for_feedback.json'
         with open(entity_path, 'r') as read_file:
             entity = read_file.read()
         entity = json.loads(entity)
@@ -75,7 +75,7 @@ class TestCosmosDbAccountAddTag(unittest.TestCase):
     @patch('dome9CloudBots.bots.cosmos_db_account_add_tag.add_tag_to_cosmos_db_account')
     @unittest.skipIf(IS_EXTERNAL_TEST == '1', 'Testing externally')
     def test_local_too_many_params(self, add_tag_to_cosmos_db_mock, get_cosmos_db_mock, cosmos_db_client_mock):
-        entity_path = 'demo_entities/' + BOT_NAME + '/cosmos_db_account_default.json'
+        entity_path = 'demo_entities/' + BOT_NAME + '/cosmos_db_account_default_for_feedback.json'
         with open(entity_path, 'r') as read_file:
             entity = read_file.read()
         entity = json.loads(entity)
@@ -87,7 +87,7 @@ class TestCosmosDbAccountAddTag(unittest.TestCase):
     @patch('dome9CloudBots.bots.cosmos_db_account_add_tag.add_tag_to_cosmos_db_account')
     @unittest.skipIf(IS_EXTERNAL_TEST == '1', 'Testing externally')
     def test_local_no_params(self, add_tag_to_cosmos_db_mock, get_cosmos_db_mock, cosmos_db_client_mock):
-        entity_path = 'demo_entities/' + BOT_NAME + '/cosmos_db_account_default.json'
+        entity_path = 'demo_entities/' + BOT_NAME + '/cosmos_db_account_default_for_feedback.json'
         with open(entity_path, 'r') as read_file:
             entity = read_file.read()
         entity = json.loads(entity)
