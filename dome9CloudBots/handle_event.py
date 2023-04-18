@@ -24,6 +24,8 @@ def get_data_from_message(message):
         if 'complianceTags' in message['rule']:
             # All of the remediation values are coming in on the compliance tags and they're pipe delimited
             data['compliance_tags'] = message['rule']['complianceTags'].split('|')
+        else:
+            data['compliance_tags'] = [] # todo - is it ok to add it?
     if 'status' in message:
         data['status'] = message['status']
     entity = message.get('entity')
@@ -87,6 +89,8 @@ def handle_event(message, message_output):
     message_output['dome9AccountId'] = message.get('dome9AccountId')
     message_output['executionId'] = message.get('executionId')
     message_output['vendor'] = message.get('account').get('vendor')
+    message_output['findingKey'] = message.get('findingKey')
+    message_output['accountId'] = message.get('account').get('id')
 
     message_output['Rules violations found'] = []
     for bot_to_run in bots:

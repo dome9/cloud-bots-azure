@@ -14,8 +14,8 @@ def send_logs_api_gateway(message):
         execution_time = datetime.now()
         dome9AccountId = message.get('dome9AccountId')
         vendor = message.get('vendor')
-        accountId = message.get('Account id')
-        executionId = message.get('executionId')
+        account_id = message.get('accountId')
+        execution_id = message.get('executionId')
 
         for bot in message.get('Rules violations found', []):
 
@@ -30,8 +30,8 @@ def send_logs_api_gateway(message):
                 "dome9AccountId": dome9AccountId,
                 "vendor": vendor,
                 "findingKey": findingKey,
-                "envCloudAccountId": accountId,
-                "executionId": executionId,
+                "envCloudAccountId": account_id,
+                "executionId": execution_id,
                 "remediationInfo": bot,
                 "executionTime": str(execution_time)
             }

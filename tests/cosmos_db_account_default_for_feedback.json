@@ -1,65 +1,29 @@
 {
-    "documentEndpoint": "https://rotemtest.documents.azure.com:443/",
-    "accountType": "Microsoft.DocumentDB/databaseAccounts",
-    "kind": "GlobalDocumentDB",
-    "consistencyPolicy": {
-      "defaultConsistencyLevel": "Session",
-      "maxStalenessPrefix": 100,
-      "maxIntervalInSeconds": 5
-    },
-    "defaultConsistencyLevel": "Session",
-    "readableReplications": [
-      {
-        "id": "my-cosmos-db-eastus",
-        "locationName": "East US",
-        "documentEndpoint": "https://my-cosmos-db-eastus.documents.azure.com:443/",
-        "provisioningState": "Succeeded",
-        "failoverPriority": 0
-      }
-    ],
-    "writableReplications": [
-      {
-        "id": "my-cosmos-db-eastus",
-        "locationName": "East US",
-        "documentEndpoint": "https://my-cosmos-db-eastus.documents.azure.com:443/",
-        "provisioningState": "Succeeded",
-        "failoverPriority": 0
-      }
-    ],
-    "databaseAccountOfferType": "Standard",
-    "ipRangeFilter": [],
-    "resourceGroup": {
-      "tags": [],
-      "locks": null,
-      "id": "/subscriptions/my-subscription-id/resourceGroups/my-resource-group",
-      "type": "ResourceGroup",
-      "name": "my-resource-group",
-      "dome9Id": "7|my-account-id|resourcegroup|my-resource-group",
-      "accountNumber": "my-account-number",
-      "region": "eastus",
-      "externalFindings": null
-    },
-    "tags": [
-      {
-        "key": "defaultExperience",
-        "value": "Core (SQL)"
-      },
-      {
-        "key": "hidden-cosmos-mmspecial",
-        "value": ""
-      }
-    ],
-    "publicNetworkAccess": "Enabled",
-    "isVirtualNetworkFilterEnabled": false,
-    "keyVaultKeyUri": null,
-    "privateEndpointConnections": null,
-    "virtualNetworkRules": [],
-    "locks": [],
-    "id": "/subscriptions/my-account-id/resourcegroups/my-resource-group/providers/microsoft.documentdb/databaseaccounts/my-cosmos-db",
-    "type": "CosmosDbAccount",
-    "name": "my-cosmos-db",
-    "dome9Id": "7|my-account-id|resourcegroup|my-resource-group|cosmosdbaccount|rotemtest",
-    "accountNumber": "my-account-number",
-    "region": "eastus",
-    "externalFindings": null
+    "executionId": "5b7d6698-5bcc-4069-b042-be5f209cad8f",
+	"status": "failed",
+	"findingKey": "P+mxwDnW8n+18oHs6OawLg",
+	"reportTime": "2023-02-09T01:15:28Z",
+	"rule": {
+		"name": "Ensure Cosmos DB account public network access is disabled"
+	},
+	"account": {
+		"id": "ce129ad4-2ccc-40d0-94b8-758d81db468d",
+		"name": "rotem160423",
+		"vendor": "Azure",
+		"dome9CloudAccountId": "f55572b1-441a-4f64-af7e-412fc4494a9f"
+	},
+	"region": "West US",
+	"entity": {
+		"id": "i-0de503b3ab201eefa",
+		"vpc": {
+			"id": "vpc-063e475f153d6db07"
+		},
+		"arn": "arn:aws:iam::941298424820:role/AwsInternetGateway-metric-role-qa"
+	},
+	"remediationActions": ["cosmos_db_account_add_tag 11 11"],
+	"logsHttpEndpoint": "https://03nlnc41gk.execute-api.us-east-1.amazonaws.com/remediation/feedback",
+	"logsHttpEndpointKey": "V274YHPSVG9gr3BxsHoN6IwEQ06ZloS6lxOX2hc3",
+	"logsHttpEndpointStreamName": "remediation_feedback",
+	"logsHttpEndpointStreamPartitionKey": "1",
+	"dome9AccountId": "15001"
 }
