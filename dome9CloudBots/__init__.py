@@ -66,6 +66,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
       output_message['Finding key'] = source_message.get('findingKey', 'N.A')
       try:
         export_results = handle_event(source_message, output_message)
+        send_logs_api_gateway(output_message)  # todo - check with omer if it is the wanted behavior
       except Exception as e:
         export_results = True
         logging.info(f'{__file__} - Handle event failed')
@@ -77,9 +78,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         logging.info(f'''{__file__} - Output didn't sent : {output_message}''')
       is_send_logs = os.getenv('SEND_LOGS', False)  
       logging.info(f'{__file__} - SEND_LOGS set to {str(is_send_logs)}')  
-      if is_send_logs:    
+      if is_send_logs: # todo - ask omer about it. we send logs to sumo. what is the behavior we want?
         send_logs(output_message, start_time, source_message.get('account').get('vendor'))
-        send_logs_api_gateway(output_message)  # todo - check if it is the right place
   if output_message:
     return func.HttpResponse(f'{output_message}')
   else:
