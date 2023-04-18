@@ -25,7 +25,7 @@ def get_data_from_message(message):
             # All of the remediation values are coming in on the compliance tags and they're pipe delimited
             data['compliance_tags'] = message['rule']['complianceTags'].split('|')
         else:
-            data['compliance_tags'] = [] # todo - is it ok to add it?
+            data['compliance_tags'] = []
     if 'status' in message:
         data['status'] = message['status']
     entity = message.get('entity')
