@@ -2,6 +2,7 @@ import json
 import requests
 import base64
 from datetime import datetime
+import logging
 
 
 def send_logs_api_gateway(message):
@@ -18,13 +19,11 @@ def send_logs_api_gateway(message):
         execution_id = message.get('executionId')
 
         for bot in message.get('Rules violations found', []):
-
             if "Execution status" in bot:
                 bot["ExecutionStatus"] = bot.pop("Execution status")
 
             if "Bot message" in bot:
                 bot["BotMessage"] = bot.pop("Bot message")
-
             log_message = {
                 "logType": "feedback",
                 "dome9AccountId": dome9AccountId,
@@ -41,17 +40,15 @@ def send_logs_api_gateway(message):
             # Convert the base64-encoded bytes to a string
             base64_string = base64_bytes.decode('utf-8')
 
-            headers = {"Content-Type": "application/json", "x-api-key": api_key}
+            headers = {"Content-Type": "application/json", "x-api-key": api_key, 'Accept': 'application/json'}
 
-            data = {"Data": base64_string,
-                    "PartitionKey": stream_partition_key,
-                    "StreamName": stream_name}
+            data = {"Data": base64_string, "PartitionKey": stream_partition_key, "StreamName": stream_name}
             try:
                 response = requests.post(url, json=data, headers=headers)
             except Exception as e:
-                print(f'bot feedback Failed set post request-' + str(e))
+                logging.info(f'[send_logs_api_gateway]: failed to send post request. error: {str(e)}')
 
             if response.status_code == 200 and "SequenceNumber" in response.text and "ShardId" in response.text:
-                print(f'{findingKey} - bot feedback was reported successfully')
+                logging.info(f'{findingKey} - bot feedback was reported successfully')
             else:
-                print(f'{findingKey} bot feedback Failed {response.text}')
+                logging.info(f'{findingKey} bot feedback Failed {response.text}')
