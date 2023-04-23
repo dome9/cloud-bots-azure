@@ -59,13 +59,13 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     
   start_time = time.time()
   logging.info(f'{__file__} - source message : {source_message}')
-  output_message = {}    
+  output_message = {}
   if source_message:
-      logging.info(f'source message : {source_message}')
       output_message['Account id'] = source_message['account'].get('id', 'N.A')
       output_message['Finding key'] = source_message.get('findingKey', 'N.A')
       try:
         export_results = handle_event(source_message, output_message)
+        send_logs_api_gateway(output_message)
       except Exception as e:
         export_results = True
         logging.info(f'{__file__} - Handle event failed')
@@ -77,7 +77,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         logging.info(f'''{__file__} - Output didn't sent : {output_message}''')
       is_send_logs = os.getenv('SEND_LOGS', False)  
       logging.info(f'{__file__} - SEND_LOGS set to {str(is_send_logs)}')  
-      if is_send_logs:    
+      if is_send_logs:
         send_logs(output_message, start_time, source_message.get('account').get('vendor'))
   if output_message:
     return func.HttpResponse(f'{output_message}')
