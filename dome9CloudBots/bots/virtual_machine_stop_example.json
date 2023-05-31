@@ -19,7 +19,7 @@
 			"id": ""
 		},
 		"arn": "",
-		"type": "VirtualMachin",
+		"type": "VirtualMachine",
 		"accountNumber": "ce129ad4-2ccc-40d0-94b8-758d81db468d",
 		"resourceGroup": {
 			"name": "rotem6"

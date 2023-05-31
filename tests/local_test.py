@@ -2,6 +2,7 @@ import json
 import dome9CloudBots.handle_event
 import dome9CloudBots.bots.cosmos_db_account_add_tag
 import dome9CloudBots.send_logs_api_gateway as send_logs_to_api_gateway
+import os
 
 
 # Instructions to run locally:
@@ -15,7 +16,8 @@ import dome9CloudBots.send_logs_api_gateway as send_logs_to_api_gateway
 # commenting to Git!
 
 def test_remediation_locally():
-    with open('virtual_machine_stop_example.json', 'r') as read_file:
+    test = os.path.abspath("virtual_machine_stop_example.json")
+    with open(test, 'r') as read_file:
         entity = read_file.read()
     entity = json.loads(entity)
     output_message = {}

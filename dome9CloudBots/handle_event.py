@@ -109,8 +109,8 @@ def handle_event(message, message_output):
 
         try:  ## Run the bot
             bot_msg = bot_module.run_action(credentials, message['rule'], message['entity'], params)
-            if "Failed to stop" in bot_msg:
-                bot_data['Execution status'] = "failed"  # case of authentication failed
+            if "Failed to" in bot_msg:
+                bot_data['Execution status'] = "failed"
             else:
                 bot_data['Execution status'] = "passed"
         except Exception as e:
