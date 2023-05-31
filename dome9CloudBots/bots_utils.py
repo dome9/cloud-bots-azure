@@ -3,6 +3,7 @@ import logging
 
 class EntitiesTypes:
     COSMOS_DB_ACCOUNT = 'CosmosDbAccount'
+    VIRTUAL_MACHINE = 'VirtualMachine'
     SQL_DB = 'SQLDB'
     REDIS_CACHE = 'RedisCache'
 
