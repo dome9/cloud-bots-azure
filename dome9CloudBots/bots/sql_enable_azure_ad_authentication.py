@@ -23,6 +23,13 @@ def run_action(credentials, rule, entity, params):
     logging.info(
         f'{__file__} - subscription_id : {subscription_id} - group_name : {group_name} - server_name : {server_name} - azure_ad_admin : {azure_ad_admin_name} - azure_user_sid : {azure_ad_user_sid} - tenant : {tenant}')
 
+    entity_type = entity.get('type')
+    if not dome9CloudBots.bots_utils.is_correct_type(dome9CloudBots.bots_utils.EntitiesTypes.SQL_SERVER,
+                                                     entity_type):
+        error_msg = f'Error! entity type is not SQL Server'
+        logging.error(f'{__file__} - {error_msg}')
+        raise TypeError(error_msg)
+
     if not dome9CloudBots.bots_utils.are_credentials_and_subscription_exists(subscription_id, credentials):
         error_msg = dome9CloudBots.bots_utils.get_credentials_error()
         return error_msg
