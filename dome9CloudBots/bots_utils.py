@@ -8,6 +8,7 @@ class EntitiesTypes:
     SQL_DB = 'SQLDB'
     REDIS_CACHE = 'RedisCache'
     SQL_SERVER = 'SQLServer'
+    NETWORK_SECURITY_GROUP = 'NetworkSecurityGroup'
 
 
 def get_credentials_error():
