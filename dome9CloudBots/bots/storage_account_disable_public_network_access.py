@@ -27,6 +27,13 @@ def run_action(credentials, rule, entity, params):
         '/providers/Microsoft.Network/virtualNetworks/' + \
         vnet_name + '/subnets/' + subnet_name
 
+    entity_type = entity.get('type')
+    if not dome9CloudBots.bots_utils.is_correct_type(dome9CloudBots.bots_utils.EntitiesTypes.STORAGE_ACCOUNT,
+                                                     entity_type):
+        error_msg = f'Error! entity type is not Storage Account'
+        logging.error(f'{__file__} - {error_msg}')
+        raise TypeError(error_msg)
+
     if not dome9CloudBots.bots_utils.are_credentials_and_subscription_exists(subscription_id, credentials):
         error_msg = dome9CloudBots.bots_utils.get_credentials_error()
         return error_msg

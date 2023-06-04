@@ -109,7 +109,10 @@ def handle_event(message, message_output):
 
         try:  ## Run the bot
             bot_msg = bot_module.run_action(credentials, message['rule'], message['entity'], params)
-            bot_data['Execution status'] = "passed"
+            if "Failed to" in bot_msg or "Unexpected error" in bot_msg:
+                bot_data['Execution status'] = "failed"
+            else:
+                bot_data['Execution status'] = "passed"
         except Exception as e:
             bot_msg = f'Error while executing function {bot}. Error: {e}'
             bot_data['Execution status'] = "failed"

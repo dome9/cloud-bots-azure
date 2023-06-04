@@ -12,9 +12,15 @@ import dome9CloudBots.bots_utils
 def run_action(credentials ,rule, entity, params):
     logging.info(f'{__file__} - run_action started')
     subscription_id = entity.get('accountNumber')
-    group_name = entity.get('resourceGroup',{}).get('name')
+    group_name = entity.get('resourceGroup', {}).get('name')
     vm_name =entity.get('name') 
     logging.info(f'{__file__} - subscription_id : {subscription_id} - group_name : {group_name} vm_name : {vm_name}')
+    entity_type = entity.get('type')
+    if not dome9CloudBots.bots_utils.is_correct_type(dome9CloudBots.bots_utils.EntitiesTypes.VIRTUAL_MACHINE,
+                                                     entity_type):
+        error_msg = f'Error! entity type is not Virtual Machine'
+        logging.error(f'{__file__} - {error_msg}')
+        raise TypeError(error_msg)
 
     if not dome9CloudBots.bots_utils.are_credentials_and_subscription_exists(subscription_id, credentials):
         error_msg = dome9CloudBots.bots_utils.get_credentials_error()

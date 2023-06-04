@@ -19,6 +19,13 @@ def run_action(credentials ,rule, entity, params):
     nsg_name = entity.get('name')
     logging.info(f'{__file__} - subscription_id : {subscription_id} - group_name : {resource_group_name} nsg_name : {nsg_name}')
 
+    entity_type = entity.get('type')
+    if not dome9CloudBots.bots_utils.is_correct_type(dome9CloudBots.bots_utils.EntitiesTypes.NETWORK_SECURITY_GROUP,
+                                                     entity_type):
+        error_msg = f'Error! entity type is not Network Security Group'
+        logging.error(f'{__file__} - {error_msg}')
+        raise TypeError(error_msg)
+
     if not dome9CloudBots.bots_utils.are_credentials_and_subscription_exists(subscription_id, credentials):
         error_msg = dome9CloudBots.bots_utils.get_credentials_error()
         return error_msg
