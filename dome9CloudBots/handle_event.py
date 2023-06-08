@@ -15,6 +15,7 @@ def get_credentials():
         client_secret=os.environ['AZURE_CLIENT_SECRET'],
         tenant_id=os.environ['AZURE_TENANT_ID']
     )
+
     return credentials
 
 def get_data_from_message(message):
