@@ -65,6 +65,6 @@ jobs:
           app-name: 'rotemtestportal'
           slot-name: 'Production'
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_7D5B0F1B517344EBB39BBCA584BEC2D8 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E906E5C04AA64F4084DD69195CDC1580 }}
           scm-do-build-during-deployment: true
           enable-oryx-build: true
