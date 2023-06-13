@@ -94,7 +94,7 @@ cffi==1.14.4
 chardet==4.0.0
 cryptography==3.4.1
 docutils==0.16
-idna==3.1
+idna
 isodate==0.6.0
 isort==5.7.0
 jmespath==0.10.0
