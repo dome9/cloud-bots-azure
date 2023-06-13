@@ -170,6 +170,10 @@
                             "value": "~4"
                         },
                         {
+                            "name": "linuxFxVersion",
+                            "value": "Python|3.9"
+                        },
+                        {
                             "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
                             "value": "[reference(resourceId('microsoft.insights/components/', parameters('ApplicationInsightsName')), '2015-05-01').InstrumentationKey]"
                         },
