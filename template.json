@@ -112,6 +112,13 @@
             "metadata": {
                 "description": "Location for all resources."
             }
+        },
+        "linuxFxVersion": {
+            "defaultValue": "Python|3.9",
+            "type": "String",
+            "metadata": {
+                "description": "python version"
+            }
         }
     },
     "variables": {
@@ -178,6 +185,10 @@
                             "value": "[reference(resourceId('microsoft.insights/components/', parameters('ApplicationInsightsName')), '2015-05-01').InstrumentationKey]"
                         },
                         {
+                            "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+                            "value": "[reference(resourceId('microsoft.insights/components/', parameters('ApplicationInsightsName')), '2015-05-01').ConnectionString]"
+                        },
+                        {
                             "name": "AZURE_CLIENT_ID",
                             "value": "[parameters('AzureApplicationID')]"
                         },
@@ -213,7 +224,8 @@
                             "name": "BASIC_AUTH_PASSWORD",
                             "value": "[parameters('BasicAuthPassword')]"
                         }
-                    ]
+                    ],
+                    "linuxFxVersion": "[parameters('linuxFxVersion')]"
                 },
                 "reserved": true
             }
