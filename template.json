@@ -165,6 +165,10 @@
                 "siteConfig": {
                     "appSettings": [
                         {
+                            "name": "WEBSITE_RUN_FROM_PACKAGE",
+                            "value": "https://api-dictionary-docs.s3.amazonaws.com/cloud-bots-azure.zip"
+                        },
+                        {
                             "name": "AzureWebJobsStorage",
                             "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('StorageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]"
                         },
