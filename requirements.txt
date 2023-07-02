@@ -117,6 +117,6 @@ six==1.15.0
 starkbank-ecdsa==2.0.1
 toml==0.10.2
 typed-ast==1.4.3
-uamqp==1.2.14
+uamqp
 urllib3==1.26.3
 wrapt==1.12.1
