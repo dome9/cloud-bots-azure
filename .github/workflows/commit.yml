@@ -39,3 +39,4 @@ jobs:
           cd $uploadFolder
           zip -r9 $pwd/cloud-bots-azure.zip .
           cd $pwd
+          aws s3 cp $pwd/cloud-bots-azure.zip "s3://dome9-backend-artifacts/azurecloudbots/cloud-bots-azure.zip" --acl public-read
