@@ -6,7 +6,7 @@ name: azure update zip via jenkins on commit
 on:
   # Triggers the workflow on push or pull request events but only for the "master" branch
   push:
-    branches: [ "master" ]
+    branches: [ "master", "INT-3100-azure-remediation-onboarding" ]
   pull_request:
     branches: [ "master", "INT-3100-azure-remediation-onboarding" ]
 
