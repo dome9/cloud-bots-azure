@@ -35,4 +35,4 @@ jobs:
           cd $uploadFolder
           zip -r9 $pwd/cloud-bots-azure.zip .
           cd $pwd
-          echo zipFileLocation
+          echo $zipFileLocation
