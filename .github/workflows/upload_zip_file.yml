@@ -23,7 +23,7 @@ jobs:
         run: |
           pwd=`pwd`
           uploadFolder="upload"
-          zipFileLocation = "s3://"
+          export ZIP_FILE_LOCATION = "s3://" + {{secrets.BUCKETNAME}} + "/azurecloudbots/cloud-bots-azure.zip"
           mkdir $uploadFolder
           mkdir $uploadFolder/.python_packages
           mkdir $uploadFolder/.python_packages/lib
@@ -35,4 +35,4 @@ jobs:
           cd $uploadFolder
           zip -r9 $pwd/cloud-bots-azure.zip .
           cd $pwd
-          echo $zipFileLocation
+          echo $ZIP_FILE_LOCATION
