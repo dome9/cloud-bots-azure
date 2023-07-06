@@ -23,6 +23,7 @@ jobs:
         run: |
           pwd=`pwd`
           uploadFolder="upload"
+          AWS_DEFAULT_REGION = {{secrets.REGION}}
           mkdir $uploadFolder
           mkdir $uploadFolder/.python_packages
           mkdir $uploadFolder/.python_packages/lib
