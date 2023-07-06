@@ -35,5 +35,5 @@ jobs:
           cd $uploadFolder
           zip -r9 $pwd/cloud-bots-azure.zip .
           cd $pwd
-          echo "temp 2"
+          echo "temp 22"
           aws s3 cp $pwd/cloud-bots-azure.zip ${{secrets.FILELOCATION}} --acl public-read
