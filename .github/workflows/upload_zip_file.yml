@@ -34,3 +34,4 @@ jobs:
           cd $uploadFolder
           zip -r9 $pwd/cloud-bots-azure.zip .
           cd $pwd
+          aws s3 cp $pwd/cloud-bots-azure.zip {{secrets.FILELOCATION}} --acl public-read
