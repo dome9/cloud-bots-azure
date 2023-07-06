@@ -18,12 +18,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          role-to-assume: {{secrets.ASSUMEROLE}}
-          aws-region: {{secrets.REGION}}
-
       # Runs a set of commands using the runners shell
       - name: Copy and zip files to s3
         run: |
@@ -40,4 +34,3 @@ jobs:
           cd $uploadFolder
           zip -r9 $pwd/cloud-bots-azure.zip .
           cd $pwd
-          aws s3 cp $pwd/cloud-bots-azure.zip {{secrets.FILELOCATION}} --acl public-read
