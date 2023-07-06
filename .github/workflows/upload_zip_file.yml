@@ -34,7 +34,6 @@ jobs:
           pip install -r requirements.txt --target=$uploadFolder/.python_packages/lib/site-packages
           cd $uploadFolder
           zip -r9 $pwd/cloud-bots-azure.zip .
-          echo "temp 1"
           cd $pwd
           echo "temp 2"
           aws s3 cp $pwd/cloud-bots-azure.zip ${{secrets.FILELOCATION}} --acl public-read
