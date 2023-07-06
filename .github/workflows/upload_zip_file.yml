@@ -24,14 +24,4 @@ jobs:
           pwd=`pwd`
           uploadFolder="upload"
           echo {{secrets.FILELOCATION}}
-          mkdir $uploadFolder
-          mkdir $uploadFolder/.python_packages
-          mkdir $uploadFolder/.python_packages/lib
-          mkdir $uploadFolder/.python_packages/lib/site-packages
-          cp host.json $uploadFolder
-          cp requirements.txt $uploadFolder
-          cp -rf dome9CloudBots $uploadFolder
-          pip install -r requirements.txt --target=$uploadFolder/.python_packages/lib/site-packages
-          cd $uploadFolder
-          zip -r9 $pwd/cloud-bots-azure.zip .
-          cd $pwd
+          
