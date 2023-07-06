@@ -18,10 +18,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: {{secrets.ASSUMEROLE}}
+          aws-region: {{secrets.REGION}}
+
       # Runs a set of commands using the runners shell
       - name: Copy and zip files to s3
         run: |
           pwd=`pwd`
           uploadFolder="upload"
-          echo {{secrets.FILELOCATION}}
-          
+          mkdir $uploadFolder
+          mkdir $uploadFolder/.python_packages
+          mkdir $uploadFolder/.python_packages/lib
+          mkdir $uploadFolder/.python_packages/lib/site-packages
+          cp host.json $uploadFolder
+          cp requirements.txt $uploadFolder
+          cp -rf dome9CloudBots $uploadFolder
+          pip install -r requirements.txt --target=$uploadFolder/.python_packages/lib/site-packages
+          cd $uploadFolder
+          zip -r9 $pwd/cloud-bots-azure.zip .
+          cd $pwd
+          aws s3 cp $pwd/cloud-bots-azure.zip {{secrets.FILELOCATION}} --acl public-read
