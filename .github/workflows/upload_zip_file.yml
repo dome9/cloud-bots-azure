@@ -18,7 +18,7 @@ jobs:
       - name: Get AWS permissions
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::111111111111:role/my-github-actions-role-test
+          role-to-assume: ${{secrets.ASSUMEROLE}}
           aws-region: us-east-1
       - name: Copy and zip files to s3
         run: |
