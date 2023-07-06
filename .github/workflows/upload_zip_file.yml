@@ -5,6 +5,10 @@ on:
 
   workflow_dispatch:
 
+env:
+  AWS_DEFAULT_REGION: {{secrets.REGION}}
+  AWS_ACCESS_KEY_ID: {{secrets.AWS_ACCESS_KEY_ID}}
+  AWS_SECRET_ACCESS_KEY: {{secrets.AWS_SECRET_ACCESS_KEY}}
 jobs:
   deploy:
     name: upload to Amazon s3
@@ -20,10 +24,6 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: Copy and zip files to s3
-        env:
-          AWS_DEFAULT_REGION: {{secrets.REGION}}
-          AWS_ACCESS_KEY_ID: {{secrets.AWS_ACCESS_KEY_ID}}
-          AWS_SECRET_ACCESS_KEY: {{secrets.AWS_SECRET_ACCESS_KEY}}
         run: |
           pwd=`pwd`
           uploadFolder="upload"
