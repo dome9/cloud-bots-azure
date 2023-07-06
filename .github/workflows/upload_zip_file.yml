@@ -40,4 +40,4 @@ jobs:
           echo "temp 1"
           cd $pwd
           echo "temp 2"
-          aws s3 cp $pwd/cloud-bots-azure.zip {{secrets.FILELOCATION}} --acl public-read
+          aws s3 cp $pwd/cloud-bots-azure.zip ${{secrets.FILELOCATION}} --acl public-read
