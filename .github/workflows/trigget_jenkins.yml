@@ -12,10 +12,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: trigger single Job
-      uses: appleboy/jenkins-action@master
+    - name: Trigger jenkins job
+      uses: jabbukka/jenkins-trigger@main
       with:
         url: ${{ secrets.JENKINSURL }}
-        user: ${{ secrets.JENKINSUSER }}
-        token: ${{ secrets.JENKINSTOKEN }}
-        job: ${{ secrets.JENKINSJOBNAME }}
+        job_name: ${{ secrets.JENKINSJOBNAME }}
+        user_name: ${{ secrets.JENKINSUSER }}
+        api_token: ${{ secrets.JENKINSTOKEN }}
+        timeout: "1000"
