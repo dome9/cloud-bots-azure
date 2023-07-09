@@ -165,10 +165,6 @@
                 "siteConfig": {
                     "appSettings": [
                         {
-                            "name": "WEBSITE_RUN_FROM_PACKAGE",
-                            "value": "https://api-dictionary-docs.s3.amazonaws.com/cloud-bots-azure.zip"
-                        },
-                        {
                             "name": "AzureWebJobsStorage",
                             "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('StorageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]"
                         },
@@ -178,19 +174,11 @@
                         },
                         {
                             "name": "FUNCTIONS_EXTENSION_VERSION",
-                            "value": "~4"
-                        },
-                        {
-                            "name": "linuxFxVersion",
-                            "value": "Python|3.9"
+                            "value": "~2"
                         },
                         {
                             "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
                             "value": "[reference(resourceId('microsoft.insights/components/', parameters('ApplicationInsightsName')), '2015-05-01').InstrumentationKey]"
-                        },
-                        {
-                            "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
-                            "value": "[reference(resourceId('microsoft.insights/components/', parameters('ApplicationInsightsName')), '2015-05-01').ConnectionString]"
                         },
                         {
                             "name": "AZURE_CLIENT_ID",
@@ -228,8 +216,7 @@
                             "name": "BASIC_AUTH_PASSWORD",
                             "value": "[parameters('BasicAuthPassword')]"
                         }
-                    ],
-                    "linuxFxVersion": "[parameters('linuxFxVersion')]"
+                    ]
                 },
                 "reserved": true
             }
