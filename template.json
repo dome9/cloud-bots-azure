@@ -112,13 +112,6 @@
             "metadata": {
                 "description": "Location for all resources."
             }
-        },
-        "linuxFxVersion": {
-            "defaultValue": "Python|3.9",
-            "type": "String",
-            "metadata": {
-                "description": "python version"
-            }
         }
     },
     "variables": {
