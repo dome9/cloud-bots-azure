@@ -1,7 +1,7 @@
 name: azure update zip on commit
 on:
   push:
-    branches: [ "master", "INT-3100-azure-remediation-onboarding" ] #todo - delete branch
+    branches: [ "master"]
 
   workflow_dispatch:
 
