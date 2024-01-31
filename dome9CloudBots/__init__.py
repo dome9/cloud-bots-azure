@@ -27,6 +27,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
       )
       return func.HttpResponse(f'Unauthorized', status_code=401)
 
+    logging.debug("authorization in headers..")
     # Make creds to bytes
     string_requester_credentials = str.split(
       req.headers['Authorization'])[1]
